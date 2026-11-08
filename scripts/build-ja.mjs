@@ -32,11 +32,11 @@ const BASE_URL = "https://ktkwmr.com/notenamer/";
 const JA_URL = BASE_URL + "ja/";
 
 // Japanese text for search results and social media shares
-const TITLE = "Note Namer – 楽譜の写真・PDFを読み取って再生する無料アプリ";
-const DESCRIPTION = "楽譜を写真に撮るか画像・PDFを開くと、音符を読み取って再生する無料のWebアプリ。再生中は五線譜の上をカーソルが進み、テンポも途中で変えられます。読み取り（楽譜認識）はブラウザの中で行うので、楽譜はアップロードされません。登録不要。";
-const OG_DESCRIPTION = "楽譜の写真や画像・PDFを読み取って、五線譜の上をカーソルが進みながら再生。テンポも自由に変えられます。無料・登録不要、楽譜は端末の外に出ません。";
-const OG_IMAGE_ALT = "Note Namer：楽譜の写真を読み取り、五線譜の上のカーソルとともに再生";
-const LD_DESCRIPTION = "楽譜の写真・画像・PDFを光学楽譜認識で読み取り、五線譜上のカーソルとともに再生するWebアプリ。";
+const TITLE = "Note Namer – 楽譜にドレミを振る無料アプリ（写真・PDFから音名付きの楽譜）";
+const DESCRIPTION = "楽譜を写真に撮ると、すべての音符の下にドレミ（音名）を書いた楽譜を作る無料のWebアプリ。調号や臨時記号の♯・♭も反映し、C D E・Do Re Mi・도레미などの書き方も選べます。印刷・保存・共有ができます。読み取り（楽譜認識）はブラウザの中で行うので、楽譜はアップロードされません。登録不要。";
+const OG_DESCRIPTION = "楽譜を撮るだけで、すべての音符にドレミを振った楽譜に。♯・♭も正しく反映し、印刷・保存・共有できます。無料・登録不要、楽譜は端末の外に出ません。";
+const OG_IMAGE_ALT = "Note Namer：すべての音符の下に音名を書いた楽譜";
+const LD_DESCRIPTION = "楽譜の写真・画像・PDFを光学楽譜認識で読み取り、すべての音符の下に音名（ドレミ・C D E・도레미など）を書いて印刷・共有できるWebアプリ。";
 
 const escapeAttr = (s) => s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
 const escapeText = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");

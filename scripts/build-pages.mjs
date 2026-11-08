@@ -3,6 +3,7 @@
 //   public/notenamer/<slug>/index.html     (English)
 //   public/notenamer/ja/<slug>/index.html  (Japanese)
 //   public/notenamer/sitemap.xml
+//   public/notenamer/sample/ode-to-joy.musicxml, ode-to-joy-ja.musicxml  (the app's "Try a sample", scripts/sample-score.mjs)
 //
 // The sitemap is under /notenamer/ because the domain root belongs to the
 // ktkwmr-home Worker (ktkwmr/ktkwmr.com); it is listed in that robots.txt.
@@ -23,6 +24,7 @@ import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { renderPage, ORIGIN, APP_PATH, PUBLISHED, pagePath } from "./pages/layout.mjs";
+import { sampleXml } from "./sample-score.mjs";
 
 // Footer order
 const PAGES = ["guide", "faq", "photo-tips", "fix-errors", "tempo-markings", "musicxml", "what-is-omr"];
@@ -124,6 +126,10 @@ ${urlEntries}
 </urlset>
 `
 );
+
+// ---------- The sample score for "Try a sample" (English and Japanese title) ----------
+outputs.set(PUBLIC + "notenamer/sample/ode-to-joy.musicxml", sampleXml({ title: "Ode to Joy" }));
+outputs.set(PUBLIC + "notenamer/sample/ode-to-joy-ja.musicxml", sampleXml({ title: "歓喜の歌" }));
 
 // ---------- write ----------
 let stale = 0;
