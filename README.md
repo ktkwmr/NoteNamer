@@ -1,8 +1,11 @@
 # Note Namer
 
-> **Under development.** Note Namer will write a note name (Do Re Mi, C D E, 도레미, …) under every note of a photographed score, for printing, saving, and sharing. It was copied from [ktkwmr/SheetMusicPlayer](https://github.com/ktkwmr/SheetMusicPlayer) at commit `c9bd5ee`; the plan and the steps are in [docs/handoff.md](docs/handoff.md). The description below is still that of the reading and playback core it starts from.
->
-> **開発中。** 楽譜を撮ると、すべての音符に音名（ドレミ・C D E・도레미など）を付けて印刷・保存・共有できるアプリにする予定。ktkwmr/SheetMusicPlayer のコミット `c9bd5ee` からコピーして作った。仕様と作業手順は [docs/handoff.md](docs/handoff.md)。下の説明は、流用元の読み取り・再生の部分のまま。
+> **Under development (not published yet).** Copied from [ktkwmr/SheetMusicPlayer](https://github.com/ktkwmr/SheetMusicPlayer) at commit `c9bd5ee`; the plan and the steps are in [docs/handoff.md](docs/handoff.md).
+> **開発中（未公開）。** ktkwmr/SheetMusicPlayer のコミット `c9bd5ee` からコピーして作った。仕様と作業手順は [docs/handoff.md](docs/handoff.md)。
+
+Take a photo of sheet music, and Note Namer writes the name under every note — C D E, Do Re Mi, ドレミ, どれみ, or 도레미 — with the sharps and flats of the key signature and the accidentals. Print it on A4, save it as images, or share it.
+
+楽譜を写真に撮ると、すべての音符の下に音名（ドレミ・どれみ・C D E・Do Re Mi・도레미）を書きます。調号や臨時記号の ♯・♭ も反映します。A4 に印刷したり、画像で保存・共有したりできます。
 
 Take a photo of sheet music, or open an image or PDF, and hear it. The app reads the notes with optical music recognition ([homr](https://github.com/liebharc/homr)) **inside your browser** and plays them back with a cursor that moves along the staff. The tempo starts at the marking found on the page and can be changed while it plays.
 
@@ -23,12 +26,14 @@ Take a photo of sheet music, or open an image or PDF, and hear it. The app reads
   1ページ目の上部から、メトロノーム記号（♩ = 100）や速度用語（Allegro など）を Tesseract.js で読み取る。見つからなければ ♩ = 120
 - **Score and playback**: OpenSheetMusicDisplay draws the score; a blue cursor glides along the staff with the sound (Web Audio API). ▶ / ❚❚ plays and pauses, ■ stops and goes back to the beginning. Click a note to move the cursor there (playing starts from it). Change the tempo with −5 / +5, the number, or the slider, even while playing
   OpenSheetMusicDisplay で楽譜を表示し、音（Web Audio API）に合わせて青いカーソルが五線の上を進む。▶／❚❚ で再生・一時停止、■ で止めて最初に戻る。音符をクリックでカーソルを移動（そこから再生）。テンポは −5／+5・数字・スライダーで、再生中でも変更可
+- **Note names** (`note-names.mjs`): written under every note as lyrics (the score display lays them out); chords stacked with the highest note on top; no name for rests or for a note tied from the one before. Choose the naming (ドレミ / どれみ / C D E / Do Re Mi / 도레미) and the size (S / M / L) above the score; the names follow the transposition and the edits. **Try a sample** opens Ode to Joy at once, without the engine download
+  音名：すべての音符の下に歌詞として書く。和音は高い音を上に、休符とタイの後ろの音には書かない。書き方（ドレミ・どれみ・C D E・Do Re Mi・도레미）と大きさ（小・中・大）を楽譜の上で選べ、移調や編集にも追従。「見本で試す」で歓喜の歌をすぐに表示（エンジンのダウンロードなし）
+- **Print / image / share** (`export-pages.mjs`): the score with its names on A4 pages (title, page number, and a “Made with Note Namer” line that can be turned off); print (only the pages), save each page as a PNG, or share the images with Web Share; MusicXML with the names as lyrics
+  印刷・画像・共有：音名付きの楽譜を A4 のページにして（タイトル・ページ番号・消せる「Note Namer で作成」）、印刷（ページだけ）、ページごとの PNG 保存、Web Share で画像を共有。音名を歌詞として入れた MusicXML も保存できる
 - **Practice mode**: metronome and one-measure count-in, transpose by semitones (±12; key signature and spelling follow)
   練習モード：メトロノームと 1 小節のカウントイン、半音ずつの移調（±12。調号と ♯・♭ の付け方も合わせる）
 - **Fix mistakes in a piano-roll editor** (“Edit”): each note is a box — drag to change its pitch and timing, drag its right edge for the length, click to add, right-click or Delete to remove, select several by dragging, add or delete measures, undo / redo. Measures whose beats did not add up when read are marked. Going back to “Score” rebuilds the MusicXML and redraws the staff (lyrics, slurs, and articulations are not kept after an edit)
   ピアノロールの編集画面（「編集」）で間違いを直せる。音符を四角で表し、ドラッグで音の高さとタイミング、右端で長さ、クリックで追加、右クリックか Delete で削除、ドラッグでまとめて選択、小節の追加・削除、元に戻す／やり直し。読み取り時に拍が合わなかった小節には印を付ける。「楽譜」に戻ると MusicXML を作り直して五線譜を描き直す（編集すると歌詞・スラー・アーティキュレーションは消える）
-- **Save / share**: MusicXML (with the title; transposed as shown) to open in MuseScore or other notation apps, and Web Share of the app's link with the MusicXML file
-  保存・共有：MusicXML（タイトル入り。移調したとおり。MuseScore などで開ける）、Web Share でアプリのリンクと MusicXML を共有
 - **Recent scores**: the last 10 scores are kept in the browser (IndexedDB) with their title (from the MusicXML, or the date and time; click to rename), tempo, and transposition. Installable PWA. English / Japanese UI (`/notenamer/ja/` is always Japanese; `?lang=en` / `?lang=ja` override)
   最近の楽譜：最近開いた 10 曲を、タイトル（MusicXML から、なければ日時。クリックで変更）・テンポ・移調と一緒にブラウザ（IndexedDB）に保存。ホーム画面に追加可能。英語・日本語の表示（`/notenamer/ja/` は常に日本語、`?lang=en` / `?lang=ja` で切り替え）
 

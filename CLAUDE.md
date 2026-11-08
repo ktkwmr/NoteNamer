@@ -26,9 +26,9 @@
 - 対応環境: 動作確認は PC の Chrome・Edge 137 以降、iPhone の Safari（iOS 27.2、読み取り → 再生まで。COEP `credentialless` の下でも動いた）、Android の Chrome。エンジンに JSPI が必要で、ないブラウザでは案内を出す（`supported` は `WebAssembly.Suspending` の有無で判定）。JSPI は Firefox 153・Mac／iPad の Safari 27 にも入ったが、これらでは未確認。動作を確かめたら README・記事（`guide`・`faq`）・アプリの文言（`err.unsupported`、JSON-LD の `browserRequirements`）を一緒に直す。
 
 ## ルール
-- 手で編集するのは `public/notenamer/index.html`・`omr-worker.mjs`・`score-model.mjs`・`editor.mjs`・`sw.js`、`engine/python/`、`scripts/`。
+- 手で編集するのは `public/notenamer/index.html`・`omr-worker.mjs`・`score-model.mjs`・`note-names.mjs`・`export-pages.mjs`・`editor.mjs`・`sw.js`、`engine/python/`、`scripts/`。
   生成ファイルは編集しない:
-  - `public/notenamer/ja/index.html`、記事と情報ページ（`guide/` など・`about/`・`privacy/` とその `ja/`）、`sitemap.xml` → `node scripts/build-ja.mjs`・`node scripts/build-pages.mjs`（`--check` で確認）
+  - `public/notenamer/ja/index.html`、記事と情報ページ（`guide/` など・`about/`・`privacy/` とその `ja/`）、`sitemap.xml`、見本の楽譜 `sample/ode-to-joy*.musicxml`（`scripts/sample-score.mjs`）→ `node scripts/build-ja.mjs`・`node scripts/build-pages.mjs`（`--check` で確認）
   - `public/notenamer/guide/img/`、`scripts/pages/data/photo-results.json` → `node scripts/render-guide-images.mjs`（`npx wrangler dev` を起動してから。10〜20 分）
   - `public/notenamer/engine/<version>/`、`vendor/`、`THIRD_PARTY_LICENSES.md` → `python3 scripts/build-engine.py`（`--check` で確認）
 - 画面の文言は `index.html` の `I18N`（en / ja）に書き、要素には `data-i18n` / `data-i18n-html` / `data-i18n-attr` を付ける。JS で作る文言は `t()` を使う。子要素を持つ要素に `data-i18n` は付けない（`build-ja.mjs` が止まる）。
@@ -50,7 +50,10 @@
 - 再生ボタンは共通ルール（ベースライン）どおり、▶／❚❚ のアイコンだけで切り替える一時停止と、■（停止して最初に戻る）。
 - 流用元にあったループ、パートの強調・消音、MIDI・MP3 の書き出し（`export.mjs`・lamejs）は MVP の画面から外した（`docs/handoff.md`）。戻すときは SheetMusicPlayer の同じコードを移植する。
 - 移調: `state.xml` は移調前のまま持ち、表示・再生・書き出しは `transposeXml` を通す。編集画面は移調した高さで表示・再生する（`model` は移調前のまま。`editor.mjs` は「表示の高さ＝model の高さ＋移調」で描き、入力は移調分を引いて model に書く。再生は `source()` が移調を足す）。
-- 保存・共有: 今は MusicXML の保存と、Web Share で URL と MusicXML を送る共有（ファイルを添付できないブラウザでは保存してから URL だけ共有、またはコピー）。印刷・PNG・音名入りの MusicXML は PR 4 で作る。
+- 音名（`note-names.mjs`）: `<pitch>` の `<step>`・`<alter>` から決める。MusicXML の `<alter>` は調号・臨時記号込みの実際の高さで、homr の出力もそうなっている（ト長調・ヘ長調の楽譜画像の読み取りで確認）。`addNoteNames` が各音符に `<lyric>` を足し、OSMD に歌詞として描かせる（休符・打楽器・タイの後ろの音には書かない。和音は高い音から `number` 1, 2, …。元の歌詞は消す）。音名は表示・印刷・書き出しのときだけ足し、`state.xml` には入れない。順番は `transposeXml` → `addNoteNames`（音名は移調後の高さ）。`note-names.mjs` を変えたら `npm test`（`tests/note-names.test.mjs`）を通し、画面でも確かめる。
+- 書き方・大きさ・クレジットの表示は `localStorage` の `notenamer-prefs`（楽譜ごとではない）。書き方の既定は、日本語ページならカタカナ、ほかは `navigator.language` から（`defaultSystem`）。大きさは OSMD の `LyricsHeight`（`NAME_SIZES`）。音名がつぶれないよう、`setNameRules` で歌詞の余白と音符の間隔を広げている（画面と A4 のページで共通）。
+- 「見本で試す」は `sample/ode-to-joy.musicxml`（日本語ページは `-ja`）を MusicXML として開く。エンジンはダウンロードしない。
+- 印刷・画像・共有（`export-pages.mjs`）: 画面とは別の OSMD を `pageFormat: "A4_P"`（`PAGE_ZOOM` 0.8、余白を詰める）で描き、ページごとの SVG の下にタイトル・ページ番号・「Note Namer で作成」（`prefs.credit` で消せる）を入れる。印刷は `#printArea` にページを入れ、`html.printing` の間だけそれ以外を隠す。PNG は SVG をキャンバスに 2 倍で描く。共有は Web Share でページの画像を送る（画像づくりのあいだにブラウザのタップの有効期限が切れたときは、作った画像を `pagesCache` に残して「もう一度押して」と出す）。MusicXML の保存は音名を歌詞として入れた版。
 - 外部ホストを足したら `public/_headers` の CSP と、プライバシーの説明（`scripts/pages/privacy.mjs`、アプリ内の `privacy.body`、README）を同じ PR で直す。
 - トップページ（https://ktkwmr.com/）のアプリ一覧に、このアプリの名前・説明・特徴を載せる（`ktkwmr/ktkwmr.com` の `scripts/pages/home.mjs` の `APPS`。アイコンは `ICON`。`public/robots.txt` の `Sitemap:` 行も）。ガイド記事を追加・改名・削除したとき、アプリ名・説明・アイコンを変えたときは、`ktkwmr/ktkwmr.com` に `home.mjs` を直す PR を別に出す（ベースライン §2-16）。
 - アプリの下のフッター（`index.html` の `foot.guides`、英日）に記事の一覧を手で書いている（このアプリはアプリの下の説明に記事の一覧がないため。ベースライン §9-14）。記事を追加・改名・削除したら、ここも直す。

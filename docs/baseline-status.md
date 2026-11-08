@@ -66,14 +66,14 @@ ktkwmr/SheetMusicPlayer（コミット `c9bd5ee`）からコピーして作っ�
 | 4-1 | I18N と data-i18n | ✅ | |
 | 4-2 | 言語の決め方 | ✅ | |
 | 4-3 | 日本語ページの自動生成 | ✅ | |
-| 4-4 | 日本語の検索用タイトル・説明 | ❌ | 流用元の文言のまま。PR 3 で「Note Namer — 楽譜にドレミを振る」の形に直す |
+| 4-4 | 日本語の検索用タイトル・説明 | 👤 確認待ち | `scripts/build-ja.mjs` の冒頭。「Note Namer – 楽譜にドレミを振る無料アプリ（写真・PDFから音名付きの楽譜）」 |
 | 4-5 | 和文の lang 固定 | — | 和文を表示する部分はない |
 
 ## 5. SEO と SNS 表示
 
 | # | 項目 | 状態 | メモ |
 |---|---|---|---|
-| 5-1〜5-3 | title・description・canonical・hreflang・OGP | ⚠️ | URL は `/notenamer/` に変更済み。title・description は流用元の文言のまま（PR 3） |
+| 5-1〜5-3 | title・description・canonical・hreflang・OGP | ✅ | 音名のアプリとして書き直した（PR 3） |
 | 5-4 | og-image.png | ⚠️ | 流用元の画像のまま。PR 5 で作り直す |
 | 5-5 | JSON-LD | ✅ | `browserRequirements` に JSPI が必要なこと（動作確認は PC の Chrome・Edge、Firefox 153・Safari 27 は未確認） |
 | 5-6 | robots.txt・sitemap | ✅ | sitemap は生成済み。robots.txt は `ktkwmr/ktkwmr.com` に記載 |
@@ -99,7 +99,7 @@ ktkwmr/SheetMusicPlayer（コミット `c9bd5ee`）からコピーして作っ�
 | 7-3 | 運営者情報 | ✅ | 免責（読み取り結果の正確さ・楽譜の利用）、AGPL と homr |
 | 7-4 | 問い合わせ窓口 | ⚠️ | GitHub Issues のみ |
 | 7-5 | 文言のそろえ | ✅ | |
-| 7-6 | 例のコンテンツ | ❌ | PR 3 で「見本で試す」（歓喜の歌の MusicXML）を置く |
+| 7-6 | 例のコンテンツ | ✅ | 「見本で試す」（歓喜の歌の MusicXML、`scripts/sample-score.mjs`）。エンジンのダウンロードなしで表示 |
 | 7-7 | 外部リンクの確認 | 👤 待ち | |
 
 ## 8. ライセンス
@@ -120,9 +120,9 @@ ktkwmr/SheetMusicPlayer（コミット `c9bd5ee`）からコピーして作っ�
 | 9-3 | 状態の保存 | ✅ | 開いている楽譜（localStorage）と最近の楽譜 10 曲（IndexedDB）。MusicXML・タイトル・ファイル名・テンポ・移調。新しいファイルではテンポを楽譜の値に戻す |
 | 9-4 | スマホ対応 | ⚠️ | 390px で横スクロールなし。ただし読み取りエンジンの動作確認は PC の Chrome・Edge のみ（JSPI が必要。JSPI のないブラウザでは案内を表示）。Android の Chrome などは JSPI があり動き出すが未確認（メモリ不足の可能性） |
 | 9-5 | `accept` | ✅ | 「ファイルを選ぶ」は `accept` なし（どのファイルも選べ、中身で画像・PDF を判定）。「写真を撮る」はスマホではカメラ、PC では Web カメラ |
-| 9-6, 9-7 | 印刷・保存 | ⚠️ | 「保存・共有」で MusicXML の保存（`a[download]`）と Web Share（URL と MusicXML。添付できなければ保存してリンクだけ共有）。印刷・PNG は PR 4 |
+| 9-6, 9-7 | 印刷・保存 | ✅ | 楽譜の下の「印刷」「画像を保存」「共有」と「保存・共有」メニュー。A4 のページ（`export-pages.mjs`）を印刷・PNG（`a[download]`）・Web Share。音名入りの MusicXML。iPhone の Safari での印刷・共有は未確認 |
 | 9-8 | アクセシビリティ | ✅ | |
-| 9-9 | 自動テスト | ⚠️ | `score-model.mjs` の単体テスト（`npm test`、Actions の Test）。読み取りエンジン・表示・再生は Playwright での手動 E2E のみ |
+| 9-9 | 自動テスト | ⚠️ | `score-model.mjs`・`note-names.mjs` の単体テスト（`npm test`、Actions の Test）。読み取りエンジン・表示・再生は Playwright での手動 E2E のみ |
 | 9-10 | 押したときの反応 | ✅ | |
 | 9-11 | ダイアログのフォーカス | ✅ | |
 | 9-12 | ステータスバーのにじみ | ⚠️ | PC・タブレットはヘッダーを sticky に。スマホ（幅 900px 以下・高さ 520px 以下）は楽譜を広く見せるためヘッダーをスクロールさせ、代わりに `body::before`（高さ `env(safe-area-inset-top)`、不透明、sticky）を上端に置き、その下に再生・停止の行だけを sticky にしている。iPhone 実機での効果は未確認 |
