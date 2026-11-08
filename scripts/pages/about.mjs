@@ -1,6 +1,6 @@
 // Operator information (site information page, linked from the footer)
-const ISSUES = "https://github.com/ktkwmr/SheetMusicPlayer/issues";
-const REPO = "https://github.com/ktkwmr/SheetMusicPlayer";
+const ISSUES = "https://github.com/ktkwmr/NoteNamer/issues";
+const REPO = "https://github.com/ktkwmr/NoteNamer";
 const HOMR = "https://github.com/liebharc/homr";
 
 export default {
@@ -11,13 +11,13 @@ export default {
     title: "About This Site",
     heading: "About this site",
     nav: "About this site",
-    description: "Operator information for Sheet Music Player: who runs the site, how to contact us, disclaimer, and copyright.",
+    description: "Operator information for Note Namer: who runs the site, how to contact us, disclaimer, and copyright.",
     body: () => `
 <div class="table-wrap">
   <table class="text stack">
     <tbody>
-      <tr><th scope="row">Site name</th><td>Sheet Music Player</td></tr>
-      <tr><th scope="row">URL</th><td><a href="/sheetmusicplayer/">https://ktkwmr.com/sheetmusicplayer/</a></td></tr>
+      <tr><th scope="row">Site name</th><td>Note Namer</td></tr>
+      <tr><th scope="row">URL</th><td><a href="/notenamer/">https://ktkwmr.com/notenamer/</a></td></tr>
       <tr><th scope="row">Operator</th><td>ktkwmr (individual developer)</td></tr>
       <tr><th scope="row">What we offer</th><td>A free web app that reads sheet music from a photo, image, or PDF and plays it back with a cursor on the staff</td></tr>
       <tr><th scope="row">Contact</th><td><a href="${ISSUES}" rel="noopener">GitHub Issues</a></td></tr>
@@ -53,13 +53,13 @@ export default {
     title: "運営者情報",
     heading: "運営者情報",
     nav: "運営者情報",
-    description: "Sheet Music Player の運営者情報。運営者、お問い合わせ先、免責事項、著作権について。",
+    description: "Note Namer の運営者情報。運営者、お問い合わせ先、免責事項、著作権について。",
     body: () => `
 <div class="table-wrap">
   <table class="text stack">
     <tbody>
-      <tr><th scope="row">サイト名</th><td>Sheet Music Player</td></tr>
-      <tr><th scope="row">URL</th><td><a href="/sheetmusicplayer/ja/">https://ktkwmr.com/sheetmusicplayer/ja/</a></td></tr>
+      <tr><th scope="row">サイト名</th><td>Note Namer</td></tr>
+      <tr><th scope="row">URL</th><td><a href="/notenamer/ja/">https://ktkwmr.com/notenamer/ja/</a></td></tr>
       <tr><th scope="row">運営者</th><td>ktkwmr（個人開発者）</td></tr>
       <tr><th scope="row">内容</th><td>楽譜の写真・画像・PDFを読み取って、五線譜の上のカーソルとともに再生する無料の Web アプリ</td></tr>
       <tr><th scope="row">お問い合わせ</th><td><a href="${ISSUES}" rel="noopener">GitHub の Issues</a></td></tr>

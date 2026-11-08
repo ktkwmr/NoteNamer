@@ -8,7 +8,7 @@ ${items.map((qa) => `<dt id="${qa.id}">${qa.q}</dt>\n<dd>${qa.a}</dd>`).join("\n
 const en = [
   { id: "phone", q: "Can I use it on a phone, an iPad, Safari, or Firefox?", a: `<p>The app is tested on Chrome and Edge 137 or later on a computer, Safari on iPhone (iOS 27.2), and Chrome on Android (137 or later). The reading engine needs a browser feature called JavaScript Promise Integration (JSPI). Browsers without it show a message instead. On an iPhone, update to iOS 27.2 or later. Firefox (153 or later) and Safari on a Mac or iPad (27 or later) have it too, but the app has not been tested on them yet, and older phones and tablets may not have enough memory for reading (about 2 GB). If it does not work, take the photo with your phone and open it on a computer.</p>` },
   { id: "free", q: "Is it free? Do I need an account?", a: `<p>It is free, with no account, no sign-up, and no ads.</p>` },
-  { id: "upload", q: "Is my sheet music uploaded anywhere?", a: `<p>No. The photo, image, or PDF is read inside your browser and is never sent to a server. Photos taken with the camera are not saved. Only the notes of the last 10 scores you opened (as MusicXML), with their titles, tempo, and transposition, are kept in the browser so you can open them again. See the <a href="/sheetmusicplayer/privacy/">privacy policy</a>.</p>` },
+  { id: "upload", q: "Is my sheet music uploaded anywhere?", a: `<p>No. The photo, image, or PDF is read inside your browser and is never sent to a server. Photos taken with the camera are not saved. Only the notes of the last 10 scores you opened (as MusicXML), with their titles, tempo, and transposition, are kept in the browser so you can open them again. See the <a href="/notenamer/privacy/">privacy policy</a>.</p>` },
   { id: "time", q: "How long does reading take?", a: `<p>Roughly 10 to 60 seconds per page, depending on the device and the number of staves. The first time, the app also downloads its reading engine (about 130 MB) once; after that it starts right away and works offline.</p>` },
   { id: "what", q: "What kind of sheet music can it read?", a: `<p>Printed music in standard notation: a single melody or a piano score on two staves (grand staff) works best. Images (JPEG, PNG, WebP, …) and PDFs can be read, up to ${MAX_FILES} files at a time as one score. Handwritten music, tablature, and chord charts without notes cannot be read. Scores with many staves take longer and contain more mistakes.</p>` },
   { id: "pages", q: "How do I read a piece with several pages?", a: `<p>Add the photos (or PDFs) to the list one after another, up to ${MAX_FILES} files, check the order (drag the handle to change it), and press “Read the score”: the pages are read in order and joined into one score. The pages of a PDF are read in order, and a photo of two facing pages is split and read left page first. Reading takes about a minute per page; with many pages the browser may run out of memory, especially on a phone. Then read fewer pages at a time.</p>` },
@@ -26,7 +26,7 @@ const en = [
 const ja = [
   { id: "phone", q: "スマホや iPad、Safari、Firefox で使えますか？", a: `<p>動作を確認しているのは、PC の Chrome・Edge（137 以降）、iPhone の Safari（iOS 27.2）、Android の Chrome（137 以降）です。読み取りエンジンには JavaScript Promise Integration（JSPI）というブラウザの機能が必要で、この機能がないブラウザでは案内を表示します。iPhone は iOS 27.2 以降に更新してください。Firefox（153 以降）、Mac や iPad の Safari（27 以降）にもこの機能はありますが、これらでの動作はまだ確かめていません。また、古いスマホやタブレットは読み取りに必要なメモリ（約 2GB）が足りないことがあります。うまくいかないときは、写真をスマホで撮って PC で開いてください。</p>` },
   { id: "free", q: "無料ですか？ 登録は必要ですか？", a: `<p>無料です。アカウント登録は要らず、広告もありません。</p>` },
-  { id: "upload", q: "楽譜はどこかにアップロードされますか？", a: `<p>されません。写真・画像・PDF はブラウザの中で読み取り、サーバーには送りません。カメラで撮った写真も保存しません。もう一度開けるよう、最近開いた 10 曲の音符（MusicXML）とタイトル・テンポ・移調の設定だけをブラウザに保存します。<a href="/sheetmusicplayer/ja/privacy/">プライバシーポリシー</a>もご覧ください。</p>` },
+  { id: "upload", q: "楽譜はどこかにアップロードされますか？", a: `<p>されません。写真・画像・PDF はブラウザの中で読み取り、サーバーには送りません。カメラで撮った写真も保存しません。もう一度開けるよう、最近開いた 10 曲の音符（MusicXML）とタイトル・テンポ・移調の設定だけをブラウザに保存します。<a href="/notenamer/ja/privacy/">プライバシーポリシー</a>もご覧ください。</p>` },
   { id: "time", q: "読み取りにはどのくらい時間がかかりますか？", a: `<p>端末の性能と段の数によって、1 ページ 10〜60 秒ほどです。初回だけ、読み取りエンジン（約 130MB）のダウンロードが入ります。2 回目からはすぐに始まり、オフラインでも使えます。</p>` },
   { id: "what", q: "どんな楽譜を読み取れますか？", a: `<p>印刷された五線譜です。単旋律の楽譜や、ピアノの大譜表（2 段）がいちばん向いています。画像（JPEG・PNG・WebP など）と PDF を読み取れます。一度に ${MAX_FILES} 個までのファイルを 1 つの楽譜として読み取れます。手書きの楽譜、タブ譜、音符のないコード譜は読み取れません。段の多い楽譜は時間がかかり、間違いも増えます。</p>` },
   { id: "pages", q: "何ページもある曲はどうすればいいですか？", a: `<p>写真（または PDF）を続けて選んで一覧に ${MAX_FILES} 個まで追加し、順番を確かめて（ハンドルをドラッグすると変えられます）「楽譜を読み取る」を押してください。並んだ順に読み取って 1 つの楽譜につなげます。PDF はページ順に読み取り、見開き 2 ページを 1 枚に撮った写真は左右に分けて左のページから読み取ります。1 ページに 1 分ほどかかり、ページが多いと（特にスマートフォンでは）メモリが足りなくなることがあります。そのときはページを減らして読み取ってください。</p>` },
@@ -46,10 +46,10 @@ export default {
   faq: true,
   published: "2026-10-24",
   en: {
-    title: "Sheet Music Player FAQ: Browsers, Accuracy, Practice, Saving",
+    title: "Note Namer FAQ: Browsers, Accuracy, Practice, Saving",
     heading: "Frequently asked questions",
     nav: "FAQ",
-    description: "Answers about Sheet Music Player: which browsers work, whether your music is uploaded, how long reading takes, what it can read, fixing wrong notes and tempo, looping and part practice, transposing, and saving as MusicXML, MIDI, or MP3.",
+    description: "Answers about Note Namer: which browsers work, whether your music is uploaded, how long reading takes, what it can read, fixing wrong notes and tempo, looping and part practice, transposing, and saving as MusicXML, MIDI, or MP3.",
     faq: en,
     body: () => `
 <p class="lead">Common questions about reading and playing sheet music with this app. For the steps, see the ${link("en", "guide", "guide")}.</p>
@@ -60,7 +60,7 @@ ${dl(en)}
     title: "よくある質問（対応ブラウザ・読み取りの精度・練習・保存）",
     heading: "よくある質問",
     nav: "よくある質問",
-    description: "Sheet Music Player のよくある質問。対応ブラウザ（スマホ・Safari）、楽譜がアップロードされないか、読み取り時間、読める楽譜、音符やテンポの直し方、ループやパート練習、移調、MusicXML・MIDI・MP3 での保存について。",
+    description: "Note Namer のよくある質問。対応ブラウザ（スマホ・Safari）、楽譜がアップロードされないか、読み取り時間、読める楽譜、音符やテンポの直し方、ループやパート練習、移調、MusicXML・MIDI・MP3 での保存について。",
     faq: ja,
     body: () => `
 <p class="lead">このアプリで楽譜を読み取って再生するときの、よくある質問をまとめました。手順は${link("ja", "guide", "使い方ガイド")}をご覧ください。</p>

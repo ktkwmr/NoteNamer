@@ -7,10 +7,10 @@ export default {
   en: {
     title: "How to Play Sheet Music from a Photo or PDF (Guide)",
     heading: "How to play sheet music from a photo or PDF",
-    nav: "How to use Sheet Music Player",
-    description: "Step-by-step guide to Sheet Music Player: open a photo, image, or PDF of sheet music, let the app read the notes in your browser, play it with a moving cursor, practise with a loop, metronome, and transposition, fix mistakes, and save MusicXML, MIDI, or MP3.",
+    nav: "How to use Note Namer",
+    description: "Step-by-step guide to Note Namer: open a photo, image, or PDF of sheet music, let the app read the notes in your browser, play it with a moving cursor, practise with a loop, metronome, and transposition, fix mistakes, and save MusicXML, MIDI, or MP3.",
     body: () => `
-<p class="lead">Sheet Music Player reads printed sheet music from a photo, an image, or a PDF and plays it back, with a cursor that moves along the staff. Use it to hear how a piece goes before you practise it, to check the notes you are reading, or to play along at a slower tempo. This guide walks through each step with screenshots.</p>
+<p class="lead">Note Namer reads printed sheet music from a photo, an image, or a PDF and plays it back, with a cursor that moves along the staff. Use it to hear how a piece goes before you practise it, to check the notes you are reading, or to play along at a slower tempo. This guide walks through each step with screenshots.</p>
 
 <nav class="toc" aria-label="Contents"><b>Contents</b><ol>
   <li><a href="#need">What you need</a></li>
@@ -113,9 +113,9 @@ ${shot("en", "app-export", "The Save / share menu: Share…, MusicXML (score), M
     title: "楽譜の写真やPDFを読み取って再生する方法（使い方ガイド）",
     heading: "楽譜の写真や PDF を読み取って再生する方法",
     nav: "使い方ガイド",
-    description: "Sheet Music Player の使い方を画面つきで解説。楽譜の写真・画像・PDFを開いてブラウザ内で読み取り、カーソル付きで再生、テンポの変更、ループ・メトロノーム・移調での練習、読み取りミスの修正、MusicXML・MIDI・MP3 での保存まで。",
+    description: "Note Namer の使い方を画面つきで解説。楽譜の写真・画像・PDFを開いてブラウザ内で読み取り、カーソル付きで再生、テンポの変更、ループ・メトロノーム・移調での練習、読み取りミスの修正、MusicXML・MIDI・MP3 での保存まで。",
     body: () => `
-<p class="lead">Sheet Music Player は、印刷された楽譜の写真・画像・PDF を読み取って、五線譜の上をカーソルが進みながら再生するアプリです。練習の前に曲の感じをつかむ、譜読みした音が合っているか確かめる、ゆっくりのテンポで合わせて弾く、といった使い方ができます。このガイドでは、画面を見ながら順に使い方を説明します。</p>
+<p class="lead">Note Namer は、印刷された楽譜の写真・画像・PDF を読み取って、五線譜の上をカーソルが進みながら再生するアプリです。練習の前に曲の感じをつかむ、譜読みした音が合っているか確かめる、ゆっくりのテンポで合わせて弾く、といった使い方ができます。このガイドでは、画面を見ながら順に使い方を説明します。</p>
 
 <nav class="toc" aria-label="目次"><b>目次</b><ol>
   <li><a href="#need">必要なもの</a></li>

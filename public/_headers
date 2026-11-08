@@ -26,6 +26,6 @@
 
 # The Tesseract.js worker (tempo marking OCR) creates functions at run time (new Function),
 # so only this one file gets 'unsafe-eval'. Its CSP applies only inside that worker.
-/sheetmusicplayer/engine/*/tesseract/worker.min.js
+/notenamer/engine/*/tesseract/worker.min.js
   ! Content-Security-Policy
   Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-eval' 'wasm-unsafe-eval'; connect-src 'self'; worker-src 'self'; object-src 'none'; base-uri 'self'

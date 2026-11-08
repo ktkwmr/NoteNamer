@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Builds the recognition engine in public/sheetmusicplayer/engine/<version>/.
+"""Builds the recognition engine in public/notenamer/engine/<version>/.
 
 The engine is everything the browser needs to run homr (optical music recognition)
 and the tempo OCR without a server:
@@ -14,12 +14,12 @@ and the tempo OCR without a server:
   tesseract/   Tesseract.js, its WebAssembly core (SIMD + LSTM build), and English data (tempo marking OCR)
   manifest.json  file list with sizes (the worker shows download progress with it)
 
-It also copies the page's own libraries into public/sheetmusicplayer/vendor/
-(OpenSheetMusicDisplay, PDF.js, lamejs) and writes public/sheetmusicplayer/THIRD_PARTY_LICENSES.md
+It also copies the page's own libraries into public/notenamer/vendor/
+(OpenSheetMusicDisplay, PDF.js) and writes public/notenamer/THIRD_PARTY_LICENSES.md
 with the license of every library above (texts from the packages, or from the
 projects' GitHub repositories for the version used).
 
-The licenses of these libraries are listed in public/sheetmusicplayer/THIRD_PARTY_LICENSES.md.
+The licenses of these libraries are listed in public/notenamer/THIRD_PARTY_LICENSES.md.
 
 The files are large but never change for a given version, so the Service Worker
 caches them once (cache first). To change anything, bump VERSION here and
@@ -54,14 +54,13 @@ HOMR_MODELS = "https://github.com/liebharc/homr/releases/download/onnx_checkpoin
 SEGNET = "segnet_308-3296ccd40960f90ca6ab9c035cca945675d30a0f"
 TRANSFORMER = "pytorch_model_396-f6feedb42ff90087d898b0941a55d040fa6b2903"
 PYODIDE_PACKAGES = ["numpy", "opencv-python", "pillow", "typing-extensions"]
-# Libraries used by the page itself (public/sheetmusicplayer/vendor/)
+# Libraries used by the page itself (public/notenamer/vendor/)
 OSMD = "2.2.1"
 PDFJS = "5.4.394"  # 5.5+ uses Map.prototype.getOrInsertComputed, which current browsers do not have yet
-LAMEJS = "1.2.1"  # MP3 encoder (LGPL-3.0), loaded only when an MP3 is saved
 PART_SIZE = 24 * 1024 * 1024  # below Cloudflare's 25 MiB per-file limit
 
 ROOT = Path(__file__).resolve().parent.parent
-OUT = ROOT / "public" / "sheetmusicplayer" / "engine" / VERSION
+OUT = ROOT / "public" / "notenamer" / "engine" / VERSION
 CACHE = ROOT / ".engine-cache"
 CHECK = "--check" in sys.argv
 
@@ -185,13 +184,12 @@ def build_tesseract():
 
 
 def build_vendor():
-    vendor = ROOT / "public" / "sheetmusicplayer" / "vendor"
+    vendor = ROOT / "public" / "notenamer" / "vendor"
     copy(npm_package(f"opensheetmusicdisplay@{OSMD}") / "build" / "opensheetmusicdisplay.min.js",
          vendor / "opensheetmusicdisplay.min.js")
     pdf = npm_package(f"pdfjs-dist@{PDFJS}")
     for f in ["pdf.min.mjs", "pdf.worker.min.mjs"]:
         copy(pdf / "build" / f, vendor / f)
-    copy(npm_package(f"lamejs@{LAMEJS}") / "lame.min.js", vendor / "lame.min.js")
 
 
 def raw_github(repo, ref, path):
@@ -246,16 +244,11 @@ def write_licenses():
          (npm_package(f"opensheetmusicdisplay@{OSMD}") / "LICENSE").read_text()),
         ("PDF.js (pdfjs-dist)", "Apache-2.0", "Copyright (c) Mozilla Foundation", "Opens PDF files",
          (npm_package(f"pdfjs-dist@{PDFJS}") / "LICENSE").read_text()),
-        ("lamejs (LAME MP3 encoder ported to JavaScript)", "LGPL-3.0",
-         "Copyright (c) the LAME project (https://lame.sourceforge.io/) and lamejs contributors",
-         "Saves the MP3. Served unmodified as a separate file (vendor/lame.min.js); source: https://github.com/zhuker/lamejs",
-         (npm_package(f"lamejs@{LAMEJS}") / "LICENSE").read_text().strip() + "\n\n"
-         + raw_github("spdx/license-list-data", "main", "text/LGPL-3.0-only.txt")),
     ]
     fence = "`" * 3
-    lines = ["# Third-Party Software Notices", "", "Sheet Music Player", "",
-             "Sheet Music Player is licensed under the GNU Affero General Public License v3",
-             "(LICENSE in https://github.com/ktkwmr/SheetMusicPlayer). It includes the software below.",
+    lines = ["# Third-Party Software Notices", "", "Note Namer", "",
+             "Note Namer is licensed under the GNU Affero General Public License v3",
+             "(LICENSE in https://github.com/ktkwmr/NoteNamer). It includes the software below.",
              "Every file is served from this site; nothing is loaded from other websites.", ""]
     for name, lic, holder, note, text in entries:
         lines += ["---", "", f"## {name}", "", f"- License: {lic}", f"- Copyright: {holder}"]
@@ -263,7 +256,7 @@ def write_licenses():
             lines.append(f"- Used for: {note}")
         lines += ["", fence, text.strip().replace(fence, "'''"), fence, ""]
     lines += ["<!-- New libraries are added above this line by scripts/update-third-party-licenses.mjs -->", ""]
-    out = ROOT / "public" / "sheetmusicplayer" / "THIRD_PARTY_LICENSES.md"
+    out = ROOT / "public" / "notenamer" / "THIRD_PARTY_LICENSES.md"
     out.write_text("\n".join(lines), encoding="utf-8")
 
 

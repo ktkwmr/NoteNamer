@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Adds libraries loaded from a CDN (jsDelivr / unpkg) in public/ to
-// public/sheetmusicplayer/THIRD_PARTY_LICENSES.md.
+// public/notenamer/THIRD_PARTY_LICENSES.md.
 //
 // - Scans public/**/*.{html,js,mjs} for https://cdn.jsdelivr.net/npm/<pkg>
 //   and https://unpkg.com/<pkg> URLs.
@@ -22,7 +22,7 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
 const SCAN_DIR = join(ROOT, "public");
-const MD = join(ROOT, "public/sheetmusicplayer/THIRD_PARTY_LICENSES.md");
+const MD = join(ROOT, "public/notenamer/THIRD_PARTY_LICENSES.md");
 const MARKER = "<!-- New libraries are added above this line by scripts/update-third-party-licenses.mjs -->";
 const CHECK = process.argv.includes("--check");
 
@@ -34,7 +34,7 @@ const CDN_PATTERNS = [
 
 // Self-hosted libraries (the reading engine and vendor/) are listed by scripts/build-engine.py.
 // Their minified code contains CDN URL templates that are never loaded, so they are not scanned.
-const SKIP_DIRS = new Set([join(SCAN_DIR, "sheetmusicplayer", "engine"), join(SCAN_DIR, "sheetmusicplayer", "vendor")]);
+const SKIP_DIRS = new Set([join(SCAN_DIR, "notenamer", "engine"), join(SCAN_DIR, "notenamer", "vendor")]);
 
 async function walk(dir) {
   const out = [];

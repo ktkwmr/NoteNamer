@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Makes the pictures and measurements used by the guide articles (scripts/pages/*.mjs):
-//   public/sheetmusicplayer/guide/img/*.webp   screenshots of the app (en / ja), the sample score, photo variants
+//   public/notenamer/guide/img/*.webp   screenshots of the app (en / ja), the sample score, photo variants
 //   scripts/pages/data/photo-results.json      how well each photo variant was read (scripts/pages/photo-tips.mjs)
 //
 // The sample score is "Ode to Joy" (Beethoven, public domain), arranged here for two staves and drawn
@@ -22,9 +22,9 @@ const require = createRequire(import.meta.url);
 const { chromium } = await import("playwright").catch(() => import("playwright-core")).catch(() => require("playwright"));
 
 const arg = (name, def) => { const i = process.argv.indexOf(name); return i > 0 ? process.argv[i + 1] : def; };
-const BASE = arg("--base", "http://127.0.0.1:8787").replace(/\/$/, "") + "/sheetmusicplayer/";
+const BASE = arg("--base", "http://127.0.0.1:8787").replace(/\/$/, "") + "/notenamer/";
 const ONLY = arg("--only", "");
-const IMG = fileURLToPath(new URL("../public/sheetmusicplayer/guide/img/", import.meta.url));
+const IMG = fileURLToPath(new URL("../public/notenamer/guide/img/", import.meta.url));
 const DATA = fileURLToPath(new URL("./pages/data/", import.meta.url));
 mkdirSync(IMG, { recursive: true });
 mkdirSync(DATA, { recursive: true });
@@ -81,7 +81,7 @@ ${measures}
 const { window } = new JSDOM("");
 globalThis.DOMParser = window.DOMParser;
 globalThis.XMLSerializer = window.XMLSerializer;
-const SM = await import("../public/sheetmusicplayer/score-model.mjs");
+const SM = await import("../public/notenamer/score-model.mjs");
 
 // Notes in reading order for each staff: "pitch/length"; chords sorted low to high
 function sequence(model, track) {
@@ -124,7 +124,7 @@ async function webp(page, pngBuffer, file, { width = 0, quality = 0.86 } = {}) {
     return c.toDataURL("image/webp", quality).split(",")[1];
   }, { b64: pngBuffer.toString("base64"), width, quality });
   writeFileSync(IMG + file, Buffer.from(data, "base64"));
-  console.log("Wrote public/sheetmusicplayer/guide/img/" + file);
+  console.log("Wrote public/notenamer/guide/img/" + file);
 }
 
 // The sample score as an A4-shaped page (1240 × 1754 px, about 150 dpi), PNG
@@ -193,7 +193,7 @@ async function readInApp(page, name, buffer, mimeType, onStatus) {
     await page.waitForTimeout(500);
   }
   return page.evaluate(() => {
-    const st = JSON.parse(localStorage.getItem("sheetmusicplayer-state"));
+    const st = JSON.parse(localStorage.getItem("notenamer-state"));
     return { xml: st.xml, bpm: st.bpm, tempoSource: st.tempoSource, status: document.getElementById("statusText").textContent };
   });
 }
@@ -212,7 +212,7 @@ async function shots(lang) {
   const app = await context.newPage();
   await app.goto(BASE + (lang === "ja" ? "ja/" : "?lang=en"));
   // Start empty: no saved score and no recent scores (the English run leaves some)
-  await app.evaluate(() => new Promise((resolve) => { localStorage.clear(); const r = indexedDB.deleteDatabase("sheetmusicplayer-history"); r.onsuccess = r.onerror = r.onblocked = () => resolve(); }));
+  await app.evaluate(() => new Promise((resolve) => { localStorage.clear(); const r = indexedDB.deleteDatabase("notenamer-history"); r.onsuccess = r.onerror = r.onblocked = () => resolve(); }));
   await app.reload();
   await app.waitForSelector("#fileBtn");
   await app.mouse.move(0, 0);
