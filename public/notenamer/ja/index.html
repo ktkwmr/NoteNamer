@@ -877,6 +877,30 @@
         queueHistory();
       }
 
+      // ---------- Note names (note-names.mjs) and the reader's choices ----------
+      // prefs (localStorage, for every score): system: how the names are written ("" = from the language),
+      // size: text size of the names (s / m / l)
+      const PREFS_KEY = "notenamer-prefs";
+      const NAME_SYSTEMS = ["katakana", "hiragana", "letter", "solfege", "korean"];
+      const NAME_SIZES = { s: 1.8, m: 2.3, l: 3.0 }; // OSMD lyric height (staff spaces)
+      let prefs = { system: "", size: "m" };
+      try {
+        const p = JSON.parse(localStorage.getItem(PREFS_KEY) || "null") || {};
+        prefs = { system: NAME_SYSTEMS.includes(p.system) ? p.system : "", size: NAME_SIZES[p.size] ? p.size : "m" };
+      } catch (e) {}
+      function savePrefs() { try { localStorage.setItem(PREFS_KEY, JSON.stringify(prefs)); } catch (e) {} }
+      let NN = null;
+      // The system in use: the chosen one, or the default for the language (the Japanese page: katakana)
+      function nameSystem() {
+        if (prefs.system) return prefs.system;
+        return lang === "ja" ? "katakana" : NN ? NN.defaultSystem(navigator.language || "en") : "letter";
+      }
+      // The score as shown: a note name under every note
+      async function withNames(xml) {
+        NN = NN || await importApp("note-names.mjs");
+        return NN.addNoteNames(xml, nameSystem());
+      }
+
       // ---------- Recent scores (IndexedDB) ----------
       const MAX_HISTORY = 10;
       let dbOpen = null;
@@ -1699,7 +1723,17 @@
           });
         }
         try {
-          await osmd.load(xml);
+          await osmd.load(await withNames(xml));
+          // The names are lyrics: leave room between them, so short notes do not run their names together
+          const R = osmd.EngravingRules;
+          R.LyricsHeight = NAME_SIZES[prefs.size];
+          R.LyricsXPaddingWidthThreshold = 0.6;
+          R.LyricsXPaddingFactorForLongLyrics = 1.3;
+          R.LyricsXPaddingReductionForLongNotes = 0.3;
+          R.LyricsXPaddingReductionForLastNoteInMeasure = 0.4;
+          // A little wider than "compacttight" (0.65 / 2), so a name fits under each eighth note
+          R.VoiceSpacingMultiplierVexflow = 0.85;
+          R.VoiceSpacingAddendVexflow = 3.5;
           // A little larger than OSMD's default on wide screens, smaller on phones
           osmd.zoom = clamp(box.clientWidth / 820, 0.6, 1.25);
           osmd.render();

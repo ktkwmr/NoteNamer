@@ -4,7 +4,7 @@
 // (cache first) so the app also reads scores offline.
 const PREFIX = "notenamer-";
 const CACHE = PREFIX + "cache";
-const CORE = ["./", "index.html", "ja/", "omr-worker.mjs", "score-model.mjs", "editor.mjs", "manifest.json", "THIRD_PARTY_LICENSES.md",
+const CORE = ["./", "index.html", "ja/", "omr-worker.mjs", "score-model.mjs", "note-names.mjs", "editor.mjs", "manifest.json", "THIRD_PARTY_LICENSES.md",
   "vendor/opensheetmusicdisplay.min.js", "vendor/pdf.min.mjs", "vendor/pdf.worker.min.mjs"];
 
 self.addEventListener("install", (event) => {
