@@ -1,0 +1,326 @@
+// Unit tests for public/sheetmusicplayer/score-model.mjs (MusicXML <-> note list).
+// Run: npm install && npm test
+// The module uses the browser's DOMParser / XMLSerializer; jsdom provides them here.
+import { test } from "node:test";
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { JSDOM } from "jsdom";
+
+const { window } = new JSDOM("");
+globalThis.DOMParser = window.DOMParser;
+globalThis.XMLSerializer = window.XMLSerializer;
+const SM = await import("../public/sheetmusicplayer/score-model.mjs");
+
+const fixture = (name) => readFileSync(new URL(`./fixtures/${name}`, import.meta.url), "utf8");
+const key = (model) => model.notes.map((n) => [n.track, n.start, n.dur, n.midi].join(",")).sort().join(";");
+
+// Scores used in the tests: single melody, 3/4 waltz, and a grand staff
+const SCORES = ["twinkle.musicxml", "waltz.musicxml", "piano.musicxml"];
+
+for (const name of SCORES) {
+  test(`${name}: read -> write -> read keeps every note and measure`, () => {
+    const xml = fixture(name);
+    const a = SM.parseScore(xml);
+    assert.ok(a.notes.length > 0, "has notes");
+    assert.ok(a.measures.length > 0, "has measures");
+    assert.equal(a.measures.filter((m) => m.flagged).length, 0, "no measure is flagged as too long / short");
+    const out = SM.buildXml(a, xml, 100);
+    assert.match(out, /<score-partwise/);
+    const b = SM.parseScore(out);
+    assert.equal(b.measures.length, a.measures.length);
+    assert.equal(key(b), key(a));
+    assert.match(out, /<sound tempo="100"/, "tempo is written");
+  });
+}
+
+test("piano.musicxml: the grand staff gives two tracks", () => {
+  const m = SM.parseScore(fixture("piano.musicxml"));
+  assert.equal(m.tracks.length, 2);
+  assert.deepEqual(new Set(m.notes.map((n) => n.track)), new Set([0, 1]));
+});
+
+test("measures follow the time signature", () => {
+  const m = SM.parseScore(fixture("waltz.musicxml"));
+  assert.equal(m.measures[0].beats, 3);
+  assert.equal(m.measures[0].len, 3 * SM.PPQ);
+  m.measures.forEach((x, i) => { if (i) assert.equal(x.start, m.measures[i - 1].start + m.measures[i - 1].len); });
+});
+
+test("edited notes are written and read back", () => {
+  const xml = fixture("twinkle.musicxml");
+  const m = SM.parseScore(xml);
+  // Move the first note up a tone, add a dotted eighth and a triplet quarter, change a length
+  m.notes[0].midi += 2;
+  m.notes.push({ id: SM.newId(), track: 0, start: SM.PPQ * 4, dur: 18, midi: 79 });
+  m.notes.push({ id: SM.newId(), track: 0, start: SM.PPQ * 8, dur: 16, midi: 81 });
+  m.notes[1].dur = SM.PPQ * 3; // crosses the bar line: written as tied notes
+  const b = SM.parseScore(SM.buildXml(m, xml, null));
+  assert.equal(key(b), key(m));
+});
+
+test("insertMeasure / deleteMeasure move the later notes", () => {
+  const m = SM.parseScore(fixture("twinkle.musicxml"));
+  const n = m.measures.length, len = m.measures[0].len;
+  const later = m.notes.filter((x) => x.start >= len).map((x) => x.start);
+  SM.insertMeasure(m, 0);
+  assert.equal(m.measures.length, n + 1);
+  assert.deepEqual(m.notes.filter((x) => x.start >= 2 * len).map((x) => x.start), later.map((s) => s + len));
+  SM.deleteMeasure(m, 1);
+  assert.equal(m.measures.length, n);
+  assert.deepEqual(m.notes.filter((x) => x.start >= len).map((x) => x.start), later);
+  assert.equal(SM.modelEnd(m), m.measures.reduce((s, x) => s + x.len, 0));
+});
+
+test("measureAt finds the measure of a tick", () => {
+  const m = SM.parseScore(fixture("waltz.musicxml"));
+  assert.equal(SM.measureAt(m, 0), 0);
+  assert.equal(SM.measureAt(m, m.measures[2].start), 2);
+  assert.equal(SM.measureAt(m, m.measures[2].start + 1), 2);
+});
+
+test("splitValues writes any length as notes that add up to it", () => {
+  for (let d = 2; d <= 4 * 96; d++) {
+    const parts = SM.splitValues(d);
+    const sum = parts.reduce((s, v) => s + v[0], 0);
+    assert.ok(Math.abs(sum - d) <= 1, `length ${d}: ${sum}`);
+  }
+  assert.deepEqual(SM.splitValues(36).map((v) => v[1] + ".".repeat(v[2])), ["quarter."]);
+  assert.deepEqual(SM.splitValues(120).map((v) => v[0]), [96, 24]);
+});
+
+test("modelEvents are sorted and in quarter notes", () => {
+  const m = SM.parseScore(fixture("piano.musicxml"));
+  const ev = SM.modelEvents(m);
+  assert.equal(ev.length, m.notes.length);
+  for (let i = 1; i < ev.length; i++) assert.ok(ev[i][0] >= ev[i - 1][0]);
+  assert.equal(ev[0][0], 0);
+});
+
+test("expandMultiRests turns a multi-measure rest into that many measures", () => {
+  const xml = `<?xml version="1.0"?><score-partwise version="4.0"><part-list><score-part id="P1"><part-name>M</part-name></score-part></part-list>
+<part id="P1">
+<measure number="1"><attributes><divisions>1</divisions><time><beats>4</beats><beat-type>4</beat-type></time><clef><sign>G</sign><line>2</line></clef><measure-style><multiple-rest>3</multiple-rest></measure-style></attributes><note><rest measure="yes"/><duration>4</duration></note></measure>
+<measure number="2"><note><pitch><step>C</step><octave>5</octave></pitch><duration>4</duration><type>whole</type></note></measure>
+</part></score-partwise>`;
+  const before = SM.parseScore(xml);
+  const after = SM.parseScore(SM.expandMultiRests(xml));
+  assert.equal(before.measures.length, 2);
+  assert.equal(after.measures.length, 4);
+  assert.equal(after.notes[0].start, 3 * 4 * SM.PPQ);
+  assert.equal(after.notes[0].midi, 72);
+});
+
+test("a score with no notes or a non-MusicXML file does not crash", () => {
+  assert.doesNotThrow(() => SM.expandMultiRests("<foo/>"));
+});
+
+// ---------- Transposition ----------
+const pitches = (xml) => SM.parseScore(xml).notes.map((n) => n.midi);
+const one = (key, notes) => `<?xml version="1.0"?><score-partwise version="4.0"><part-list><score-part id="P1"><part-name>M</part-name></score-part></part-list>
+<part id="P1"><measure number="1"><attributes><divisions>1</divisions>${key == null ? "" : `<key><fifths>${key}</fifths></key>`}<time><beats>4</beats><beat-type>4</beat-type></time><clef><sign>G</sign><line>2</line></clef></attributes>
+${notes.map(([s, a, o]) => `<note><pitch><step>${s}</step>${a ? `<alter>${a}</alter>` : ""}<octave>${o}</octave></pitch><duration>1</duration>${a ? "<accidental>sharp</accidental>" : ""}<type>quarter</type></note>`).join("")}
+</measure></part></score-partwise>`;
+const spelled = (xml) => Array.from(new DOMParser().parseFromString(xml, "application/xml").querySelectorAll("note pitch"))
+  .map((p) => p.querySelector("step").textContent + (+(p.querySelector("alter") || { textContent: 0 }).textContent || "") + p.querySelector("octave").textContent);
+
+for (const name of SCORES) {
+  for (const semis of [-5, 2, 7, 12]) {
+    test(`${name}: transposing by ${semis} moves every note by ${semis} semitones`, () => {
+      const xml = fixture(name);
+      const out = SM.transposeXml(xml, semis);
+      assert.deepEqual(pitches(out), pitches(xml).map((m) => m + semis));
+    });
+  }
+}
+
+test("transposeXml: 0 returns the same file", () => {
+  const xml = fixture("twinkle.musicxml");
+  assert.equal(SM.transposeXml(xml, 0), xml);
+});
+
+test("transposeXml: the key signature follows, and notes keep their spelling in the key", () => {
+  // C major: C E F# G  -> up a major 2nd: D major, D F# G# A
+  const out = SM.transposeXml(one(0, [["C", 0, 4], ["E", 0, 4], ["F", 1, 4], ["G", 0, 4]]), 2);
+  assert.match(out, /<fifths>2<\/fifths>/);
+  assert.deepEqual(spelled(out), ["D4", "F14", "G14", "A4"]);
+  assert.doesNotMatch(out, /<accidental>/, "printed accidentals are left to the display");
+});
+
+test("transposeXml: flat keys stay on the flat side", () => {
+  // F major (1 flat), B flat -> down a semitone: E major (4 sharps), A
+  const down = SM.transposeXml(one(-1, [["B", -1, 4]]), -1);
+  assert.match(down, /<fifths>4<\/fifths>/);
+  assert.deepEqual(spelled(down), ["A4"]);
+  // E flat major (3 flats) up 3 semitones: G flat major (6 flats), not F sharp
+  const up = SM.transposeXml(one(-3, [["E", -1, 4]]), 3);
+  assert.match(up, /<fifths>-6<\/fifths>/);
+  assert.deepEqual(spelled(up), ["G-14"]);
+  // Octave: across B -> C the octave number changes
+  assert.deepEqual(spelled(SM.transposeXml(one(0, [["B", 0, 4]]), 1)), ["C5"]);
+});
+
+test("transposedFifths keeps the number of accidentals small", () => {
+  assert.equal(SM.transposedFifths(0, 1), -5);  // C -> Db
+  assert.equal(SM.transposedFifths(0, 6), 6);   // C -> F#
+  assert.equal(SM.transposedFifths(-1, 1), -6); // F -> Gb
+  assert.equal(SM.transposedFifths(2, -2), 0);  // D -> C
+});
+
+// ---------- Title ----------
+test("scoreTitle / withTitle", () => {
+  assert.equal(SM.scoreTitle(fixture("piano.musicxml")), "Piano Duet Line (test)");
+  const noTitle = one(0, [["C", 0, 4]]);
+  assert.equal(SM.scoreTitle(noTitle), "");
+  const out = SM.withTitle(noTitle, "Ode & Joy <1>");
+  assert.equal(SM.scoreTitle(out), "Ode & Joy <1>");
+  assert.match(out, /<score-partwise[^>]*><work><work-title>/, "work comes first");
+  assert.deepEqual(pitches(out), pitches(noTitle));
+});
+
+// homr has no tie symbol: a tie comes out as a slur (stop written before start on a middle note)
+const homrNote = (step, octave, dur, slurs, { alter, chord, staff = 1 } = {}) =>
+  `<note>${chord ? "<chord/>" : ""}<pitch><step>${step}</step>${alter ? `<alter>${alter}</alter>` : ""}<octave>${octave}</octave></pitch><type>quarter</type><duration>${dur}</duration><staff>${staff}</staff><voice>1</voice>` +
+  `<notations>${slurs.map((t) => `<slur type="${t}" number="${staff}"/>`).join("")}</notations></note>`;
+const homrScore = (...measures) => `<?xml version="1.0"?><score-partwise version="4.0"><part-list><score-part id="P1"><part-name>M</part-name></score-part></part-list><part id="P1">` +
+  measures.map((m, i) => `<measure number="${i + 1}">${i === 0 ? "<attributes><divisions>2</divisions><time><beats>4</beats><beat-type>4</beat-type></time><clef><sign>G</sign><line>2</line></clef></attributes>" : ""}${m}</measure>`).join("") + `</part></score-partwise>`;
+
+test("slursToTies turns a slur between two notes of the same pitch into a tie", () => {
+  const xml = homrScore(
+    homrNote("E", 4, 4, []) + homrNote("C", 5, 4, ["start"]),
+    homrNote("C", 5, 4, ["stop"]) + homrNote("D", 5, 4, []),
+  );
+  const out = SM.slursToTies(xml);
+  assert.doesNotMatch(out, /<slur/);
+  assert.match(out, /<tie type="start"\/>/);
+  assert.match(out, /<tied type="stop"\/>/);
+  const m = SM.parseScore(out);
+  assert.deepEqual(m.notes.map((n) => [n.start, n.dur, n.midi]), [[0, 48, 64], [48, 96, 72], [144, 48, 74]]);
+});
+
+test("slursToTies joins a chain of tied notes and keeps the first note's accidental", () => {
+  const xml = homrScore(
+    homrNote("F", 4, 2, ["start"], { alter: 1 }) + homrNote("F", 4, 2, ["stop", "start"]) + homrNote("F", 4, 4, ["stop"]),
+  );
+  const m = SM.parseScore(SM.slursToTies(xml));
+  assert.deepEqual(m.notes.map((n) => [n.start, n.dur, n.midi]), [[0, 96, 66]]);
+});
+
+test("slursToTies leaves real slurs alone", () => {
+  // Different pitches, and a slur over several notes that starts and ends on the same pitch
+  const xml = homrScore(
+    homrNote("C", 5, 4, ["start"]) + homrNote("D", 5, 4, ["stop"]),
+    homrNote("E", 5, 2, ["start"]) + homrNote("D", 5, 2, []) + homrNote("E", 5, 4, ["stop"]),
+  );
+  assert.equal(SM.slursToTies(xml), xml);
+});
+
+test("slursToTies ties only the matching notes of a chord", () => {
+  const xml = homrScore(
+    homrNote("C", 4, 4, ["start"]) + homrNote("E", 4, 4, ["start"], { chord: true }) +
+    homrNote("C", 4, 4, ["stop"]) + homrNote("G", 4, 4, ["stop"], { chord: true }),
+  );
+  const m = SM.parseScore(SM.slursToTies(xml));
+  assert.deepEqual(m.notes.map((n) => [n.start, n.dur, n.midi]).sort((a, b) => a[2] - b[2]), [[0, 96, 60], [0, 48, 64], [48, 48, 67]]);
+});
+
+// homr sometimes reads a 16th as a triplet 16th (time-modification 3:2, no <tuplet> bracket)
+const tupNote = (step, type, dur, { tm, bracket, voice = 1, staff = 1 } = {}) =>
+  `<note><pitch><step>${step}</step><octave>5</octave></pitch><duration>${dur}</duration><voice>${voice}</voice><type>${type}</type>` +
+  (tm ? "<time-modification><actual-notes>3</actual-notes><normal-notes>2</normal-notes></time-modification>" : "") +
+  `<staff>${staff}</staff>${bracket ? `<notations><tuplet type="${bracket}"/></notations>` : ""}</note>`;
+const tupScore = (...measures) => `<?xml version="1.0"?><score-partwise version="4.0"><part-list><score-part id="P1"><part-name>M</part-name></score-part></part-list><part id="P1">` +
+  measures.map((m, i) => `<measure number="${i + 1}">${i === 0 ? "<attributes><divisions>12</divisions><time><beats>4</beats><beat-type>4</beat-type></time><staves>2</staves><clef number=\"1\"><sign>G</sign><line>2</line></clef><clef number=\"2\"><sign>F</sign><line>4</line></clef></attributes>" : ""}${m}</measure>`).join("") + `</part></score-partwise>`;
+const bass = `<backup><duration>48</duration></backup><note><pitch><step>C</step><octave>3</octave></pitch><duration>48</duration><voice>5</voice><type>whole</type><staff>2</staff></note>`;
+
+test("fixStrayTuplets makes stray triplet notes plain when that fills the measure", () => {
+  // 16th(triplet) + dotted 8th + half + 16th(triplet) 16th(triplet) + 8th = 45 of 48
+  const xml = tupScore(
+    tupNote("G", "16th", 2, { tm: true }) + tupNote("G", "eighth", 9) + tupNote("E", "half", 24) +
+    tupNote("E", "16th", 2, { tm: true }) + tupNote("D", "16th", 2, { tm: true }) + tupNote("C", "eighth", 6) + bass,
+  );
+  const out = SM.fixStrayTuplets(xml);
+  assert.doesNotMatch(out, /time-modification/);
+  const m = SM.parseScore(out);
+  assert.equal(m.measures[0].flagged, false);
+  const top = m.notes.filter((n) => n.track === 0).map((n) => [n.start, n.dur]);
+  assert.deepEqual(top, [[0, 6], [6, 18], [24, 48], [72, 6], [78, 6], [84, 12]]);
+});
+
+test("fixStrayTuplets keeps real triplets and measures it cannot fix", () => {
+  // A full bracketed triplet of 8ths
+  const real = tupScore(
+    tupNote("C", "eighth", 4, { tm: true, bracket: "start" }) + tupNote("D", "eighth", 4, { tm: true }) + tupNote("E", "eighth", 4, { tm: true, bracket: "stop" }) +
+    tupNote("F", "quarter", 12) + tupNote("G", "half", 24),
+  );
+  assert.equal(SM.fixStrayTuplets(real), real);
+  // Making the triplets plain would overfill the measure (47 -> 51)
+  const over = tupScore(
+    tupNote("E", "eighth", 6) + tupNote("E", "eighth", 6) + tupNote("E", "eighth", 6) + tupNote("D", "eighth", 6) +
+    tupNote("E", "16th", 3) + tupNote("D", "eighth", 4, { tm: true }) + tupNote("C", "eighth", 4, { tm: true }) + tupNote("C", "eighth", 12),
+  );
+  assert.equal(SM.fixStrayTuplets(over), over);
+  // A full measure is left as it is
+  const full = tupScore(tupNote("C", "16th", 2, { tm: true }) + tupNote("C", "16th", 4) + tupNote("C", "half", 42));
+  assert.equal(SM.fixStrayTuplets(full), full);
+});
+
+// homr sometimes misses a <backup> when it goes back to the other staff: the note is put
+// after the long note of the other staff, past the bar line (first measure of a test photo)
+const back = (d) => `<backup><duration>${d}</duration></backup>`;
+const bassNote = (step, type, dur) => tupNote(step, type, dur, { voice: 5, staff: 2 });
+
+test("fixVoiceOverflow moves a note put past the bar line back into its gap", () => {
+  // divisions 12: treble 8th 8th 8th 8th 8th | quarter rest | 8th; bass 8th 8th quarter | 8th 8th quarter.
+  // The last treble 8th should start at 42, but comes after the bass quarter (36-48) at 48.
+  const xml = tupScore(
+    tupNote("F", "eighth", 6) + back(6) + bassNote("D", "eighth", 6) + tupNote("E", "eighth", 6) + back(6) + bassNote("F", "eighth", 6) +
+    tupNote("F", "eighth", 6) + back(6) + bassNote("A", "quarter", 12) + back(6) + tupNote("G", "eighth", 6) +
+    tupNote("A", "eighth", 6) + back(6) + bassNote("A", "eighth", 6) +
+    `<note><rest/><duration>12</duration><voice>1</voice><type>quarter</type><staff>1</staff></note>` + back(12) +
+    bassNote("C", "eighth", 6) + bassNote("E", "quarter", 12) + `<direction><direction-type><words>x</words></direction-type></direction>` +
+    tupNote("C", "eighth", 6) + `<barline location="right"><bar-style>light-heavy</bar-style></barline>`,
+  );
+  assert.equal(SM.parseScore(xml).measures[0].flagged, true);
+  const out = SM.fixVoiceOverflow(xml);
+  const m = SM.parseScore(out);
+  assert.equal(m.measures[0].flagged, false);
+  const top = m.notes.filter((n) => n.track === 0).map((n) => [n.start, n.dur]);
+  assert.deepEqual(top, [[0, 12], [12, 12], [24, 12], [36, 12], [48, 12], [84, 12]]);
+  const low = m.notes.filter((n) => n.track === 1).map((n) => [n.start, n.dur]);
+  assert.deepEqual(low, [[0, 12], [12, 12], [24, 24], [48, 12], [60, 12], [72, 24]]);
+  // The direction stays with its note and the bar line at the end
+  assert.match(out, /<\/direction><note><pitch><step>C<\/step><octave>5/);
+  assert.match(out, /<barline[^>]*>.*<\/barline><\/measure>/);
+  // Nothing more to fix
+  assert.equal(SM.fixVoiceOverflow(out), out);
+});
+
+test("fixVoiceOverflow fixes a measure with several missed backups", () => {
+  // Measure 13 of a test photo (divisions 4): treble F E F E | F G(8th) A | rest(8th) E E | E E(dotted 8th),
+  // bass eight 8ths. homr missed the backups after the G, the bass D and the dotted E.
+  const n = (step, dur, voice = 1, staff = 1) => `<note><pitch><step>${step}</step><octave>${staff === 1 ? 4 : 3}</octave></pitch><duration>${dur}</duration><voice>${voice}</voice><staff>${staff}</staff></note>`;
+  const b = (step) => n(step, 2, 5, 2);
+  const r = `<note><rest/><duration>2</duration><voice>1</voice><staff>1</staff></note>`;
+  const body = n("F", 1) + back(1) + b("D") + back(1) + n("E", 1) + n("F", 1) + back(1) + b("A") + back(1) + n("E", 1) +
+    n("F", 1) + back(1) + b("F") + back(1) + n("G", 2) + b("D") + n("A", 1) + r + back(2) + b("C") +
+    n("E", 1) + back(1) + b("G") + back(1) + n("E", 1) + n("E", 1) + back(1) + b("E") + back(1) + n("E", 3) + b("G");
+  const xml = `<?xml version="1.0"?><score-partwise version="4.0"><part-list><score-part id="P1"><part-name>M</part-name></score-part></part-list><part id="P1"><measure number="1"><attributes><divisions>4</divisions><time><beats>4</beats><beat-type>4</beat-type></time><staves>2</staves></attributes>${body}</measure></part></score-partwise>`;
+  assert.equal(SM.parseScore(xml).measures[0].flagged, true);
+  const m = SM.parseScore(SM.fixVoiceOverflow(xml));
+  assert.equal(m.measures[0].flagged, false);
+  const at = (t) => m.notes.filter((x) => x.track === t).map((x) => [x.start / 6, x.dur / 6]);
+  assert.deepEqual(at(0), [[0, 1], [1, 1], [2, 1], [3, 1], [4, 1], [5, 2], [7, 1], [10, 1], [11, 1], [12, 1], [13, 3]]);
+  assert.deepEqual(at(1), [[0, 2], [2, 2], [4, 2], [6, 2], [8, 2], [10, 2], [12, 2], [14, 2]]);
+});
+
+test("fixVoiceOverflow leaves measures it cannot fix", () => {
+  // Fits the measure
+  const full = tupScore(tupNote("C", "half", 24) + tupNote("D", "half", 24) + bass);
+  assert.equal(SM.fixVoiceOverflow(full), full);
+  // Too long with no gap in the voice
+  const long = tupScore(tupNote("C", "half", 24) + tupNote("D", "half", 24) + tupNote("E", "quarter", 12));
+  assert.equal(SM.fixVoiceOverflow(long), long);
+  // The gap is not as long as the overrun
+  const odd = tupScore(tupNote("C", "half", 24) + `<forward><duration>6</duration></forward>` + tupNote("D", "half", 24) + tupNote("E", "eighth", 6));
+  assert.equal(SM.fixVoiceOverflow(odd), odd);
+});
