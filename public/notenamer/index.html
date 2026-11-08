@@ -223,6 +223,29 @@
     .chip.size { width: var(--ctl-h); padding: 0; font-family: var(--serif, Georgia, serif); }
     .chip.size[data-size="s"] { font-size: 12px; } .chip.size[data-size="m"] { font-size: 16px; } .chip.size[data-size="l"] { font-size: 21px; }
     .chip.size[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+    /* Print / save as image / share, under the score */
+    .actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; padding: 14px 16px 4px; border-top: 1px solid var(--line); }
+    .actions .big { height: 52px; font-size: 15px; padding: 0 8px; }
+    .actions .big span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .act-msg { grid-column: 1 / -1; margin: 2px 0 0; font-size: 13px; color: var(--muted); }
+    .act-msg:empty { display: none; }
+    @media (max-width: 420px) { .actions { grid-template-columns: 1fr; } }
+    .menu [role="menuitemcheckbox"]::before { content: "☐ "; } .menu [role="menuitemcheckbox"][aria-checked="true"]::before { content: "☑ "; }
+    .menu hr { border: 0; border-top: 1px solid var(--line); margin: 4px 2px; }
+    /* Printing: only the A4 pages made for it (#printArea); without them, the score without the controls */
+    #printArea { display: none; }
+    @media print {
+      @page { size: A4 portrait; margin: 0; }
+      html.printing body > *:not(#printArea), html.printing body::before { display: none !important; }
+      html.printing body { background: #fff; margin: 0; }
+      html.printing #printArea { display: block; }
+      .print-page { width: 210mm; height: 297mm; overflow: hidden; break-after: page; page-break-after: always; }
+      .print-page:last-child { break-after: auto; page-break-after: auto; }
+      .print-page svg { display: block; width: 100%; height: 100%; }
+      html:not(.printing) .topbar, html:not(.printing) .intro, html:not(.printing) .layout > aside, html:not(.printing) .player-bar,
+      html:not(.printing) .practice, html:not(.printing) .names-bar, html:not(.printing) .actions, html:not(.printing) .keys,
+      html:not(.printing) .foot, html:not(.printing) .site-foot, html:not(.printing) #playhead { display: none !important; }
+    }
     .title-input { width: 100%; border: 1px solid transparent; border-radius: var(--radius); padding: 4px 8px; margin-left: -8px; font: inherit; font-size: 18px; font-weight: 700; color: var(--ink); background: transparent; text-overflow: ellipsis; }
     .title-input:hover { border-color: var(--line); }
     .title-input:focus { outline: none; border-color: var(--ink); background: var(--paper); }
@@ -450,6 +473,12 @@
           </div>
         </div>
         <div class="edit-wrap" id="editWrap" hidden></div>
+        <div class="actions" id="actions" hidden>
+          <button type="button" class="big" id="actPrint"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 7.5V2.8h9v4.7"></path><rect x="2.5" y="7.5" width="15" height="7" rx="1.5"></rect><path d="M5.5 12h9v5.2h-9z"></path></svg><span data-i18n="act.print">Print</span></button>
+          <button type="button" class="big secondary" id="actPng"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.8" y="3.5" width="14.4" height="13" rx="1.5"></rect><circle cx="7.2" cy="7.8" r="1.4"></circle><path d="m3.5 14.5 4.3-4.3 3 3 2-2 3.7 3.6"></path></svg><span data-i18n="act.png">Save image</span></button>
+          <button type="button" class="big secondary" id="actShare"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 12.5V2.8M6.5 6.2 10 2.8l3.5 3.4"></path><path d="M5 9H3.5v8.2h13V9H15"></path></svg><span data-i18n="act.share">Share</span></button>
+          <p class="act-msg" id="actMsg" role="status" aria-live="polite"></p>
+        </div>
         <p class="keys" id="keys" data-i18n-html="keys"><kbd>Space</kbd> play / pause　<kbd>Home</kbd> stop (back to the beginning)　<kbd>↑</kbd><kbd>↓</kbd> tempo ±1 (<kbd>Shift</kbd> ±5)　click a note to move the cursor there</p>
       </section>
     </div>
@@ -542,8 +571,12 @@
   </div>
 
   <div class="menu" id="exportMenu" role="menu" aria-label="Save / share" data-i18n-attr="aria-label:export" hidden>
-    <button type="button" role="menuitem" id="exShare" data-i18n="ex.share">Share…</button>
-    <button type="button" role="menuitem" id="exXml" data-i18n="ex.xml">MusicXML</button>
+    <button type="button" role="menuitem" id="exPrint" data-i18n="ex.print">Print…</button>
+    <button type="button" role="menuitem" id="exPng" data-i18n="ex.png">Save as image (PNG)</button>
+    <button type="button" role="menuitem" id="exShare" data-i18n="ex.share">Share image…</button>
+    <button type="button" role="menuitem" id="exXml" data-i18n="ex.xml">MusicXML (with note names)</button>
+    <hr>
+    <button type="button" role="menuitemcheckbox" aria-checked="true" id="exCredit" data-i18n="ex.credit">“Made with Note Namer” on pages</button>
   </div>
 
   <dialog class="msg about" id="aboutDlg" tabindex="-1" aria-labelledby="aboutTitle">
@@ -600,11 +633,22 @@
           "hist.confirm": "Remove the recent scores from this browser? The score that is open now stays.",
           "hist.sub": "{date} · {n} notes",
           "export": "Save / share",
-          "ex.share": "Share…",
-          "ex.xml": "MusicXML (score)",
-          "share.text": "Sheet music: {title}. Open the attached MusicXML file in Note Namer to play it.",
-          "share.saved": "The MusicXML file was saved. Attach it to your message.",
-          "share.copied": "The MusicXML file was saved, and the app's link was copied.",
+          "ex.print": "Print…",
+          "ex.png": "Save as image (PNG)",
+          "ex.share": "Share image…",
+          "ex.xml": "MusicXML (with note names)",
+          "ex.credit": "“Made with Note Namer” on pages",
+          "act.print": "Print",
+          "act.png": "Save image",
+          "act.share": "Share",
+          "credit": "Made with Note Namer · ktkwmr.com/notenamer",
+          "st.pages": "Making the pages…",
+          "err.pages": "The pages could not be made. ({msg})",
+          "share.text": "Sheet music with note names: {title}",
+          "share.again": "The images are ready. Press “Share” again.",
+          "share.saved": "The images were saved. Attach them to your message.",
+          "share.copied": "The images were saved, and the app's link was copied.",
+          "png.saved": "Saved {n} image(s).",
           "bpm": "Tempo (BPM)",
           "bpm.m5": "Tempo −5",
           "bpm.p5": "Tempo +5",
@@ -747,11 +791,22 @@
           "hist.confirm": "最近の楽譜をこのブラウザから削除しますか？今開いている楽譜は残ります。",
           "hist.sub": "{date} · {n}音",
           "export": "保存・共有",
-          "ex.share": "共有…",
-          "ex.xml": "MusicXML（楽譜）",
-          "share.text": "楽譜「{title}」です。添付の MusicXML ファイルを Note Namer で開くと再生できます。",
-          "share.saved": "MusicXML ファイルを保存しました。メッセージに添付してください。",
-          "share.copied": "MusicXML ファイルを保存し、アプリのリンクをコピーしました。",
+          "ex.print": "印刷…",
+          "ex.png": "画像（PNG）で保存",
+          "ex.share": "画像を共有…",
+          "ex.xml": "MusicXML（音名入り）",
+          "ex.credit": "ページに「Note Namer で作成」を入れる",
+          "act.print": "印刷",
+          "act.png": "画像を保存",
+          "act.share": "共有",
+          "credit": "Note Namer で作成 · ktkwmr.com/notenamer",
+          "st.pages": "ページを作っています…",
+          "err.pages": "ページを作れませんでした。（{msg}）",
+          "share.text": "音名付きの楽譜「{title}」",
+          "share.again": "画像の準備ができました。もう一度「共有」を押してください。",
+          "share.saved": "画像を保存しました。メッセージに添付してください。",
+          "share.copied": "画像を保存し、アプリのリンクをコピーしました。",
+          "png.saved": "画像を {n} 枚保存しました。",
           "bpm": "テンポ（BPM）",
           "bpm.m5": "テンポを5下げる",
           "bpm.p5": "テンポを5上げる",
@@ -942,10 +997,11 @@
       const PREFS_KEY = "notenamer-prefs";
       const NAME_SYSTEMS = ["katakana", "hiragana", "letter", "solfege", "korean"];
       const NAME_SIZES = { s: 1.8, m: 2.3, l: 3.0 }; // OSMD lyric height (staff spaces)
-      let prefs = { system: "", size: "m" };
+      // credit: "Made with Note Namer" at the bottom of printed / saved pages
+      let prefs = { system: "", size: "m", credit: true };
       try {
         const p = JSON.parse(localStorage.getItem(PREFS_KEY) || "null") || {};
-        prefs = { system: NAME_SYSTEMS.includes(p.system) ? p.system : "", size: NAME_SIZES[p.size] ? p.size : "m" };
+        prefs = { system: NAME_SYSTEMS.includes(p.system) ? p.system : "", size: NAME_SIZES[p.size] ? p.size : "m", credit: p.credit !== false };
       } catch (e) {}
       function savePrefs() { try { localStorage.setItem(PREFS_KEY, JSON.stringify(prefs)); } catch (e) {} }
       let NN = null;
@@ -953,6 +1009,18 @@
       function nameSystem() {
         if (prefs.system) return prefs.system;
         return lang === "ja" ? "katakana" : NN ? NN.defaultSystem(navigator.language || "en") : "letter";
+      }
+      // The names are lyrics: their size, and room between them so short notes do not run their names together.
+      // Used for the score on screen and for the A4 pages (export-pages.mjs)
+      function setNameRules(R) {
+        R.LyricsHeight = NAME_SIZES[prefs.size];
+        R.LyricsXPaddingWidthThreshold = 0.6;
+        R.LyricsXPaddingFactorForLongLyrics = 1.3;
+        R.LyricsXPaddingReductionForLongNotes = 0.3;
+        R.LyricsXPaddingReductionForLastNoteInMeasure = 0.4;
+        // A little wider than "compacttight" (0.65 / 2), so a name fits under each eighth note
+        R.VoiceSpacingMultiplierVexflow = 0.85;
+        R.VoiceSpacingAddendVexflow = 3.5;
       }
       // The score as shown: a note name under every note
       async function withNames(xml) {
@@ -963,6 +1031,8 @@
       // The bar above the score: how the names are written, and their size
       function renderNames() {
         $("namesBar").hidden = !state.xml;
+        $("actions").hidden = !state.xml;
+        $("exCredit").setAttribute("aria-checked", String(prefs.credit));
         $("nameSystem").value = nameSystem();
         document.querySelectorAll(".chip.size").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.size === prefs.size)));
       }
@@ -1819,16 +1889,7 @@
         }
         try {
           await osmd.load(await withNames(xml));
-          // The names are lyrics: leave room between them, so short notes do not run their names together
-          const R = osmd.EngravingRules;
-          R.LyricsHeight = NAME_SIZES[prefs.size];
-          R.LyricsXPaddingWidthThreshold = 0.6;
-          R.LyricsXPaddingFactorForLongLyrics = 1.3;
-          R.LyricsXPaddingReductionForLongNotes = 0.3;
-          R.LyricsXPaddingReductionForLastNoteInMeasure = 0.4;
-          // A little wider than "compacttight" (0.65 / 2), so a name fits under each eighth note
-          R.VoiceSpacingMultiplierVexflow = 0.85;
-          R.VoiceSpacingAddendVexflow = 3.5;
+          setNameRules(osmd.EngravingRules);
           // A little larger than OSMD's default on wide screens, smaller on phones
           osmd.zoom = clamp(box.clientWidth / 820, 0.6, 1.25);
           osmd.render();
@@ -2240,6 +2301,7 @@
         $("playBtn").disabled = !ready || busy; $("stopBtn").disabled = !ready || busy;
         $("clearBtn").disabled = !state.xml || busy;
         $("exportBtn").disabled = !state.xml || busy;
+        ["actPrint", "actPng", "actShare"].forEach((id) => { $(id).disabled = !state.xml || busy; });
         $("practiceBtn").disabled = !state.xml;
         $("modeEdit").disabled = !state.xml || busy || !timeline.events.length;
         $("modeScore").setAttribute("aria-pressed", mode === "score"); $("modeEdit").setAttribute("aria-pressed", mode === "edit");
@@ -2343,7 +2405,7 @@
         if (e.key === "Escape") { closeExport(true); return; }
         if (e.key === "ArrowDown" || e.key === "ArrowUp") {
           e.preventDefault();
-          const items = Array.prototype.slice.call(exportMenu.querySelectorAll('[role="menuitem"]:not([hidden])'));
+          const items = Array.prototype.slice.call(exportMenu.querySelectorAll('[role^="menuitem"]:not([hidden])'));
           const i = items.indexOf(document.activeElement);
           items[e.key === "ArrowDown" ? (i + 1) % items.length : (i - 1 + items.length) % items.length].focus();
         }
@@ -2363,35 +2425,101 @@
         SM = SM || await importApp("score-model.mjs");
         return SM.withTitle(shownXml(), state.title);
       }
+      // MusicXML with the names as lyrics (MuseScore and other notation apps show them under the notes)
       $("exXml").onclick = async function () {
         closeExport(false);
         if (!state.xml) return;
-        download(new Blob([await exportXml()], { type: "application/vnd.recordare.musicxml+xml" }), fileBase() + ".musicxml");
+        download(new Blob([await withNames(await exportXml())], { type: "application/vnd.recordare.musicxml+xml" }), fileBase() + ".musicxml");
       };
-      // Share: the app's link and the MusicXML file (when the browser can attach it); otherwise the file is
-      // saved and the link is shared (or copied) on its own
       const appUrl = () => new URL(lang === "ja" ? "ja/" : "./", document.baseURI).href;
-      $("exShare").onclick = async function () {
-        closeExport(false);
-        if (!state.xml) return;
-        const xml = await exportXml(), name = fileBase() + ".musicxml", url = appUrl();
-        const text = t("share.text", { title: state.title });
-        let file = null;
-        if (navigator.canShare) {
-          for (const type of ["application/vnd.recordare.musicxml+xml", "application/xml", "text/xml"]) {
-            const f = new File([xml], name, { type: type });
-            try { if (navigator.canShare({ files: [f] })) { file = f; break; } } catch (e) {}
+
+      // ---------- A4 pages: print, save as images, share (export-pages.mjs) ----------
+      // The pages of the score as it is now are kept, so Share right after Save (or a second press of
+      // Share, when the browser needs a fresh tap) does not draw them again
+      let pagesCache = null, pagesBusy = false;
+      function hashText(str) { let h = 2166136261; for (let i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return (h >>> 0).toString(36); }
+      const pagesKey = () => [hashText(state.xml), state.transpose || 0, nameSystem(), prefs.size, prefs.credit, state.title, lang].join("|");
+      function footerText(page, count) {
+        const parts = [state.title];
+        if (count > 1) parts.push(page + " / " + count);
+        if (prefs.credit) parts.push(t("credit"));
+        return parts.join("   ·   ");
+      }
+      function actMsg(text) { $("actMsg").textContent = text || ""; }
+      async function scorePages(withPng) {
+        await commitEdits(mode !== "edit");
+        SM = SM || await importApp("score-model.mjs");
+        const key = pagesKey();
+        if (!pagesCache || pagesCache.key !== key) {
+          await loadOsmd();
+          const X = await importApp("export-pages.mjs");
+          const xml = await withNames(SM.withTitle(shownXml(), state.title));
+          pagesCache = { key: key, X: X, pages: await X.renderPages({ xml: xml, setRules: setNameRules, footer: footerText }), pngs: null };
+        }
+        if (withPng && !pagesCache.pngs) {
+          const pngs = [];
+          for (const pg of pagesCache.pages) pngs.push(await pagesCache.X.pagePng(pg)); // one at a time: less memory
+          pagesCache.pngs = pngs;
+        }
+        return pagesCache;
+      }
+      // Runs one of the actions with a message while the pages are made; false when it failed
+      async function withPages(withPng, fn) {
+        if (!state.xml || busy || pagesBusy) return false;
+        closeExport(false); showError(""); actMsg("");
+        pagesBusy = true;
+        const slow = setTimeout(() => actMsg(t("st.pages")), 150);
+        try { const c = await scorePages(withPng); clearTimeout(slow); actMsg(""); await fn(c); return true; }
+        catch (e) {
+          clearTimeout(slow); console.error(e);
+          actMsg(t("err.pages", { msg: String((e && e.message) || e).slice(0, 120) }));
+          return false;
+        } finally { pagesBusy = false; }
+      }
+      const pngName = (i, n) => fileBase() + (n > 1 ? "-" + (i + 1) : "") + ".png";
+      async function printPages() {
+        await withPages(false, async function (c) {
+          $("printArea").innerHTML = c.pages.map((pg) => '<div class="print-page">' + pg.svg + "</div>").join("");
+          document.documentElement.classList.add("printing");
+          window.print();
+        });
+      }
+      window.addEventListener("afterprint", function () { document.documentElement.classList.remove("printing"); });
+      async function savePngs() {
+        await withPages(true, async function (c) {
+          c.pngs.forEach((b, i) => download(b, pngName(i, c.pngs.length)));
+          actMsg(t("png.saved", { n: c.pngs.length }));
+        });
+      }
+      // Share: the page images (Web Share with files). The browser may need a fresh tap when making the
+      // images took a while; then they are kept and the second press shares them at once.
+      // Without file sharing: the images are saved, and the app's link is shared (or copied)
+      async function sharePngs() {
+        const ready = !!(pagesCache && pagesCache.pngs && pagesCache.key === pagesKey());
+        await withPages(true, async function (c) {
+          const files = c.pngs.map((b, i) => new File([b], pngName(i, c.pngs.length), { type: "image/png" }));
+          const text = t("share.text", { title: state.title }), url = appUrl();
+          let canFiles = false;
+          try { canFiles = !!(navigator.canShare && navigator.canShare({ files: files })); } catch (e) {}
+          if (canFiles) {
+            try { await navigator.share({ files: files, title: state.title, text: text + "\n" + url }); }
+            catch (e) {
+              if (e && e.name === "NotAllowedError" && !ready) actMsg(t("share.again"));
+              else if (!e || e.name !== "AbortError") { console.error(e); actMsg(String((e && e.message) || e).slice(0, 120)); }
+            }
+            return;
           }
-        }
-        try {
-          if (file) { await navigator.share({ title: state.title, text: text, url: url, files: [file] }); return; }
-          download(new Blob([xml], { type: "application/vnd.recordare.musicxml+xml" }), name);
-          if (navigator.share) { showStatus(t("share.saved"), { bar: false }); await navigator.share({ title: state.title, text: text, url: url }); }
-          else { await navigator.clipboard.writeText(text + "\n" + url); showStatus(t("share.copied"), { bar: false }); }
-        } catch (e) {
-          if (!e || e.name !== "AbortError") { console.error(e); showStatus(t("share.saved"), { bar: false }); }
-        }
-      };
+          c.pngs.forEach((b, i) => download(b, pngName(i, c.pngs.length)));
+          try {
+            if (navigator.share) { actMsg(t("share.saved")); await navigator.share({ title: state.title, text: text, url: url }); }
+            else { await navigator.clipboard.writeText(text + "\n" + url); actMsg(t("share.copied")); }
+          } catch (e) { if (!e || e.name !== "AbortError") actMsg(t("share.saved")); }
+        });
+      }
+      $("exPrint").onclick = $("actPrint").onclick = printPages;
+      $("exPng").onclick = $("actPng").onclick = savePngs;
+      $("exShare").onclick = $("actShare").onclick = sharePngs;
+      $("exCredit").onclick = function () { prefs.credit = !prefs.credit; savePrefs(); renderNames(); };
 
       // Tap feedback: buttons that don't stay on get .is-pressed for at least 150 ms
       const PRESSABLE = ".chip:not([aria-pressed]), .play, .big, .primary, #settingsBtn";
@@ -2509,6 +2637,8 @@
     });
   }
 </script>
+<!-- The A4 pages for printing (export-pages.mjs); shown only while printing -->
+<div id="printArea"></div>
 <!-- Cloudflare Web Analytics (page views; no cookies) -->
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "5c53079cb9a64d819d1ca53e8533ca63"}'></script>
 </body>
