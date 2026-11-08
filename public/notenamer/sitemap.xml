@@ -27,6 +27,42 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ktkwmr.com/notenamer/guide/" />
   </url>
   <url>
+    <loc>https://ktkwmr.com/notenamer/note-name-chart/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ktkwmr.com/notenamer/note-name-chart/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://ktkwmr.com/notenamer/ja/note-name-chart/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ktkwmr.com/notenamer/note-name-chart/" />
+  </url>
+  <url>
+    <loc>https://ktkwmr.com/notenamer/ja/note-name-chart/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ktkwmr.com/notenamer/note-name-chart/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://ktkwmr.com/notenamer/ja/note-name-chart/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ktkwmr.com/notenamer/note-name-chart/" />
+  </url>
+  <url>
+    <loc>https://ktkwmr.com/notenamer/reading-notes/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ktkwmr.com/notenamer/reading-notes/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://ktkwmr.com/notenamer/ja/reading-notes/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ktkwmr.com/notenamer/reading-notes/" />
+  </url>
+  <url>
+    <loc>https://ktkwmr.com/notenamer/ja/reading-notes/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ktkwmr.com/notenamer/reading-notes/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://ktkwmr.com/notenamer/ja/reading-notes/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ktkwmr.com/notenamer/reading-notes/" />
+  </url>
+  <url>
+    <loc>https://ktkwmr.com/notenamer/sharps-and-flats/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ktkwmr.com/notenamer/sharps-and-flats/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://ktkwmr.com/notenamer/ja/sharps-and-flats/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ktkwmr.com/notenamer/sharps-and-flats/" />
+  </url>
+  <url>
+    <loc>https://ktkwmr.com/notenamer/ja/sharps-and-flats/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://ktkwmr.com/notenamer/sharps-and-flats/" />
+    <xhtml:link rel="alternate" hreflang="ja" href="https://ktkwmr.com/notenamer/ja/sharps-and-flats/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ktkwmr.com/notenamer/sharps-and-flats/" />
+  </url>
+  <url>
     <loc>https://ktkwmr.com/notenamer/faq/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://ktkwmr.com/notenamer/faq/" />
     <xhtml:link rel="alternate" hreflang="ja" href="https://ktkwmr.com/notenamer/ja/faq/" />
@@ -61,42 +97,6 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://ktkwmr.com/notenamer/fix-errors/" />
     <xhtml:link rel="alternate" hreflang="ja" href="https://ktkwmr.com/notenamer/ja/fix-errors/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://ktkwmr.com/notenamer/fix-errors/" />
-  </url>
-  <url>
-    <loc>https://ktkwmr.com/notenamer/tempo-markings/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ktkwmr.com/notenamer/tempo-markings/" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://ktkwmr.com/notenamer/ja/tempo-markings/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://ktkwmr.com/notenamer/tempo-markings/" />
-  </url>
-  <url>
-    <loc>https://ktkwmr.com/notenamer/ja/tempo-markings/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ktkwmr.com/notenamer/tempo-markings/" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://ktkwmr.com/notenamer/ja/tempo-markings/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://ktkwmr.com/notenamer/tempo-markings/" />
-  </url>
-  <url>
-    <loc>https://ktkwmr.com/notenamer/musicxml/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ktkwmr.com/notenamer/musicxml/" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://ktkwmr.com/notenamer/ja/musicxml/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://ktkwmr.com/notenamer/musicxml/" />
-  </url>
-  <url>
-    <loc>https://ktkwmr.com/notenamer/ja/musicxml/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ktkwmr.com/notenamer/musicxml/" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://ktkwmr.com/notenamer/ja/musicxml/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://ktkwmr.com/notenamer/musicxml/" />
-  </url>
-  <url>
-    <loc>https://ktkwmr.com/notenamer/what-is-omr/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ktkwmr.com/notenamer/what-is-omr/" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://ktkwmr.com/notenamer/ja/what-is-omr/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://ktkwmr.com/notenamer/what-is-omr/" />
-  </url>
-  <url>
-    <loc>https://ktkwmr.com/notenamer/ja/what-is-omr/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://ktkwmr.com/notenamer/what-is-omr/" />
-    <xhtml:link rel="alternate" hreflang="ja" href="https://ktkwmr.com/notenamer/ja/what-is-omr/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://ktkwmr.com/notenamer/what-is-omr/" />
   </url>
   <url>
     <loc>https://ktkwmr.com/notenamer/about/</loc>

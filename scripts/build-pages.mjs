@@ -27,7 +27,7 @@ import { renderPage, ORIGIN, APP_PATH, PUBLISHED, pagePath } from "./pages/layou
 import { sampleXml } from "./sample-score.mjs";
 
 // Footer order
-const PAGES = ["guide", "faq", "photo-tips", "fix-errors", "tempo-markings", "musicxml", "what-is-omr"];
+const PAGES = ["guide", "note-name-chart", "reading-notes", "sharps-and-flats", "faq", "photo-tips", "fix-errors"];
 // Site information (operator and privacy policy)
 const INFO_PAGES = ["about", "privacy"];
 

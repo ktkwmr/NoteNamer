@@ -106,5 +106,8 @@ export function addNoteNames(xml, system) {
       });
     }
   }
-  return new XMLSerializer().serializeToString(doc);
+  const out = new XMLSerializer().serializeToString(doc);
+  // OSMD takes a string as MusicXML only when it starts with "<?xml" (otherwise it is taken for a URL);
+  // some serializers drop the declaration
+  return /^\s*<\?xml/.test(out) ? out : '<?xml version="1.0" encoding="UTF-8"?>\n' + out;
 }

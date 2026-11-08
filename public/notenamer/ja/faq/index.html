@@ -7,16 +7,16 @@
   <meta name="theme-color" content="#ffffff" />
   <link rel="icon" type="image/svg+xml" href="/notenamer/icons/icon.svg" />
   <link rel="apple-touch-icon" href="/notenamer/icons/apple-touch-icon.png" />
-  <title>よくある質問（対応ブラウザ・読み取りの精度・練習・保存） | Note Namer</title>
-  <meta name="description" content="Note Namer のよくある質問。対応ブラウザ（スマホ・Safari）、楽譜がアップロードされないか、読み取り時間、読める楽譜、音符やテンポの直し方、ループやパート練習、移調、MusicXML・MIDI・MP3 での保存について。" />
+  <title>よくある質問（対応ブラウザ・♯♭の反映・音名の書き方・印刷） | Note Namer</title>
+  <meta name="description" content="Note Namer のよくある質問。対応ブラウザ（スマホ・Safari）、楽譜がアップロードされないか、読み取り時間、読める楽譜、調号の ♯・♭ の反映、音名の書き方、間違いの直し方、印刷・共有について。" />
   <link rel="canonical" href="https://ktkwmr.com/notenamer/ja/faq/" />
   <link rel="alternate" hreflang="en" href="https://ktkwmr.com/notenamer/faq/" />
   <link rel="alternate" hreflang="ja" href="https://ktkwmr.com/notenamer/ja/faq/" />
   <link rel="alternate" hreflang="x-default" href="https://ktkwmr.com/notenamer/faq/" />
   <meta property="og:type" content="article" />
   <meta property="og:site_name" content="Note Namer" />
-  <meta property="og:title" content="よくある質問（対応ブラウザ・読み取りの精度・練習・保存）" />
-  <meta property="og:description" content="Note Namer のよくある質問。対応ブラウザ（スマホ・Safari）、楽譜がアップロードされないか、読み取り時間、読める楽譜、音符やテンポの直し方、ループやパート練習、移調、MusicXML・MIDI・MP3 での保存について。" />
+  <meta property="og:title" content="よくある質問（対応ブラウザ・♯♭の反映・音名の書き方・印刷）" />
+  <meta property="og:description" content="Note Namer のよくある質問。対応ブラウザ（スマホ・Safari）、楽譜がアップロードされないか、読み取り時間、読める楽譜、調号の ♯・♭ の反映、音名の書き方、間違いの直し方、印刷・共有について。" />
   <meta property="og:locale" content="ja_JP" />
   <meta property="og:locale:alternate" content="en_US" />
   <meta property="og:url" content="https://ktkwmr.com/notenamer/ja/faq/" />
@@ -89,50 +89,42 @@
       },
       {
         "@type": "Question",
-        "name": "テンポが違います。",
+        "name": "調号の ♯・♭ も反映されますか？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "アプリは 1 ページ目の上にあるメトロノーム記号か、Allegro などの速度記号を読み取り、どちらもなければ ♩ = 120 にします。数字は「4分音符が 1 分間にいくつ」として使うので、6/8 拍子の ♩. = 60 のような指定では遅くなります（90 を入れてください）。−5／+5、数字の入力、スライダーで手で設定できます。速度記号と BPM の一覧もご覧ください。"
+          "text": "されます。調号、その小節の前の臨時記号、小節線をまたぐタイを反映した高さで音名を書きます。ト長調ならファはすべて「ファ♯」です。移調すると、音名も新しい調に合わせて変わります。調号そのものを読み違えると曲全体の音名が変わるので、最初の段は元の楽譜と見比べてください。♯・♭と調号の読み方もご覧ください。"
         }
       },
       {
         "@type": "Question",
-        "name": "テンポの変化や強弱、繰り返しどおりに再生されますか？",
+        "name": "どんな書き方の音名にできますか？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "曲全体を 1 つのテンポ、1 つのシンプルな音色で再生します。途中のテンポの変化（rit.・新しいテンポ）、強弱（p・f）、装飾音は楽譜どおりには鳴りません。演奏としてではなく、音とリズムの確認として聴いてください。"
+          "text": "ドレミ（カタカナ）・どれみ（ひらがな）・C D E（英語）・Do Re Mi（固定ド）・도레미（韓国語）の 5 つです。楽譜の上で選べ、最初はブラウザの言語に合わせます（日本語のページではカタカナ）。音名は固定ド（C はいつもド）です。移動ド、ドイツ音名（シを H）、ハニホ、オクターブ付きの表記（C4）にはまだ対応していません。音名の対応表もご覧ください。"
         }
       },
       {
         "@type": "Question",
-        "name": "歌詞やスラー、アーティキュレーションは残りますか？",
+        "name": "音符の玉の中に音名を書いたり、色分けしたりできますか？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "歌詞とコードネームは読み取りません。音符を編集すると、音符だけから楽譜を作り直すので、スラーやアーティキュレーションなどの記号は保存したファイルから消えます。"
+          "text": "今はできません。音名は歌詞のように音符の下に書きます。文字の大きさは小・中・大から選べます。"
         }
       },
       {
         "@type": "Question",
-        "name": "一部分だけをくり返したり、自分のパートだけ練習したりできますか？",
+        "name": "印刷したり、人に送ったりできますか？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "できます。練習モードのループで、選んだ小節をくり返し再生できます。メトロノームとカウントインもあります。ピアノや合唱など段が 2 つ以上ある楽譜では、パートをタップして強調（ほかのパートを小さく）したり消音したりできるので、自分のパートをはっきり聴いたり、ほかのパートに合わせて自分で弾いたり歌ったりできます。覚えるまではテンポを落とすのもおすすめです。使い方ガイドもご覧ください。"
+          "text": "できます。楽譜の下の印刷で A4 のページを印刷でき（印刷画面で「PDF に保存」を選ぶと PDF になります）、画像を保存でページごとの PNG 画像を保存、共有でスマホの共有メニュー（LINE など）から画像を送れます。各ページのいちばん下にはタイトルと小さな「Note Namer で作成」が入り、保存・共有メニューで消せます。"
         }
       },
       {
         "@type": "Question",
-        "name": "別の調に移調できますか？",
+        "name": "歌詞のある楽譜は、歌詞も残りますか？",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "できます。練習モードの移調で、半音ずつ上下 1 オクターブまで移調できます。調号も変わり、保存する MusicXML・MIDI・MP3 も移調した音になります。トランペットやクラリネットなど B♭ の楽器用には上に 2（長 2 度）、E♭ のアルトサックス用には上に 9（長 6 度。1 オクターブ下でよければ下に 3）です。"
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "結果を保存できますか？ MIDI や MP3 にできますか？",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "できます。保存・共有から、MusicXML（MuseScore などの楽譜ソフトで開けます）、MIDI（段ごとに 1 トラック）、MP3（今のテンポ・移調・パートの強調や消音のとおりの音）を保存できます。共有…では、アプリのリンクと MusicXML のファイルを端末の共有メニューで送れます。MusicXML とはもご覧ください。"
+          "text": "読み取りでは歌詞とコードネームは読み取りません。歌詞の入った MusicXML を開いたときは、画面では歌詞の代わりに音名だけを表示します。"
         }
       },
       {
@@ -281,7 +273,7 @@
 <body>
   <header class="site-head">
     <div class="inner">
-      <a class="brand" href="/notenamer/ja/"><svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="7" fill="#000"></rect><path d="M5 9.5h18M5 12.5h18M5 15.5h18M5 18.5h18" stroke="#fff" stroke-width="1" stroke-linecap="round"></path><rect x="9.4" y="6.5" width="2.8" height="15" rx="1.4" fill="#fff" fill-opacity=".45"></rect><path d="M18.6 6.8v10.4" stroke="#fff" stroke-width="1.5" stroke-linecap="round"></path><ellipse cx="16.7" cy="17.6" rx="2.3" ry="1.7" transform="rotate(-20 16.7 17.6)" fill="#fff"></ellipse></svg><span>Note Namer</span></a>
+      <a class="brand" href="/notenamer/ja/"><svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="7" fill="#000"></rect><path d="M5 6.5h18M5 9.5h18M5 12.5h18" stroke="#fff" stroke-width="1" stroke-linecap="round"></path><path d="M16.3 3.6v8.6" stroke="#fff" stroke-width="1.5" stroke-linecap="round"></path><ellipse cx="14.4" cy="12.6" rx="2.3" ry="1.7" transform="rotate(-20 14.4 12.6)" fill="#fff"></ellipse><path d="M14 16.1l1.7 2h5.5a1.5 1.5 0 0 1 1.5 1.5v2.9a1.5 1.5 0 0 1-1.5 1.5H6.8a1.5 1.5 0 0 1-1.5-1.5v-2.9a1.5 1.5 0 0 1 1.5-1.5h5.5z" fill="#fff"></path><path d="M8.4 21.1h2.6M12.7 21.1h2.6M17 21.1h2.6" stroke="#000" stroke-width="1.4" stroke-linecap="round"></path></svg><span>Note Namer</span></a>
       <nav class="head-links" aria-label="サイト">
         <a class="lang" href="/notenamer/faq/" hreflang="en" lang="en">English</a>
         <a class="btn" href="/notenamer/ja/">アプリを開く</a>
@@ -291,7 +283,7 @@
   <main>
     <article>
       <h1>よくある質問</h1>
-<p class="lead">このアプリで楽譜を読み取って再生するときの、よくある質問をまとめました。手順は<a href="/notenamer/ja/guide/">使い方ガイド</a>をご覧ください。</p>
+<p class="lead">このアプリで楽譜にドレミを振るときの、よくある質問をまとめました。手順は<a href="/notenamer/ja/guide/">使い方ガイド</a>をご覧ください。</p>
 <dl class="faq">
 <dt id="phone">スマホや iPad、Safari、Firefox で使えますか？</dt>
 <dd><p>動作を確認しているのは、PC の Chrome・Edge（137 以降）、iPhone の Safari（iOS 27.2）、Android の Chrome（137 以降）です。読み取りエンジンには JavaScript Promise Integration（JSPI）というブラウザの機能が必要で、この機能がないブラウザでは案内を表示します。iPhone は iOS 27.2 以降に更新してください。Firefox（153 以降）、Mac や iPad の Safari（27 以降）にもこの機能はありますが、これらでの動作はまだ確かめていません。また、古いスマホやタブレットは読み取りに必要なメモリ（約 2GB）が足りないことがあります。うまくいかないときは、写真をスマホで撮って PC で開いてください。</p></dd>
@@ -307,18 +299,16 @@
 <dd><p>写真（または PDF）を続けて選んで一覧に 12 個まで追加し、順番を確かめて（ハンドルをドラッグすると変えられます）「楽譜を読み取る」を押してください。並んだ順に読み取って 1 つの楽譜につなげます。PDF はページ順に読み取り、見開き 2 ページを 1 枚に撮った写真は左右に分けて左のページから読み取ります。1 ページに 1 分ほどかかり、ページが多いと（特にスマートフォンでは）メモリが足りなくなることがあります。そのときはページを減らして読み取ってください。</p></dd>
 <dt id="wrong">音符が間違っています。どう直せばいいですか？</dt>
 <dd><p>「編集」に切り替えて、音符をドラッグして正しい高さ・長さにしたり、足りない音符を追加したり、余分な音符を削除したりします。「!」の付いた小節は拍の合計が合わなかった小節なので、先に確かめてください。はっきりした、まっすぐな写真で撮り直すと減る間違いも多くあります。<a href="/notenamer/ja/fix-errors/">読み取りミスの直し方</a>と<a href="/notenamer/ja/photo-tips/">撮り方のコツ</a>をご覧ください。</p></dd>
-<dt id="tempo">テンポが違います。</dt>
-<dd><p>アプリは 1 ページ目の上にあるメトロノーム記号か、<i lang="it">Allegro</i> などの速度記号を読み取り、どちらもなければ ♩ = 120 にします。数字は「4分音符が 1 分間にいくつ」として使うので、6/8 拍子の ♩. = 60 のような指定では遅くなります（90 を入れてください）。−5／+5、数字の入力、スライダーで手で設定できます。<a href="/notenamer/ja/tempo-markings/">速度記号と BPM の一覧</a>もご覧ください。</p></dd>
-<dt id="changes">テンポの変化や強弱、繰り返しどおりに再生されますか？</dt>
-<dd><p>曲全体を 1 つのテンポ、1 つのシンプルな音色で再生します。途中のテンポの変化（rit.・新しいテンポ）、強弱（p・f）、装飾音は楽譜どおりには鳴りません。演奏としてではなく、音とリズムの確認として聴いてください。</p></dd>
-<dt id="lyrics">歌詞やスラー、アーティキュレーションは残りますか？</dt>
-<dd><p>歌詞とコードネームは読み取りません。音符を編集すると、音符だけから楽譜を作り直すので、スラーやアーティキュレーションなどの記号は保存したファイルから消えます。</p></dd>
-<dt id="practice">一部分だけをくり返したり、自分のパートだけ練習したりできますか？</dt>
-<dd><p>できます。<b>練習モード</b>の<b>ループ</b>で、選んだ小節をくり返し再生できます。<b>メトロノーム</b>と<b>カウントイン</b>もあります。ピアノや合唱など段が 2 つ以上ある楽譜では、パートをタップして強調（ほかのパートを小さく）したり消音したりできるので、自分のパートをはっきり聴いたり、ほかのパートに合わせて自分で弾いたり歌ったりできます。覚えるまではテンポを落とすのもおすすめです。<a href="/notenamer/ja/guide/">使い方ガイド</a>もご覧ください。</p></dd>
-<dt id="transpose">別の調に移調できますか？</dt>
-<dd><p>できます。<b>練習モード</b>の<b>移調</b>で、半音ずつ上下 1 オクターブまで移調できます。調号も変わり、保存する MusicXML・MIDI・MP3 も移調した音になります。トランペットやクラリネットなど B♭ の楽器用には上に 2（長 2 度）、E♭ のアルトサックス用には上に 9（長 6 度。1 オクターブ下でよければ下に 3）です。</p></dd>
-<dt id="save">結果を保存できますか？ MIDI や MP3 にできますか？</dt>
-<dd><p>できます。<b>保存・共有</b>から、MusicXML（MuseScore などの楽譜ソフトで開けます）、MIDI（段ごとに 1 トラック）、MP3（今のテンポ・移調・パートの強調や消音のとおりの音）を保存できます。<b>共有…</b>では、アプリのリンクと MusicXML のファイルを端末の共有メニューで送れます。<a href="/notenamer/ja/musicxml/">MusicXML とは</a>もご覧ください。</p></dd>
+<dt id="keysig">調号の ♯・♭ も反映されますか？</dt>
+<dd><p>されます。調号、その小節の前の臨時記号、小節線をまたぐタイを反映した高さで音名を書きます。ト長調ならファはすべて「ファ♯」です。移調すると、音名も新しい調に合わせて変わります。調号そのものを読み違えると曲全体の音名が変わるので、最初の段は元の楽譜と見比べてください。<a href="/notenamer/ja/sharps-and-flats/">♯・♭と調号の読み方</a>もご覧ください。</p></dd>
+<dt id="systems">どんな書き方の音名にできますか？</dt>
+<dd><p>ドレミ（カタカナ）・どれみ（ひらがな）・C D E（英語）・Do Re Mi（固定ド）・도레미（韓国語）の 5 つです。楽譜の上で選べ、最初はブラウザの言語に合わせます（日本語のページではカタカナ）。音名は固定ド（C はいつもド）です。移動ド、ドイツ音名（シを H）、ハニホ、オクターブ付きの表記（C4）にはまだ対応していません。<a href="/notenamer/ja/note-name-chart/">音名の対応表</a>もご覧ください。</p></dd>
+<dt id="noteheads">音符の玉の中に音名を書いたり、色分けしたりできますか？</dt>
+<dd><p>今はできません。音名は歌詞のように音符の下に書きます。文字の大きさは小・中・大から選べます。</p></dd>
+<dt id="print">印刷したり、人に送ったりできますか？</dt>
+<dd><p>できます。楽譜の下の<b>印刷</b>で A4 のページを印刷でき（印刷画面で「PDF に保存」を選ぶと PDF になります）、<b>画像を保存</b>でページごとの PNG 画像を保存、<b>共有</b>でスマホの共有メニュー（LINE など）から画像を送れます。各ページのいちばん下にはタイトルと小さな「Note Namer で作成」が入り、<b>保存・共有</b>メニューで消せます。</p></dd>
+<dt id="lyrics">歌詞のある楽譜は、歌詞も残りますか？</dt>
+<dd><p>読み取りでは歌詞とコードネームは読み取りません。歌詞の入った MusicXML を開いたときは、画面では歌詞の代わりに音名だけを表示します。</p></dd>
 <dt id="open-xml">手元の MusicXML ファイルを開けますか？</dt>
 <dd><p>開けます。<code>.musicxml</code>・<code>.mxl</code>・<code>.xml</code> のファイルを選ぶかドロップすると、読み取りなしで、ファイルに書かれたテンポですぐに開きます。楽譜ソフトが書き出す partwise 形式の MusicXML に対応しています。</p></dd>
 <dt id="kept">前回の楽譜はどこにありますか？ 消すには？</dt>
@@ -337,12 +327,12 @@
         <h2 id="guides-title">ガイド</h2>
         <ul>
           <li><a href="/notenamer/ja/guide/">使い方ガイド</a></li>
+          <li><a href="/notenamer/ja/note-name-chart/">音名の対応表</a></li>
+          <li><a href="/notenamer/ja/reading-notes/">五線譜の音の読み方</a></li>
+          <li><a href="/notenamer/ja/sharps-and-flats/">♯・♭と調号の読み方</a></li>
           <li><a href="/notenamer/ja/faq/" aria-current="page">よくある質問</a></li>
           <li><a href="/notenamer/ja/photo-tips/">楽譜の撮り方のコツ</a></li>
           <li><a href="/notenamer/ja/fix-errors/">読み取りミスの直し方</a></li>
-          <li><a href="/notenamer/ja/tempo-markings/">速度記号と BPM の一覧</a></li>
-          <li><a href="/notenamer/ja/musicxml/">MusicXML とは</a></li>
-          <li><a href="/notenamer/ja/what-is-omr/">楽譜を読み取る仕組み（OMR）</a></li>
         </ul>
       </nav>
       <p class="meta">

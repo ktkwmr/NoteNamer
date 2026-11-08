@@ -178,7 +178,7 @@
 <body>
   <header class="site-head">
     <div class="inner">
-      <a class="brand" href="/notenamer/"><svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="7" fill="#000"></rect><path d="M5 9.5h18M5 12.5h18M5 15.5h18M5 18.5h18" stroke="#fff" stroke-width="1" stroke-linecap="round"></path><rect x="9.4" y="6.5" width="2.8" height="15" rx="1.4" fill="#fff" fill-opacity=".45"></rect><path d="M18.6 6.8v10.4" stroke="#fff" stroke-width="1.5" stroke-linecap="round"></path><ellipse cx="16.7" cy="17.6" rx="2.3" ry="1.7" transform="rotate(-20 16.7 17.6)" fill="#fff"></ellipse></svg><span>Note Namer</span></a>
+      <a class="brand" href="/notenamer/"><svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="7" fill="#000"></rect><path d="M5 6.5h18M5 9.5h18M5 12.5h18" stroke="#fff" stroke-width="1" stroke-linecap="round"></path><path d="M16.3 3.6v8.6" stroke="#fff" stroke-width="1.5" stroke-linecap="round"></path><ellipse cx="14.4" cy="12.6" rx="2.3" ry="1.7" transform="rotate(-20 14.4 12.6)" fill="#fff"></ellipse><path d="M14 16.1l1.7 2h5.5a1.5 1.5 0 0 1 1.5 1.5v2.9a1.5 1.5 0 0 1-1.5 1.5H6.8a1.5 1.5 0 0 1-1.5-1.5v-2.9a1.5 1.5 0 0 1 1.5-1.5h5.5z" fill="#fff"></path><path d="M8.4 21.1h2.6M12.7 21.1h2.6M17 21.1h2.6" stroke="#000" stroke-width="1.4" stroke-linecap="round"></path></svg><span>Note Namer</span></a>
       <nav class="head-links" aria-label="Site">
         <a class="lang" href="/notenamer/ja/fix-errors/" hreflang="ja" lang="ja">日本語</a>
         <a class="btn" href="/notenamer/">Open the app</a>
@@ -195,6 +195,7 @@
   <li><a href="#flag">Start with the measures marked “!”</a></li>
   <li><a href="#editor">How the editor works</a></li>
   <li><a href="#common">Common mistakes and how to fix them</a></li>
+  <li><a href="#names">When the names are wrong</a></li>
   <li><a href="#limits">What the editor cannot change</a></li>
   <li><a href="#save">Save your corrections</a></li>
 </ol></nav>
@@ -253,11 +254,19 @@
 </table>
 </div>
 
+<h2 id="names">When the names are wrong</h2>
+<p>A name is wrong when the note under it was read wrong, so fix the note and the name follows. Two patterns are worth knowing:</p>
+<ul>
+  <li><b>One note has the wrong name</b>: a missed or extra sharp, flat, or natural in front of it, or the note is a step too high or low. Drag the note to the right pitch in the editor.</li>
+  <li><b>Many names are a sharp or flat off</b>, all on the same note name (for example every F named F instead of F♯): the <b>key signature</b> was read wrong. Compare the sharps or flats after the clef with the paper. The editor cannot change the key signature (see below); fix the notes one by one, or fix the key in a notation program.</li>
+</ul>
+<p>See <a href="/notenamer/sharps-and-flats/">sharps, flats, and key signatures</a> for how the signs work.</p>
+
 <h2 id="limits">What the editor cannot change</h2>
-<p>The editor changes notes and measures. It does not change the key signature, the time signature, clefs, bar lines, repeat signs, or text. If those are wrong, save the score as MusicXML and fix them in a notation program such as MuseScore (see <a href="/notenamer/musicxml/">what MusicXML is</a>). Lyrics and chord symbols are not read in the first place.</p>
+<p>The editor changes notes and measures. It does not change the key signature, the time signature, clefs, bar lines, repeat signs, or text. If those are wrong, save the score as MusicXML, fix them in a notation program such as MuseScore, and open the corrected file in this app again. Lyrics and chord symbols are not read in the first place.</p>
 
 <h2 id="save">Save your corrections</h2>
-<p>When you switch back to Score (or save), the corrections are kept in the browser along with the score. To keep a copy as a file, choose <b>Save / share → MusicXML (score)</b>. When the notes are edited, the score is rebuilt from the notes, so slurs, articulations, and similar markings are not kept in the saved file.</p>
+<p>When you switch back to Score (or save), the corrections are kept in the browser along with the score. To keep a copy as a file, choose <b>Save / share → MusicXML (with note names)</b>. When the notes are edited, the score is rebuilt from the notes, so slurs, articulations, and similar markings are not kept in the saved file.</p>
     </article>
     <aside class="cta">
       <h2>Hear your sheet music</h2>
@@ -271,12 +280,12 @@
         <h2 id="guides-title">Guides</h2>
         <ul>
           <li><a href="/notenamer/guide/">How to use Note Namer</a></li>
+          <li><a href="/notenamer/note-name-chart/">Note name chart</a></li>
+          <li><a href="/notenamer/reading-notes/">Reading notes on the staff</a></li>
+          <li><a href="/notenamer/sharps-and-flats/">Sharps, flats, and key signatures</a></li>
           <li><a href="/notenamer/faq/">FAQ</a></li>
           <li><a href="/notenamer/photo-tips/">Photo tips for sheet music</a></li>
           <li><a href="/notenamer/fix-errors/" aria-current="page">Fixing reading mistakes</a></li>
-          <li><a href="/notenamer/tempo-markings/">Tempo markings and BPM</a></li>
-          <li><a href="/notenamer/musicxml/">What is MusicXML?</a></li>
-          <li><a href="/notenamer/what-is-omr/">How music recognition works</a></li>
         </ul>
       </nav>
       <p class="meta">

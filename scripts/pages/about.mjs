@@ -19,7 +19,7 @@ export default {
       <tr><th scope="row">Site name</th><td>Note Namer</td></tr>
       <tr><th scope="row">URL</th><td><a href="/notenamer/">https://ktkwmr.com/notenamer/</a></td></tr>
       <tr><th scope="row">Operator</th><td>ktkwmr (individual developer)</td></tr>
-      <tr><th scope="row">What we offer</th><td>A free web app that reads sheet music from a photo, image, or PDF and plays it back with a cursor on the staff</td></tr>
+      <tr><th scope="row">What we offer</th><td>A free web app that reads sheet music from a photo, image, or PDF and writes the note name (C D E, Do Re Mi, ドレミ, 도레미) under every note, for printing and sharing</td></tr>
       <tr><th scope="row">Contact</th><td><a href="${ISSUES}" rel="noopener">GitHub Issues</a></td></tr>
     </tbody>
   </table>
@@ -61,7 +61,7 @@ export default {
       <tr><th scope="row">サイト名</th><td>Note Namer</td></tr>
       <tr><th scope="row">URL</th><td><a href="/notenamer/ja/">https://ktkwmr.com/notenamer/ja/</a></td></tr>
       <tr><th scope="row">運営者</th><td>ktkwmr（個人開発者）</td></tr>
-      <tr><th scope="row">内容</th><td>楽譜の写真・画像・PDFを読み取って、五線譜の上のカーソルとともに再生する無料の Web アプリ</td></tr>
+      <tr><th scope="row">内容</th><td>楽譜の写真・画像・PDFを読み取って、すべての音符の下に音名（ドレミ・C D E・도레미など）を書き、印刷・共有できる無料の Web アプリ</td></tr>
       <tr><th scope="row">お問い合わせ</th><td><a href="${ISSUES}" rel="noopener">GitHub の Issues</a></td></tr>
     </tbody>
   </table>

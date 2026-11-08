@@ -156,3 +156,9 @@ test("grand-chords.musicxml: both staves of one part, chords stacked, tie contin
   assert.equal(byStaff[1].join(" "), "1ソ 1ラ 1シ 1ド 1レ 1ミ 1ファ♯ 1ド♯ 1ド♯  1シ♭ 1シ♭ 1ソ");
   assert.equal(byStaff[2].join(" "), "3ソ 2レ 1シ 3レ 2ファ♯ 1ラ 3ド 2ミ 1ソ  2ソ 1ソ");
 });
+
+test("the output starts with an XML declaration (OSMD needs it)", () => {
+  const out = NN.addNoteNames(fixture("twinkle.musicxml"), "letter");
+  assert.match(out, /^<\?xml version="1.0"/);
+  assert.equal((out.match(/<\?xml/g) || []).length, 1);
+});

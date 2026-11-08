@@ -51,7 +51,7 @@ ktkwmr/SheetMusicPlayer（コミット `c9bd5ee`）からコピーして作っ�
 | # | 項目 | 状態 | メモ |
 |---|---|---|---|
 | 3-1 | manifest.json | ✅ | |
-| 3-2 | アイコン一式 | ⚠️ | 流用元のアイコンのまま。PR 5 で作り直す |
+| 3-2 | アイコン一式 | ✅ | 音符と、その下の名札（ラベル）。言語に依存しない形 |
 | 3-3 | PWA/iOS 用 meta | ✅ | |
 | 3-4 | sw.js（ネットワーク優先） | ✅ | 例外: 読み取りエンジン（`engine/`）はキャッシュ優先。`omr-worker.mjs` が専用のキャッシュ `notenamer-engine-<version>` に保存し、sw.js はそこから返すだけ（130MB を二重に持たない） |
 | 3-5 | SW 登録 | ✅ | |
@@ -74,7 +74,7 @@ ktkwmr/SheetMusicPlayer（コミット `c9bd5ee`）からコピーして作っ�
 | # | 項目 | 状態 | メモ |
 |---|---|---|---|
 | 5-1〜5-3 | title・description・canonical・hreflang・OGP | ✅ | 音名のアプリとして書き直した（PR 3） |
-| 5-4 | og-image.png | ⚠️ | 流用元の画像のまま。PR 5 で作り直す |
+| 5-4 | og-image.png | ✅ | `scripts/og-image.html` から生成（音符の下に C D E とドレミ） |
 | 5-5 | JSON-LD | ✅ | `browserRequirements` に JSPI が必要なこと（動作確認は PC の Chrome・Edge、Firefox 153・Safari 27 は未確認） |
 | 5-6 | robots.txt・sitemap | ✅ | sitemap は生成済み。robots.txt は `ktkwmr/ktkwmr.com` に記載 |
 | 5-7 | h1 | ✅ | |
@@ -133,11 +133,11 @@ ktkwmr/SheetMusicPlayer（コミット `c9bd5ee`）からコピーして作っ�
 | # | 項目 | 状態 | メモ |
 |---|---|---|---|
 | 10-1 | 生成の仕組み | ✅ | `scripts/pages/<slug>.mjs`（英日を別々に書く）、共通部品は `parts.mjs` |
-| 10-2 | 最初の記事 | ⚠️ | 流用元の 7 本のまま（外した機能の説明が残っている）。PR 5 で `docs/handoff.md` の記事に作り直す |
+| 10-2 | 最初の記事 | ✅ | 使い方ガイド・音名の対応表・五線譜の音の読み方・♯♭と調号・FAQ・撮り方のコツ・読み取りミスの直し方（7 本）。流用元の速度記号・MusicXML・OMR の記事は削除 |
 | 10-3 | 表は計算で | ✅ | 速度記号の表はアプリの `TEMPO_TERMS` から（範囲外ならビルドが止まる）。撮り方の比較表は実測（`photo-results.json`） |
 | 10-4 | 画面写真 | ⚠️ | `scripts/render-guide-images.mjs`（PC・日英）。スマホはアプリの動作が未確認のため撮らない |
 | 10-5 | 導線 | ✅ | 記事末尾の「アプリを開く」、フッターに全記事、日英切り替え。アプリ側は設定メニューと「使い方」の 2 か所 |
-| 10-6 | 公開前の UX レビュー | ❌ | PR 5 |
+| 10-6 | 公開前の UX レビュー | ⚠️ | 390px で横スクロールが出ないことを Playwright で確認（sharps-and-flats・guide）。全記事の目視は人間の確認で |
 | 10-7 | 人間の内容確認 | 👤 待ち | PR のプレビューで確認（`docs/article-review.md`） |
 | 11-1〜11-3 | Web Analytics | ✅ | 同じ token |
 | 11-4 | 本番での beacon 確認 | 👤 待ち | COEP（credentialless）の下で beacon が読み込めるかも確認する |

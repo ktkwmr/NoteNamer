@@ -103,7 +103,7 @@ public/
       pyodide/ ort/ models/ tesseract/ homr.zip manifest.json
     vendor/                     # OpenSheetMusicDisplay and PDF.js (copied by scripts/build-engine.py)
     ja/index.html               # Japanese page, generated from index.html (do not edit)
-    guide/ faq/ photo-tips/ fix-errors/ tempo-markings/ musicxml/ what-is-omr/
+    guide/ note-name-chart/ reading-notes/ sharps-and-flats/ faq/ photo-tips/ fix-errors/
                                 # guide articles, generated from scripts/pages/ (do not edit)
     guide/img/                  # screenshots and sample pictures for the articles (scripts/render-guide-images.mjs)
     about/ privacy/ ja/<slug>/  # info pages, generated from scripts/pages/ (do not edit)
@@ -202,15 +202,15 @@ node scripts/render-guide-images.mjs  # article screenshots and the photo-tips m
 | Slug | Article |
 |---|---|
 | `guide` | How to use the app, with screenshots / 使い方ガイド |
+| `note-name-chart` | Note names in different languages (from the app's own name tables) / 音名の対応表 |
+| `reading-notes` | Reading notes on the treble and bass staff (pictures made with the app's names) / 五線譜の音の読み方 |
+| `sharps-and-flats` | Sharps, flats, and key signatures (computed key table) / ♯・♭と調号の読み方 |
 | `faq` | FAQ / よくある質問 |
 | `photo-tips` | Photographing sheet music (six photos of one page, measured) / 撮り方のコツ |
 | `fix-errors` | Finding and fixing reading mistakes / 読み取りミスの直し方 |
-| `tempo-markings` | Tempo markings and BPM (the app's own tempo table) / 速度記号と BPM |
-| `musicxml` | What MusicXML is / MusicXML とは |
-| `what-is-omr` | How optical music recognition works / 楽譜を読み取る仕組み |
 
-Values that the app also uses (the tempo table, the default tempo, the number of files read at once) are read from `index.html` by `scripts/pages/parts.mjs`, so the articles follow the app. Article changes go through a pull request and are read on the preview URL before merging (`docs/article-review.md`).
-アプリと共通の値（速度記号の表・既定のテンポ・PDF のページ数の上限）は `index.html` から読み込みます。記事の変更は PR のプレビューで人が読んでからマージします（`docs/article-review.md`）。
+Values that the app also uses (the name tables, the number of files read at once) are read from `index.html` by `scripts/pages/parts.mjs`, so the articles follow the app. Article changes go through a pull request and are read on the preview URL before merging (`docs/article-review.md`).
+アプリと共通の値（音名の表・一度に読み取れるファイル数）はアプリのファイル（`note-names.mjs`・`index.html`）から読み込みます。記事の変更は PR のプレビューで人が読んでからマージします（`docs/article-review.md`）。
 
 ## License / ライセンス
 

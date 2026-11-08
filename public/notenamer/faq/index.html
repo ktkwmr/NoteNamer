@@ -7,16 +7,16 @@
   <meta name="theme-color" content="#ffffff" />
   <link rel="icon" type="image/svg+xml" href="/notenamer/icons/icon.svg" />
   <link rel="apple-touch-icon" href="/notenamer/icons/apple-touch-icon.png" />
-  <title>Note Namer FAQ: Browsers, Accuracy, Practice, Saving | Note Namer</title>
-  <meta name="description" content="Answers about Note Namer: which browsers work, whether your music is uploaded, how long reading takes, what it can read, fixing wrong notes and tempo, looping and part practice, transposing, and saving as MusicXML, MIDI, or MP3." />
+  <title>Note Namer FAQ: Browsers, Sharps and Flats, Name Systems, Printing | Note Namer</title>
+  <meta name="description" content="Answers about Note Namer: which browsers work, whether your music is uploaded, how long reading takes, what it can read, sharps and flats from the key signature, which note names it writes, fixing wrong notes, and printing or sharing the result." />
   <link rel="canonical" href="https://ktkwmr.com/notenamer/faq/" />
   <link rel="alternate" hreflang="en" href="https://ktkwmr.com/notenamer/faq/" />
   <link rel="alternate" hreflang="ja" href="https://ktkwmr.com/notenamer/ja/faq/" />
   <link rel="alternate" hreflang="x-default" href="https://ktkwmr.com/notenamer/faq/" />
   <meta property="og:type" content="article" />
   <meta property="og:site_name" content="Note Namer" />
-  <meta property="og:title" content="Note Namer FAQ: Browsers, Accuracy, Practice, Saving" />
-  <meta property="og:description" content="Answers about Note Namer: which browsers work, whether your music is uploaded, how long reading takes, what it can read, fixing wrong notes and tempo, looping and part practice, transposing, and saving as MusicXML, MIDI, or MP3." />
+  <meta property="og:title" content="Note Namer FAQ: Browsers, Sharps and Flats, Name Systems, Printing" />
+  <meta property="og:description" content="Answers about Note Namer: which browsers work, whether your music is uploaded, how long reading takes, what it can read, sharps and flats from the key signature, which note names it writes, fixing wrong notes, and printing or sharing the result." />
   <meta property="og:locale" content="en_US" />
   <meta property="og:locale:alternate" content="ja_JP" />
   <meta property="og:url" content="https://ktkwmr.com/notenamer/faq/" />
@@ -89,50 +89,42 @@
       },
       {
         "@type": "Question",
-        "name": "The tempo is wrong.",
+        "name": "Are the sharps and flats of the key signature included?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "The app reads the metronome mark at the top of the first page, or a tempo word such as Allegro; if it finds neither it uses ♩ = 120. The number is used as quarter notes per minute, so a marking like ♩. = 60 in 6/8 plays too slow (enter 90 instead). Set the tempo by hand with −5 / +5, the number, or the slider. See tempo markings and BPM."
+          "text": "Yes. Each name includes the key signature, the accidentals earlier in the measure, and ties over the bar line: in G major every F is named F♯. When you transpose, the names follow the new key. If the key signature itself was read wrong, every name changes with it, so compare the first line with the paper. See sharps, flats, and key signatures."
         }
       },
       {
         "@type": "Question",
-        "name": "Does it follow tempo changes, dynamics, or repeats?",
+        "name": "Which note names can it write?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "The whole piece plays at one tempo with one simple instrument sound. Tempo changes in the middle (rit., a new tempo), dynamics (p, f), and grace notes are not played as written. Listen to it as a check of the notes and rhythm, not as a performance."
+          "text": "Five systems: ドレミ (Japanese katakana), どれみ (hiragana), C D E (letters), Do Re Mi (fixed Do), and 도레미 (Korean). Choose one above the score; the first choice follows your browser's language. The names are fixed (C is always Do). Movable Do, German names (H for B), Japanese ハニホ, and octave numbers (C4) are not offered. See the note name chart."
         }
       },
       {
         "@type": "Question",
-        "name": "Are lyrics, slurs, and articulations kept?",
+        "name": "Can it write the names inside the note heads, or color the notes?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Lyrics and chord symbols are not read. When you edit the notes, the score is rebuilt from the notes only, so slurs, articulations, and similar markings disappear from the saved file."
+          "text": "Not yet. The names are written under the notes, like lyrics. Their size can be small, medium, or large."
         }
       },
       {
         "@type": "Question",
-        "name": "Can I repeat one passage, or practise only my part?",
+        "name": "Can I print it or send it to someone?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. In Practice mode, Loop plays the measures you choose over and over, and the Metronome and Count-in help you keep time. For scores with more than one staff (piano, choir, …), tap a part to make it louder (the others soft) or to mute it, so you can hear your part clearly or play or sing it yourself with the rest. Slow the tempo down while you learn it. See the guide."
+          "text": "Yes. Under the score, Print prints A4 pages (choose “Save as PDF” in the print dialog for a PDF), Save image saves each page as a PNG, and Share sends the images through your phone's share menu. Each page has the title and a small “Made with Note Namer” line at the bottom, which can be turned off in the Save / share menu."
         }
       },
       {
         "@type": "Question",
-        "name": "Can I transpose the music to another key?",
+        "name": "My score has lyrics. Are they kept?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. In Practice mode, Transpose moves the music up or down a semitone at a time, up to an octave. The key signature changes with it, and the MusicXML, MIDI, and MP3 you save are transposed too. For a B♭ instrument such as a trumpet or clarinet, transpose up 2 (a major second); for an E♭ alto saxophone, up 9 (a major sixth), or down 3 for the same notes an octave lower."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Can I save the result? Can I get MIDI or MP3?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Yes. Save / share saves a MusicXML file (to open in MuseScore and other notation programs), a MIDI file (one track per staff), or an MP3 of what you hear, with the current tempo, transposition, and louder or muted parts. Share… sends the app's link and the MusicXML file through your device's share menu. See what MusicXML is."
+          "text": "The reading does not pick up lyrics or chord symbols. When you open a MusicXML file with lyrics, the screen shows only the note names in their place."
         }
       },
       {
@@ -281,7 +273,7 @@
 <body>
   <header class="site-head">
     <div class="inner">
-      <a class="brand" href="/notenamer/"><svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="7" fill="#000"></rect><path d="M5 9.5h18M5 12.5h18M5 15.5h18M5 18.5h18" stroke="#fff" stroke-width="1" stroke-linecap="round"></path><rect x="9.4" y="6.5" width="2.8" height="15" rx="1.4" fill="#fff" fill-opacity=".45"></rect><path d="M18.6 6.8v10.4" stroke="#fff" stroke-width="1.5" stroke-linecap="round"></path><ellipse cx="16.7" cy="17.6" rx="2.3" ry="1.7" transform="rotate(-20 16.7 17.6)" fill="#fff"></ellipse></svg><span>Note Namer</span></a>
+      <a class="brand" href="/notenamer/"><svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="7" fill="#000"></rect><path d="M5 6.5h18M5 9.5h18M5 12.5h18" stroke="#fff" stroke-width="1" stroke-linecap="round"></path><path d="M16.3 3.6v8.6" stroke="#fff" stroke-width="1.5" stroke-linecap="round"></path><ellipse cx="14.4" cy="12.6" rx="2.3" ry="1.7" transform="rotate(-20 14.4 12.6)" fill="#fff"></ellipse><path d="M14 16.1l1.7 2h5.5a1.5 1.5 0 0 1 1.5 1.5v2.9a1.5 1.5 0 0 1-1.5 1.5H6.8a1.5 1.5 0 0 1-1.5-1.5v-2.9a1.5 1.5 0 0 1 1.5-1.5h5.5z" fill="#fff"></path><path d="M8.4 21.1h2.6M12.7 21.1h2.6M17 21.1h2.6" stroke="#000" stroke-width="1.4" stroke-linecap="round"></path></svg><span>Note Namer</span></a>
       <nav class="head-links" aria-label="Site">
         <a class="lang" href="/notenamer/ja/faq/" hreflang="ja" lang="ja">日本語</a>
         <a class="btn" href="/notenamer/">Open the app</a>
@@ -291,7 +283,7 @@
   <main>
     <article>
       <h1>Frequently asked questions</h1>
-<p class="lead">Common questions about reading and playing sheet music with this app. For the steps, see the <a href="/notenamer/guide/">guide</a>.</p>
+<p class="lead">Common questions about adding note names to sheet music with this app. For the steps, see the <a href="/notenamer/guide/">guide</a>.</p>
 <dl class="faq">
 <dt id="phone">Can I use it on a phone, an iPad, Safari, or Firefox?</dt>
 <dd><p>The app is tested on Chrome and Edge 137 or later on a computer, Safari on iPhone (iOS 27.2), and Chrome on Android (137 or later). The reading engine needs a browser feature called JavaScript Promise Integration (JSPI). Browsers without it show a message instead. On an iPhone, update to iOS 27.2 or later. Firefox (153 or later) and Safari on a Mac or iPad (27 or later) have it too, but the app has not been tested on them yet, and older phones and tablets may not have enough memory for reading (about 2 GB). If it does not work, take the photo with your phone and open it on a computer.</p></dd>
@@ -307,18 +299,16 @@
 <dd><p>Add the photos (or PDFs) to the list one after another, up to 12 files, check the order (drag the handle to change it), and press “Read the score”: the pages are read in order and joined into one score. The pages of a PDF are read in order, and a photo of two facing pages is split and read left page first. Reading takes about a minute per page; with many pages the browser may run out of memory, especially on a phone. Then read fewer pages at a time.</p></dd>
 <dt id="wrong">Some notes are wrong. How do I fix them?</dt>
 <dd><p>Switch to Edit and drag the notes to the right pitch and length, add missing ones, or delete extra ones. Measures marked “!” did not add up when they were read, so check those first. Many mistakes go away with a sharper, straighter photo. See <a href="/notenamer/fix-errors/">how to fix reading mistakes</a> and <a href="/notenamer/photo-tips/">photo tips</a>.</p></dd>
-<dt id="tempo">The tempo is wrong.</dt>
-<dd><p>The app reads the metronome mark at the top of the first page, or a tempo word such as <i lang="it">Allegro</i>; if it finds neither it uses ♩ = 120. The number is used as quarter notes per minute, so a marking like ♩. = 60 in 6/8 plays too slow (enter 90 instead). Set the tempo by hand with −5 / +5, the number, or the slider. See <a href="/notenamer/tempo-markings/">tempo markings and BPM</a>.</p></dd>
-<dt id="changes">Does it follow tempo changes, dynamics, or repeats?</dt>
-<dd><p>The whole piece plays at one tempo with one simple instrument sound. Tempo changes in the middle (rit., a new tempo), dynamics (p, f), and grace notes are not played as written. Listen to it as a check of the notes and rhythm, not as a performance.</p></dd>
-<dt id="lyrics">Are lyrics, slurs, and articulations kept?</dt>
-<dd><p>Lyrics and chord symbols are not read. When you edit the notes, the score is rebuilt from the notes only, so slurs, articulations, and similar markings disappear from the saved file.</p></dd>
-<dt id="practice">Can I repeat one passage, or practise only my part?</dt>
-<dd><p>Yes. In <b>Practice mode</b>, <b>Loop</b> plays the measures you choose over and over, and the <b>Metronome</b> and <b>Count-in</b> help you keep time. For scores with more than one staff (piano, choir, …), tap a part to make it louder (the others soft) or to mute it, so you can hear your part clearly or play or sing it yourself with the rest. Slow the tempo down while you learn it. See <a href="/notenamer/guide/">the guide</a>.</p></dd>
-<dt id="transpose">Can I transpose the music to another key?</dt>
-<dd><p>Yes. In <b>Practice mode</b>, <b>Transpose</b> moves the music up or down a semitone at a time, up to an octave. The key signature changes with it, and the MusicXML, MIDI, and MP3 you save are transposed too. For a B♭ instrument such as a trumpet or clarinet, transpose up 2 (a major second); for an E♭ alto saxophone, up 9 (a major sixth), or down 3 for the same notes an octave lower.</p></dd>
-<dt id="save">Can I save the result? Can I get MIDI or MP3?</dt>
-<dd><p>Yes. <b>Save / share</b> saves a MusicXML file (to open in MuseScore and other notation programs), a MIDI file (one track per staff), or an MP3 of what you hear, with the current tempo, transposition, and louder or muted parts. <b>Share…</b> sends the app's link and the MusicXML file through your device's share menu. See <a href="/notenamer/musicxml/">what MusicXML is</a>.</p></dd>
+<dt id="keysig">Are the sharps and flats of the key signature included?</dt>
+<dd><p>Yes. Each name includes the key signature, the accidentals earlier in the measure, and ties over the bar line: in G major every F is named F♯. When you transpose, the names follow the new key. If the key signature itself was read wrong, every name changes with it, so compare the first line with the paper. See <a href="/notenamer/sharps-and-flats/">sharps, flats, and key signatures</a>.</p></dd>
+<dt id="systems">Which note names can it write?</dt>
+<dd><p>Five systems: ドレミ (Japanese katakana), どれみ (hiragana), C D E (letters), Do Re Mi (fixed Do), and 도레미 (Korean). Choose one above the score; the first choice follows your browser's language. The names are fixed (C is always Do). Movable Do, German names (H for B), Japanese ハニホ, and octave numbers (C4) are not offered. See the <a href="/notenamer/note-name-chart/">note name chart</a>.</p></dd>
+<dt id="noteheads">Can it write the names inside the note heads, or color the notes?</dt>
+<dd><p>Not yet. The names are written under the notes, like lyrics. Their size can be small, medium, or large.</p></dd>
+<dt id="print">Can I print it or send it to someone?</dt>
+<dd><p>Yes. Under the score, <b>Print</b> prints A4 pages (choose “Save as PDF” in the print dialog for a PDF), <b>Save image</b> saves each page as a PNG, and <b>Share</b> sends the images through your phone's share menu. Each page has the title and a small “Made with Note Namer” line at the bottom, which can be turned off in the <b>Save / share</b> menu.</p></dd>
+<dt id="lyrics">My score has lyrics. Are they kept?</dt>
+<dd><p>The reading does not pick up lyrics or chord symbols. When you open a MusicXML file with lyrics, the screen shows only the note names in their place.</p></dd>
 <dt id="open-xml">Can I open a MusicXML file I already have?</dt>
 <dd><p>Yes. Choose or drop a <code>.musicxml</code>, <code>.mxl</code>, or <code>.xml</code> file and it opens right away with its tempo, without reading. Partwise MusicXML, which is what notation programs export, is supported.</p></dd>
 <dt id="kept">Where did my last score go? How do I delete it?</dt>
@@ -337,12 +327,12 @@
         <h2 id="guides-title">Guides</h2>
         <ul>
           <li><a href="/notenamer/guide/">How to use Note Namer</a></li>
+          <li><a href="/notenamer/note-name-chart/">Note name chart</a></li>
+          <li><a href="/notenamer/reading-notes/">Reading notes on the staff</a></li>
+          <li><a href="/notenamer/sharps-and-flats/">Sharps, flats, and key signatures</a></li>
           <li><a href="/notenamer/faq/" aria-current="page">FAQ</a></li>
           <li><a href="/notenamer/photo-tips/">Photo tips for sheet music</a></li>
           <li><a href="/notenamer/fix-errors/">Fixing reading mistakes</a></li>
-          <li><a href="/notenamer/tempo-markings/">Tempo markings and BPM</a></li>
-          <li><a href="/notenamer/musicxml/">What is MusicXML?</a></li>
-          <li><a href="/notenamer/what-is-omr/">How music recognition works</a></li>
         </ul>
       </nav>
       <p class="meta">

@@ -100,7 +100,7 @@ ${resultTable("en")}
 <p>A flat scan avoids almost every problem above, so use one when you can. 300 dpi in grayscale or black and white is plenty. A PDF from a scanner app on a phone (which straightens and crops the page) also works well. If you have a PDF made by a notation program, open it directly: it is sharper than any photo.</p>
 
 <h2 id="after">After reading</h2>
-<p>Play the result while you follow the page. If a few notes are wrong, fix them in the editor (see ${link("en", "fix-errors", "how to fix reading mistakes")}); if many are wrong, a new photo is usually faster. If the tempo was missed, set it by hand (see ${link("en", "tempo-markings", "tempo markings and BPM")}).</p>
+<p>Compare the names with the page, and play the result while you follow it. If a few notes are wrong, fix them in the editor (see ${link("en", "fix-errors", "how to fix reading mistakes")}); if many are wrong, a new photo is usually faster. If the tempo was missed, set it by hand.</p>
 `,
   },
   ja: {
@@ -147,7 +147,7 @@ ${resultTable("ja")}
 <p>平らに置いてスキャンすれば、上の失敗はほとんど起きないので、できればスキャンを使ってください。グレースケールか白黒で 300dpi あれば十分です。スマホのスキャンアプリ（ページをまっすぐに直して切り抜いてくれるもの）で作った PDF もよく読めます。楽譜ソフトで作った PDF があれば、どんな写真よりくっきりしているので、そのまま開いてください。</p>
 
 <h2 id="after">読み取ったあとで</h2>
-<p>元の楽譜を目で追いながら再生してください。間違いが少しなら編集画面で直し（${link("ja", "fix-errors", "読み取りミスの直し方")}）、たくさんあるなら撮り直すほうがたいてい早く済みます。テンポを見落としたときは手で設定してください（${link("ja", "tempo-markings", "速度記号と BPM の一覧")}）。</p>
+<p>音名を元の楽譜と見比べ、目で追いながら再生してみてください。間違いが少しなら編集画面で直し（${link("ja", "fix-errors", "読み取りミスの直し方")}）、たくさんあるなら撮り直すほうがたいてい早く済みます。テンポを見落としたときは手で設定してください。</p>
 `,
   },
 };
