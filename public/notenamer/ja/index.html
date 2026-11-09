@@ -226,11 +226,13 @@
     .actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; padding: 16px; border-top: 1px solid var(--line); }
     .actions .big { height: 52px; font-size: 15px; padding: 0 8px; }
     .actions .big span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .act-more { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 6px 20px; align-items: center; font-size: 13px; color: var(--muted); }
+    .act-more .linkish { font-size: 13px; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+    .act-credit { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+    .act-credit input { width: 18px; height: 18px; margin: 0; accent-color: var(--ink); }
     .act-msg { grid-column: 1 / -1; margin: 2px 0 0; font-size: 13px; color: var(--muted); }
     .act-msg:empty { display: none; }
     @media (max-width: 420px) { .actions { grid-template-columns: 1fr; } }
-    .menu [role="menuitemcheckbox"]::before { content: "☐ "; } .menu [role="menuitemcheckbox"][aria-checked="true"]::before { content: "☑ "; }
-    .menu hr { border: 0; border-top: 1px solid var(--line); margin: 4px 2px; }
     /* Printing: only the A4 pages made for it (#printArea); without them, the score without the controls */
     #printArea { display: none; }
     @media print {
@@ -425,7 +427,6 @@
           </div>
           <div class="end">
             <button type="button" class="chip toggle" id="practiceBtn" aria-pressed="false" aria-controls="practice" disabled data-i18n="practice">練習モード</button>
-            <button type="button" class="chip" id="exportBtn" aria-haspopup="menu" aria-expanded="false" aria-controls="exportMenu" disabled><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v8M4.5 6.8 8 10.3l3.5-3.5M2.5 13.5h11"></path></svg><span data-i18n="export">保存・共有</span></button>
             <button type="button" class="chip" id="clearBtn" disabled data-i18n="clear">クリア</button>
           </div>
         </div>
@@ -476,6 +477,10 @@
           <button type="button" class="big" id="actPrint"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 7.5V2.8h9v4.7"></path><rect x="2.5" y="7.5" width="15" height="7" rx="1.5"></rect><path d="M5.5 12h9v5.2h-9z"></path></svg><span data-i18n="act.print">印刷</span></button>
           <button type="button" class="big secondary" id="actPng"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.8" y="3.5" width="14.4" height="13" rx="1.5"></rect><circle cx="7.2" cy="7.8" r="1.4"></circle><path d="m3.5 14.5 4.3-4.3 3 3 2-2 3.7 3.6"></path></svg><span data-i18n="act.png">画像を保存</span></button>
           <button type="button" class="big secondary" id="actShare"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 12.5V2.8M6.5 6.2 10 2.8l3.5 3.4"></path><path d="M5 9H3.5v8.2h13V9H15"></path></svg><span data-i18n="act.share">共有</span></button>
+          <div class="act-more">
+            <button type="button" class="linkish" id="actXml" data-i18n="act.xml">MusicXML（音名入り）で保存</button>
+            <label class="act-credit"><input type="checkbox" id="creditBox" checked> <span data-i18n="act.credit">印刷・保存するページの下に「Note Namer で作成」と入れる</span></label>
+          </div>
           <p class="act-msg" id="actMsg" role="status" aria-live="polite"></p>
         </div>
         <p class="keys" id="keys" data-i18n-html="keys"><kbd>Space</kbd> 再生/一時停止　<kbd>Home</kbd> 停止（最初に戻る）　<kbd>↑</kbd><kbd>↓</kbd> テンポ ±1（<kbd>Shift</kbd>で±5）　音符をクリックでカーソルを移動</p>
@@ -531,7 +536,7 @@
         <li><b>聞いて確かめる</b> – ▶ を押すと、青いカーソルが五線の上を進みながら音が鳴ります。❚❚ で一時停止、■ で止めて最初に戻ります。音符をクリックするとカーソルがそこに移ります。テンポは −5／+5、数字、スライダーで変えられます。</li>
         <li><b>間違いを直す</b> – 「編集」に切り替えると、音符が四角で表示されます。上下にドラッグで音の高さ、左右で位置、右端をドラッグで長さを変え、空いている所をクリックで追加、右クリックで削除できます。「楽譜」に戻ると、直した内容で五線譜と音名が描き直されます。</li>
         <li><b>練習モード</b> – メトロノームとカウントイン、半音ずつの移調ができます。音名も移調した高さで書きます。</li>
-        <li><b>保存・共有</b> – MusicXML で保存したり、アプリのリンクと MusicXML を共有したりできます。最近開いた 10 曲は「最近の楽譜」に残ります。</li></ol>
+        <li><b>印刷・保存・共有</b> – 楽譜の下の「印刷」（A4 のページ）、「画像を保存」（ページごとの PNG）、「共有」（スマホの共有メニューで画像を送る）。音名入りの MusicXML も保存できます。各ページの下には小さく「Note Namer で作成」と入ります（同じ場所のチェックで外せます）。最近開いた 10 曲は「最近の楽譜」に残ります。</li></ol>
       <p class="help-more" data-i18n-html="help.more">詳しくは：<a href="/notenamer/ja/guide/" target="_blank" rel="noopener">画面つきの使い方ガイド</a>・<a href="/notenamer/ja/photo-tips/" target="_blank" rel="noopener">撮り方のコツ</a>・<a href="/notenamer/ja/fix-errors/" target="_blank" rel="noopener">読み取りミスの直し方</a>・<a href="/notenamer/ja/faq/" target="_blank" rel="noopener">よくある質問</a></p>
     </div>
     <div class="dlg-actions">
@@ -559,15 +564,6 @@
     <button type="button" role="menuitem" id="menuPrivacy" data-i18n="menu.privacy">プライバシー</button>
     <button type="button" role="menuitem" id="menuAbout" data-i18n="menu.about">このアプリについて</button>
     <a role="menuitem" id="menuApps" href="https://ktkwmr.com/ja/" target="_blank" rel="noopener" data-i18n="menu.apps" data-i18n-attr="href:home.url">ほかのアプリ</a>
-  </div>
-
-  <div class="menu" id="exportMenu" role="menu" aria-label="保存・共有" data-i18n-attr="aria-label:export" hidden>
-    <button type="button" role="menuitem" id="exPrint" data-i18n="ex.print">印刷…</button>
-    <button type="button" role="menuitem" id="exPng" data-i18n="ex.png">画像（PNG）で保存</button>
-    <button type="button" role="menuitem" id="exShare" data-i18n="ex.share">画像を共有…</button>
-    <button type="button" role="menuitem" id="exXml" data-i18n="ex.xml">MusicXML（音名入り）</button>
-    <hr>
-    <button type="button" role="menuitemcheckbox" aria-checked="true" id="exCredit" data-i18n="ex.credit">ページに「Note Namer で作成」を入れる</button>
   </div>
 
   <dialog class="msg about" id="aboutDlg" tabindex="-1" aria-labelledby="aboutTitle">
@@ -626,15 +622,11 @@
           "hist.clear": "Clear history",
           "hist.confirm": "Remove the recent scores from this browser? The score that is open now stays.",
           "hist.sub": "{date} · {n} notes",
-          "export": "Save / share",
-          "ex.print": "Print…",
-          "ex.png": "Save as image (PNG)",
-          "ex.share": "Share image…",
-          "ex.xml": "MusicXML (with note names)",
-          "ex.credit": "“Made with Note Namer” on pages",
           "act.print": "Print",
           "act.png": "Save image",
           "act.share": "Share",
+          "act.xml": "Save as MusicXML (with note names)",
+          "act.credit": "Add “Made with Note Namer” under printed and saved pages",
           "credit": "Made with Note Namer · ktkwmr.com/notenamer",
           "st.pages": "Making the pages…",
           "err.pages": "The pages could not be made. ({msg})",
@@ -737,7 +729,7 @@
           "foot.meta": "<span>Note Namer · © 2026 ktkwmr</span>\n<a href=\"/notenamer/privacy/\" target=\"_blank\" rel=\"noopener\">Privacy policy</a>\n<a href=\"/notenamer/about/\" target=\"_blank\" rel=\"noopener\">About this site</a>\n<a href=\"https://github.com/ktkwmr/NoteNamer\" target=\"_blank\" rel=\"noopener\">Source code on GitHub</a>\n<a href=\"https://github.com/ktkwmr/NoteNamer/issues\" target=\"_blank\" rel=\"noopener\">Feedback</a>\n<a href=\"https://ktkwmr.com/\" target=\"_blank\" rel=\"noopener\">More apps by ktkwmr</a>",
           "foot.guidesTitle": "Guides",
           "foot.guides": "<li><a href=\"/notenamer/guide/\" target=\"_blank\" rel=\"noopener\">How to use Note Namer</a></li>\n<li><a href=\"/notenamer/note-name-chart/\" target=\"_blank\" rel=\"noopener\">Note name chart</a></li>\n<li><a href=\"/notenamer/reading-notes/\" target=\"_blank\" rel=\"noopener\">Reading notes on the staff</a></li>\n<li><a href=\"/notenamer/sharps-and-flats/\" target=\"_blank\" rel=\"noopener\">Sharps, flats, and key signatures</a></li>\n<li><a href=\"/notenamer/faq/\" target=\"_blank\" rel=\"noopener\">FAQ</a></li>\n<li><a href=\"/notenamer/photo-tips/\" target=\"_blank\" rel=\"noopener\">Photo tips for sheet music</a></li>\n<li><a href=\"/notenamer/fix-errors/\" target=\"_blank\" rel=\"noopener\">Fixing reading mistakes</a></li>",
-          "help.body": "<li><b>Open a score</b> – Take a photo, or choose images or PDFs (or drop them on the left panel), then press “Read the score”. Up to 12 files can be added; they are read in the listed order as one score (drag the handle to change the order). A MusicXML file opens right away. When nothing is open, a sample (Ode to Joy) is shown.</li>\n        <li><b>Wait for the reading</b> – The first time, the reading engine is downloaded (about 130 MB). Reading takes from about ten seconds to a minute per page, depending on your device.</li>\n        <li><b>Note names</b> – Every note gets its name below it, with the sharps and flats of the key signature and of the accidentals. Above the score, choose how the names are written: pitch names (ドレミ, C D E, Do Re Mi, 도레미, German, До Ре Ми) or names in the key (movable Do, 1 2 3, Sa Re Ga). Chords are named from the top note down; a note tied from the one before gets no name.</li>\n        <li><b>Listen</b> – Press ▶ to check the names by ear: a blue cursor moves along the staff. ❚❚ pauses, and ■ stops and goes back to the beginning. Click a note to move the cursor there. Change the tempo with −5 / +5, the number, or the slider.</li>\n        <li><b>Fix mistakes</b> – Switch to “Edit”. Each note is a box: drag it up or down to change the pitch, sideways to move it, drag its right edge to change the length, click an empty spot to add a note, and right-click to delete. Back in “Score”, the staff and the names are redrawn with your changes.</li>\n        <li><b>Practice mode</b> – A metronome, a count-in, and transposition by semitones. The names follow the transposition.</li>\n        <li><b>Save / share</b> – Save the score as MusicXML, or share the app's link with the MusicXML file. The last 10 scores are kept under “Recent scores”.</li>",
+          "help.body": "<li><b>Open a score</b> – Take a photo, or choose images or PDFs (or drop them on the left panel), then press “Read the score”. Up to 12 files can be added; they are read in the listed order as one score (drag the handle to change the order). A MusicXML file opens right away. When nothing is open, a sample (Ode to Joy) is shown.</li>\n        <li><b>Wait for the reading</b> – The first time, the reading engine is downloaded (about 130 MB). Reading takes from about ten seconds to a minute per page, depending on your device.</li>\n        <li><b>Note names</b> – Every note gets its name below it, with the sharps and flats of the key signature and of the accidentals. Above the score, choose how the names are written: pitch names (ドレミ, C D E, Do Re Mi, 도레미, German, До Ре Ми) or names in the key (movable Do, 1 2 3, Sa Re Ga). Chords are named from the top note down; a note tied from the one before gets no name.</li>\n        <li><b>Listen</b> – Press ▶ to check the names by ear: a blue cursor moves along the staff. ❚❚ pauses, and ■ stops and goes back to the beginning. Click a note to move the cursor there. Change the tempo with −5 / +5, the number, or the slider.</li>\n        <li><b>Fix mistakes</b> – Switch to “Edit”. Each note is a box: drag it up or down to change the pitch, sideways to move it, drag its right edge to change the length, click an empty spot to add a note, and right-click to delete. Back in “Score”, the staff and the names are redrawn with your changes.</li>\n        <li><b>Practice mode</b> – A metronome, a count-in, and transposition by semitones. The names follow the transposition.</li>\n        <li><b>Print, save, share</b> – Under the score: Print (A4 pages), Save image (a PNG for each page), and Share (the images, through your phone's share menu). You can also save a MusicXML file with the names. A small “Made with Note Namer” line goes under each page unless you turn it off there. The last 10 scores are kept under “Recent scores”.</li>",
           "help.more": "More: <a href=\"/notenamer/guide/\" target=\"_blank\" rel=\"noopener\">guide with screenshots</a> · <a href=\"/notenamer/photo-tips/\" target=\"_blank\" rel=\"noopener\">photo tips</a> · <a href=\"/notenamer/fix-errors/\" target=\"_blank\" rel=\"noopener\">fixing mistakes</a> · <a href=\"/notenamer/faq/\" target=\"_blank\" rel=\"noopener\">FAQ</a>",
           "privacy.body": "<li><b>Your music stays on your device</b> – The photo, image, or PDF you open is read only in your browser and is never sent to a server. The photo you take with the camera is not saved. This app has no accounts, cookies, or ads.</li>\n        <li><b>Data saved in your browser</b> – Up to the last 10 scores you opened (the notes the app read, as MusicXML), with their titles, file names, tempo, and transposition, are saved in your browser's storage so you can open them again. “Clear history” removes them. The app and its reading engine are saved there too, so they work offline. You can delete them by clearing this site's data in your browser settings.</li>\n        <li><b>Server logs and page views</b> – This site is hosted on Cloudflare. Standard access logs (such as IP address, time, and the requested page or file) are kept for operation and security. Cloudflare Web Analytics counts page views without cookies (the page URL, referrer, browser information, and page load time).</li>\n        <li><b>Contact</b> – Questions and feedback: <a href=\"https://github.com/ktkwmr/NoteNamer/issues\" target=\"_blank\" rel=\"noopener\">GitHub Issues</a>.</li>\n        <li><b>Full policy</b> – See the <a href=\"/notenamer/privacy/\" target=\"_blank\" rel=\"noopener\">privacy policy</a> and <a href=\"/notenamer/about/\" target=\"_blank\" rel=\"noopener\">about this site</a>.</li>",
           "about.license": "© 2026 ktkwmr · Licensed under the <a href=\"https://github.com/ktkwmr/NoteNamer/blob/main/LICENSE\" target=\"_blank\" rel=\"noopener\">GNU AGPL v3</a> (the same as homr, the music recognition it uses) · <a href=\"/notenamer/about/\" target=\"_blank\" rel=\"noopener\">About this site</a>",
@@ -787,15 +779,11 @@
           "hist.clear": "履歴を消去",
           "hist.confirm": "最近の楽譜をこのブラウザから削除しますか？今開いている楽譜は残ります。",
           "hist.sub": "{date} · {n}音",
-          "export": "保存・共有",
-          "ex.print": "印刷…",
-          "ex.png": "画像（PNG）で保存",
-          "ex.share": "画像を共有…",
-          "ex.xml": "MusicXML（音名入り）",
-          "ex.credit": "ページに「Note Namer で作成」を入れる",
           "act.print": "印刷",
           "act.png": "画像を保存",
           "act.share": "共有",
+          "act.xml": "MusicXML（音名入り）で保存",
+          "act.credit": "印刷・保存するページの下に「Note Namer で作成」と入れる",
           "credit": "Note Namer で作成 · ktkwmr.com/notenamer",
           "st.pages": "ページを作っています…",
           "err.pages": "ページを作れませんでした。（{msg}）",
@@ -898,7 +886,7 @@
           "foot.meta": "<span>Note Namer · © 2026 ktkwmr</span>\n<a href=\"/notenamer/ja/privacy/\" target=\"_blank\" rel=\"noopener\">プライバシーポリシー</a>\n<a href=\"/notenamer/ja/about/\" target=\"_blank\" rel=\"noopener\">運営者情報</a>\n<a href=\"https://github.com/ktkwmr/NoteNamer\" target=\"_blank\" rel=\"noopener\">GitHub のソースコード</a>\n<a href=\"https://github.com/ktkwmr/NoteNamer/issues\" target=\"_blank\" rel=\"noopener\">ご意見・ご質問</a>\n<a href=\"https://ktkwmr.com/ja/\" target=\"_blank\" rel=\"noopener\">ktkwmr のほかのアプリ</a>",
           "foot.guidesTitle": "ガイド",
           "foot.guides": "<li><a href=\"/notenamer/ja/guide/\" target=\"_blank\" rel=\"noopener\">使い方ガイド</a></li>\n<li><a href=\"/notenamer/ja/note-name-chart/\" target=\"_blank\" rel=\"noopener\">音名の対応表</a></li>\n<li><a href=\"/notenamer/ja/reading-notes/\" target=\"_blank\" rel=\"noopener\">五線譜の音の読み方</a></li>\n<li><a href=\"/notenamer/ja/sharps-and-flats/\" target=\"_blank\" rel=\"noopener\">♯・♭と調号の読み方</a></li>\n<li><a href=\"/notenamer/ja/faq/\" target=\"_blank\" rel=\"noopener\">よくある質問</a></li>\n<li><a href=\"/notenamer/ja/photo-tips/\" target=\"_blank\" rel=\"noopener\">楽譜の撮り方のコツ</a></li>\n<li><a href=\"/notenamer/ja/fix-errors/\" target=\"_blank\" rel=\"noopener\">読み取りミスの直し方</a></li>",
-          "help.body": "<li><b>楽譜を開く</b> – 写真を撮るか、画像やPDFを選んで（左のパネルにドロップしても可）「楽譜を読み取る」を押します。ファイルは12個まで追加でき、並んだ順に1つの楽譜として読み取ります（ハンドルをドラッグすると順番を変えられます）。MusicXML はすぐに開きます。楽譜を開いていないときは、見本（歓喜の歌）を表示します。</li>\n        <li><b>読み取りを待つ</b> – 初回は読み取りエンジン（約130MB）をダウンロードします。読み取りには、端末の性能によって1ページ10秒〜1分ほどかかります。</li>\n        <li><b>音名</b> – すべての音符の下に音名を書きます。調号や臨時記号の ♯・♭ も反映します。楽譜の上で、書き方（ドレミ・C D E・Do Re Mi・도레미・ドイツ式・До Ре Ми、または移動ド・数字譜・Sa Re Ga）を選べます。和音は上の音から順に縦に並べ、タイでつながった後ろの音には書きません。</li>\n        <li><b>聞いて確かめる</b> – ▶ を押すと、青いカーソルが五線の上を進みながら音が鳴ります。❚❚ で一時停止、■ で止めて最初に戻ります。音符をクリックするとカーソルがそこに移ります。テンポは −5／+5、数字、スライダーで変えられます。</li>\n        <li><b>間違いを直す</b> – 「編集」に切り替えると、音符が四角で表示されます。上下にドラッグで音の高さ、左右で位置、右端をドラッグで長さを変え、空いている所をクリックで追加、右クリックで削除できます。「楽譜」に戻ると、直した内容で五線譜と音名が描き直されます。</li>\n        <li><b>練習モード</b> – メトロノームとカウントイン、半音ずつの移調ができます。音名も移調した高さで書きます。</li>\n        <li><b>保存・共有</b> – MusicXML で保存したり、アプリのリンクと MusicXML を共有したりできます。最近開いた 10 曲は「最近の楽譜」に残ります。</li>",
+          "help.body": "<li><b>楽譜を開く</b> – 写真を撮るか、画像やPDFを選んで（左のパネルにドロップしても可）「楽譜を読み取る」を押します。ファイルは12個まで追加でき、並んだ順に1つの楽譜として読み取ります（ハンドルをドラッグすると順番を変えられます）。MusicXML はすぐに開きます。楽譜を開いていないときは、見本（歓喜の歌）を表示します。</li>\n        <li><b>読み取りを待つ</b> – 初回は読み取りエンジン（約130MB）をダウンロードします。読み取りには、端末の性能によって1ページ10秒〜1分ほどかかります。</li>\n        <li><b>音名</b> – すべての音符の下に音名を書きます。調号や臨時記号の ♯・♭ も反映します。楽譜の上で、書き方（ドレミ・C D E・Do Re Mi・도레미・ドイツ式・До Ре Ми、または移動ド・数字譜・Sa Re Ga）を選べます。和音は上の音から順に縦に並べ、タイでつながった後ろの音には書きません。</li>\n        <li><b>聞いて確かめる</b> – ▶ を押すと、青いカーソルが五線の上を進みながら音が鳴ります。❚❚ で一時停止、■ で止めて最初に戻ります。音符をクリックするとカーソルがそこに移ります。テンポは −5／+5、数字、スライダーで変えられます。</li>\n        <li><b>間違いを直す</b> – 「編集」に切り替えると、音符が四角で表示されます。上下にドラッグで音の高さ、左右で位置、右端をドラッグで長さを変え、空いている所をクリックで追加、右クリックで削除できます。「楽譜」に戻ると、直した内容で五線譜と音名が描き直されます。</li>\n        <li><b>練習モード</b> – メトロノームとカウントイン、半音ずつの移調ができます。音名も移調した高さで書きます。</li>\n        <li><b>印刷・保存・共有</b> – 楽譜の下の「印刷」（A4 のページ）、「画像を保存」（ページごとの PNG）、「共有」（スマホの共有メニューで画像を送る）。音名入りの MusicXML も保存できます。各ページの下には小さく「Note Namer で作成」と入ります（同じ場所のチェックで外せます）。最近開いた 10 曲は「最近の楽譜」に残ります。</li>",
           "help.more": "詳しくは：<a href=\"/notenamer/ja/guide/\" target=\"_blank\" rel=\"noopener\">画面つきの使い方ガイド</a>・<a href=\"/notenamer/ja/photo-tips/\" target=\"_blank\" rel=\"noopener\">撮り方のコツ</a>・<a href=\"/notenamer/ja/fix-errors/\" target=\"_blank\" rel=\"noopener\">読み取りミスの直し方</a>・<a href=\"/notenamer/ja/faq/\" target=\"_blank\" rel=\"noopener\">よくある質問</a>",
           "privacy.body": "<li><b>楽譜は端末の外に出ません</b> – 開いた写真・画像・PDFは、ブラウザの中だけで読み取り、サーバーに送ることはありません。カメラで撮った写真も保存しません。アカウント登録・Cookie・広告はありません。</li>\n        <li><b>ブラウザに保存するデータ</b> – もう一度開けるよう、最近開いた楽譜（読み取った音符のMusicXML）を最大10曲まで、タイトル・ファイル名・テンポ・移調の設定と一緒にブラウザ内に保存します。「履歴を消去」で消せます。オフラインで使えるよう、アプリ本体と読み取りエンジンも保存します。ブラウザの設定でこのサイトのデータを削除すると消えます。</li>\n        <li><b>サーバーのログと閲覧数</b> – 本サイトは Cloudflare で配信しています。運用とセキュリティのため、一般的なアクセスログ（IP アドレス・日時・アクセスしたページやファイルなど）が記録されます。Cloudflare Web Analytics で、Cookie を使わずにページの閲覧数（ページの URL・参照元・ブラウザの情報・表示速度）を集計しています。</li>\n        <li><b>お問い合わせ</b> – ご質問・ご意見は <a href=\"https://github.com/ktkwmr/NoteNamer/issues\" target=\"_blank\" rel=\"noopener\">GitHub の Issues</a> へ。</li>\n        <li><b>詳しくは</b> – <a href=\"/notenamer/ja/privacy/\" target=\"_blank\" rel=\"noopener\">プライバシーポリシー</a>と<a href=\"/notenamer/ja/about/\" target=\"_blank\" rel=\"noopener\">運営者情報</a>をご覧ください。</li>",
           "about.license": "© 2026 ktkwmr · <a href=\"https://github.com/ktkwmr/NoteNamer/blob/main/LICENSE\" target=\"_blank\" rel=\"noopener\">GNU AGPL v3</a>（使用している楽譜認識 homr と同じライセンス）· <a href=\"/notenamer/ja/about/\" target=\"_blank\" rel=\"noopener\">運営者情報</a>",
@@ -1029,7 +1017,7 @@
       function renderNames() {
         $("namesBar").hidden = !state.xml;
         $("actions").hidden = !state.xml;
-        $("exCredit").setAttribute("aria-checked", String(prefs.credit));
+        $("creditBox").checked = prefs.credit;
         $("nameSystem").value = nameSystem();
       }
       // Draw the score again with the new names, keeping the cursor where it was
@@ -2304,8 +2292,7 @@
         const ready = mode === "edit" ? !!(model && model.notes.length) : timeline.events.length > 0;
         $("playBtn").disabled = !ready || busy; $("stopBtn").disabled = !ready || busy;
         $("clearBtn").disabled = !state.xml || !!state.sample || busy;
-        $("exportBtn").disabled = !state.xml || busy;
-        ["actPrint", "actPng", "actShare"].forEach((id) => { $(id).disabled = !state.xml || busy; });
+        ["actPrint", "actPng", "actShare", "actXml"].forEach((id) => { $(id).disabled = !state.xml || busy; });
         $("practiceBtn").disabled = !state.xml;
         $("modeEdit").disabled = !state.xml || busy || !timeline.events.length;
         $("modeScore").setAttribute("aria-pressed", mode === "score"); $("modeEdit").setAttribute("aria-pressed", mode === "edit");
@@ -2386,35 +2373,7 @@
       $("trDown").onclick = () => setTranspose(state.transpose - 1);
       $("trUp").onclick = () => setTranspose(state.transpose + 1);
 
-      // ---------- Save / share (MusicXML) ----------
-      const exportMenu = $("exportMenu"), exportBtn = $("exportBtn");
-      function closeExport(returnFocus) {
-        if (exportMenu.hidden) return;
-        exportMenu.hidden = true; exportBtn.setAttribute("aria-expanded", "false");
-        if (returnFocus) exportBtn.focus();
-      }
-      exportBtn.addEventListener("click", function () {
-        if (!exportMenu.hidden) { closeExport(true); return; }
-        const r = exportBtn.getBoundingClientRect();
-        exportMenu.style.top = r.bottom + 6 + "px";
-        exportMenu.style.right = Math.max(8, document.documentElement.clientWidth - r.right) + "px";
-        exportMenu.hidden = false; exportBtn.setAttribute("aria-expanded", "true");
-        exportMenu.querySelector('[role="menuitem"]:not([hidden])').focus();
-      });
-      document.addEventListener("click", function (e) {
-        if (!exportMenu.hidden && !exportMenu.contains(e.target) && !exportBtn.contains(e.target)) closeExport(false);
-      });
-      document.addEventListener("keydown", function (e) {
-        if (exportMenu.hidden) return;
-        if (e.key === "Escape") { closeExport(true); return; }
-        if (e.key === "ArrowDown" || e.key === "ArrowUp") {
-          e.preventDefault();
-          const items = Array.prototype.slice.call(exportMenu.querySelectorAll('[role^="menuitem"]:not([hidden])'));
-          const i = items.indexOf(document.activeElement);
-          items[e.key === "ArrowDown" ? (i + 1) % items.length : (i - 1 + items.length) % items.length].focus();
-        }
-      }, true);
-      window.addEventListener("resize", function () { closeExport(false); });
+      // ---------- Save as MusicXML ----------
 
       const fileBase = () => (state.title || state.name || "score").replace(/\.[^.]+$/, "").replace(/[\\/:*?"<>|]+/g, "_").trim().slice(0, 80) || "score";
       function download(blob, name) {
@@ -2430,8 +2389,7 @@
         return SM.withTitle(shownXml(), state.title);
       }
       // MusicXML with the names as lyrics (MuseScore and other notation apps show them under the notes)
-      $("exXml").onclick = async function () {
-        closeExport(false);
+      $("actXml").onclick = async function () {
         if (!state.xml) return;
         download(new Blob([await withNames(await exportXml())], { type: "application/vnd.recordare.musicxml+xml" }), fileBase() + ".musicxml");
       };
@@ -2470,7 +2428,7 @@
       // Runs one of the actions with a message while the pages are made; false when it failed
       async function withPages(withPng, fn) {
         if (!state.xml || busy || pagesBusy) return false;
-        closeExport(false); showError(""); actMsg("");
+        showError(""); actMsg("");
         pagesBusy = true;
         const slow = setTimeout(() => actMsg(t("st.pages")), 150);
         try { const c = await scorePages(withPng); clearTimeout(slow); actMsg(""); await fn(c); return true; }
@@ -2541,10 +2499,10 @@
           } catch (e) { if (!e || e.name !== "AbortError") actMsg(t("share.saved")); }
         });
       }
-      $("exPrint").onclick = $("actPrint").onclick = printPages;
-      $("exPng").onclick = $("actPng").onclick = savePngs;
-      $("exShare").onclick = $("actShare").onclick = sharePngs;
-      $("exCredit").onclick = function () { prefs.credit = !prefs.credit; savePrefs(); renderNames(); };
+      $("actPrint").onclick = printPages;
+      $("actPng").onclick = savePngs;
+      $("actShare").onclick = sharePngs;
+      $("creditBox").onchange = function () { prefs.credit = this.checked; savePrefs(); };
 
       // Tap feedback: buttons that don't stay on get .is-pressed for at least 150 ms
       const PRESSABLE = ".chip:not([aria-pressed]), .play, .big, .primary, #settingsBtn";
@@ -2564,7 +2522,7 @@
       document.addEventListener("keydown", function (e) {
         const el = e.target, tag = el && el.tagName;
         if (e.ctrlKey || e.metaKey || e.altKey || e.defaultPrevented) return;
-        if (!$("settingsMenu").hidden || !exportMenu.hidden || document.querySelector("dialog[open]")) return;
+        if (!$("settingsMenu").hidden || document.querySelector("dialog[open]")) return;
         if ((tag === "INPUT" && el.type !== "range") || tag === "SELECT" || tag === "TEXTAREA") return;
         if (e.key === " ") { if (tag === "BUTTON") return; e.preventDefault(); if (playing) stop(); else start(); }
         else if (tag === "INPUT") return;

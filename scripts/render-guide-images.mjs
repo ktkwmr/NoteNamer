@@ -263,16 +263,6 @@ async function shots(lang) {
   await app.waitForTimeout(800);
   await app.evaluate(() => window.scrollTo(0, 0));
 
-  // The Save / share menu
-  await app.click("#exportBtn");
-  await app.mouse.move(0, 0);
-  await app.waitForTimeout(200);
-  const menu = await app.locator("#exportMenu").boundingBox(), btn = await app.locator("#exportBtn").boundingBox();
-  const x = Math.max(0, Math.min(btn.x, menu.x) - 16), y = Math.max(0, btn.y - 16);
-  const right = Math.min(1280, Math.max(btn.x + btn.width, menu.x + menu.width) + 16);
-  await webp(app, await app.screenshot({ clip: { x, y, width: right - x, height: menu.y + menu.height + 16 - y } }), `app-export-${lang}.webp`);
-  await app.keyboard.press("Escape");
-
   // The settings menu
   await app.click("#settingsBtn");
   await app.waitForTimeout(200);

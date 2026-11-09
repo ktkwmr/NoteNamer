@@ -76,7 +76,7 @@ ${shot("en", "app-practice", "Practice mode with Transpose +2: the key signature
 <p>Press <b>Practice mode</b>, then − and + next to <b>Transpose</b> to move the music down or up a semitone at a time (up to an octave). The key signature changes, and the names are written for the new pitches. Practice mode also has a metronome and a count-in.</p>
 
 <h2 id="print">8. Print, save as images, share</h2>
-${shot("en", "app-actions", "The three large buttons under the score: Print, Save image, and Share", "Under the score: Print, Save image, Share.")}
+${shot("en", "app-actions", "The three large buttons under the score: Print, Save image, and Share, and under them Save as MusicXML and the Made with Note Namer checkbox", "Under the score: Print, Save image, Share.")}
 <p>The three buttons under the score turn the score with its names into A4 pages:</p>
 <ul>
   <li><b>Print</b>: prints the pages only (no buttons). To make a PDF, choose “Save as PDF” in the print dialog.</li>
@@ -84,8 +84,7 @@ ${shot("en", "app-actions", "The three large buttons under the score: Print, Sav
   <li><b>Share</b>: sends the page images through your phone's share menu (messages, mail, …). If the browser asks for another tap, press Share again. Where images cannot be shared, they are saved and the app's link is shared or copied.</li>
 </ul>
 ${image("page-en.webp", 700, 990, "An A4 page: the title Ode to Joy, the score on two staves with a name under every note, and a small line at the bottom", "A saved page. The line at the bottom gives the title and “Made with Note Namer”.", "shot")}
-<p>Each page has a small line at the bottom with the title and “Made with Note Namer”. To leave out the app's name, turn off <b>“Made with Note Namer” on pages</b> in the <b>Save / share</b> menu at the top. The same menu also saves <b>MusicXML (with note names)</b>, which opens in MuseScore and most notation programs with the names as lyrics.</p>
-${shot("en", "app-export", "The Save / share menu: Print, Save as image (PNG), Share image, MusicXML (with note names), and the Made with Note Namer switch", "The Save / share menu.")}
+<p>Each page has a small line at the bottom with the title and “Made with Note Namer”, so people who get the picture can find the app. To leave out the app's name, untick <b>Add “Made with Note Namer” under printed and saved pages</b> under the buttons. <b>Save as MusicXML (with note names)</b>, next to it, saves a file that opens in MuseScore and most notation programs with the names as lyrics.</p>
 
 <h2 id="recent">9. Recent scores</h2>
 <p>The title of the score is shown above it: the title written in a MusicXML file, or the date and time it was read. Click it to rename it; the printed pages use it. The last 10 scores are kept in the browser and listed under <b>Recent scores</b>; tap one to open it again. <b>Clear history</b> removes the list, and <b>Clear</b> removes the open score.</p>
@@ -178,7 +177,7 @@ ${shot("ja", "app-practice", "練習モードで移調 +2 にした画面。調�
 <p><b>練習モード</b>を押し、<b>移調</b>の −／+ で半音ずつ（上下 1 オクターブまで）移調できます。調号も変わり、音名は移調した高さで書き直します。練習モードにはメトロノームとカウントインもあります。</p>
 
 <h2 id="print">8. 印刷・画像で保存・共有</h2>
-${shot("ja", "app-actions", "楽譜の下の大きな 3 つのボタン。印刷、画像を保存、共有", "楽譜の下の「印刷」「画像を保存」「共有」。")}
+${shot("ja", "app-actions", "楽譜の下の大きな 3 つのボタン（印刷、画像を保存、共有）と、その下の「MusicXML（音名入り）で保存」と「Note Namer で作成」のチェック", "楽譜の下の「印刷」「画像を保存」「共有」。")}
 <p>楽譜の下の 3 つのボタンで、音名付きの楽譜を A4 のページにします。</p>
 <ul>
   <li><b>印刷</b>：ページだけを印刷します（ボタン類は印刷されません）。PDF にするときは、印刷画面で「PDF に保存」を選んでください。</li>
@@ -186,8 +185,7 @@ ${shot("ja", "app-actions", "楽譜の下の大きな 3 つのボタン。印刷
   <li><b>共有</b>：スマホの共有メニュー（LINE・メッセージ・メールなど）でページの画像を送ります。もう一度押すよう案内が出たら、もう一度「共有」を押してください。画像を共有できないブラウザでは、画像を保存してからアプリのリンクを共有（またはコピー）します。</li>
 </ul>
 ${image("page-ja.webp", 700, 990, "A4 のページ。タイトル「歓喜の歌」、2 段の楽譜のすべての音符の下にドレミ、いちばん下に小さな文字", "保存したページ。いちばん下にタイトルと「Note Namer で作成」が入ります。", "shot")}
-<p>各ページのいちばん下には、タイトルと「Note Namer で作成」を小さく入れています。アプリ名を入れたくないときは、上の<b>保存・共有</b>メニューの<b>ページに「Note Namer で作成」を入れる</b>をオフにしてください。同じメニューの <b>MusicXML（音名入り）</b>は、音名を歌詞として入れた楽譜のファイルで、MuseScore などの楽譜ソフトで開けます。</p>
-${shot("ja", "app-export", "「保存・共有」のメニュー。印刷…、画像（PNG）で保存、画像を共有…、MusicXML（音名入り）、ページに「Note Namer で作成」を入れる", "「保存・共有」のメニュー。")}
+<p>各ページのいちばん下には、タイトルと「Note Namer で作成」を小さく入れています（画像を受け取った人がアプリにたどり着けるように）。アプリ名を入れたくないときは、ボタンの下の<b>印刷・保存するページの下に「Note Namer で作成」と入れる</b>のチェックを外してください。その隣の <b>MusicXML（音名入り）で保存</b>は、音名を歌詞として入れた楽譜のファイルで、MuseScore などの楽譜ソフトで開けます。</p>
 
 <h2 id="recent">9. 最近の楽譜</h2>
 <p>楽譜の上には、タイトルを表示します。MusicXML に書かれたタイトルか、なければ読み取った日時です。クリックすると名前を変えられ、印刷するページにもこのタイトルが入ります。最近開いた 10 曲はブラウザに保存され、<b>最近の楽譜</b>から開き直せます。<b>履歴を消去</b>で一覧を消し、<b>クリア</b>で開いている楽譜を消します。</p>
