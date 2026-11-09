@@ -42,7 +42,7 @@ test("noteName: every system, natural and with accidentals", () => {
     solfege: ["Do", "Re", "Mi", "Fa", "Sol", "La", "Si"],
     korean: ["도", "레", "미", "파", "솔", "라", "시"],
   };
-  assert.deepEqual(NN.SYSTEM_IDS, Object.keys(expect));
+  assert.deepEqual(NN.SYSTEM_IDS.slice(0, 4), Object.keys(expect));
   for (const [sys, list] of Object.entries(expect)) {
     assert.deepEqual("CDEFGAB".split("").map((s) => NN.noteName(s, 0, sys)), list, sys);
   }
@@ -160,4 +160,57 @@ test("the output starts with an XML declaration (OSMD needs it)", () => {
   const out = NN.addNoteNames(fixture("twinkle.musicxml"), "letter");
   assert.match(out, /^<\?xml version="1.0"/);
   assert.equal((out.match(/<\?xml/g) || []).length, 1);
+});
+
+test("German names: H for B, B for B flat, sharps and flats in the name", () => {
+  assert.deepEqual("CDEFGAB".split("").map((s) => NN.noteName(s, 0, "german")), ["C", "D", "E", "F", "G", "A", "H"]);
+  assert.deepEqual(["C", "D", "E", "F", "G", "A", "B"].map((s) => NN.noteName(s, 1, "german")), ["Cis", "Dis", "Eis", "Fis", "Gis", "Ais", "His"]);
+  assert.deepEqual(["C", "D", "E", "F", "G", "A", "B"].map((s) => NN.noteName(s, -1, "german")), ["Ces", "Des", "Es", "Fes", "Ges", "As", "B"]);
+  assert.equal(NN.noteName("F", 2, "german"), "Fisis");
+  assert.equal(NN.noteName("B", -2, "german"), "Heses");
+  assert.equal(NN.noteName("E", -2, "german"), "Eses");
+});
+
+test("Cyrillic Do Re Mi", () => {
+  assert.deepEqual("CDEFGAB".split("").map((s) => NN.noteName(s, 0, "cyrillic")), ["До", "Ре", "Ми", "Фа", "Соль", "Ля", "Си"]);
+  assert.equal(NN.noteName("F", 1, "cyrillic"), "Фа♯");
+});
+
+test("movable systems: the first note of the key is Do / 1 / Sa", () => {
+  // G major (1 sharp): G is Do, F♯ is Si, F natural is Si♭
+  assert.deepEqual(["G", "A", "B", "C", "D", "E"].map((s) => NN.noteName(s, 0, "movable-katakana", 1)), ["ド", "レ", "ミ", "ファ", "ソ", "ラ"]);
+  assert.equal(NN.noteName("F", 1, "movable-katakana", 1), "シ");
+  assert.equal(NN.noteName("F", 0, "movable-katakana", 1), "シ♭");
+  // English movable Do uses Ti
+  assert.equal(NN.noteName("F", 1, "movable-solfege", 1), "Ti");
+  // B♭ major (2 flats) in jianpu: B♭ = 1, E♭ = 4, E natural = ♯4 (the sign comes first)
+  assert.equal(NN.noteName("B", -1, "jianpu", -2), "1");
+  assert.equal(NN.noteName("E", -1, "jianpu", -2), "4");
+  assert.equal(NN.noteName("E", 0, "jianpu", -2), "♯4");
+  // A minor (no sharps or flats): the key of C, so A is Dha (6), G♯ is Pa♯
+  assert.equal(NN.noteName("A", 0, "sargam", 0), "Dha");
+  assert.equal(NN.noteName("G", 1, "sargam", 0), "Pa♯");
+  // 7 sharps and 7 flats
+  assert.equal(NN.noteName("C", 1, "jianpu", 7), "1");
+  assert.equal(NN.noteName("C", -1, "jianpu", -7), "1");
+  assert.ok(NN.isMovable("jianpu") && !NN.isMovable("german"));
+});
+
+test("movable names follow a key change in the middle of the piece", () => {
+  // Measure 1 in C, measure 2 in G (1 sharp): G is So, then Do
+  const x = score([[n("C", 0), n("G", 0), rest, rest], [n("G", 0), n("F", 1), rest, rest]]).replace(
+    '<measure number="2">', '<measure number="2"><attributes><key><fifths>1</fifths></key></attributes>');
+  assert.equal(flat(NN.addNoteNames(x, "movable-katakana")), "ド ソ   ド シ  ");
+  assert.equal(flat(NN.addNoteNames(x, "jianpu")), "1 5   1 7  ");
+  // Fixed names do not change
+  assert.equal(flat(NN.addNoteNames(x, "katakana")), "ド ソ   ソ ファ♯  ");
+});
+
+test("defaultSystem: new languages", () => {
+  assert.equal(NN.defaultSystem("de-AT"), "german");
+  assert.equal(NN.defaultSystem("pl"), "german");
+  assert.equal(NN.defaultSystem("ru-RU"), "cyrillic");
+  assert.equal(NN.defaultSystem("zh-TW"), "jianpu");
+  assert.equal(NN.defaultSystem("hi-IN"), "sargam");
+  assert.equal(NN.defaultSystem("tr"), "solfege");
 });

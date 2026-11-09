@@ -18,6 +18,9 @@ function chart(L) {
     [L.korean, SYSTEMS.korean.names, "ko"],
     [L.koreanLetters, KOREAN_LETTERS, "ko"],
     [L.german, GERMAN, "de"],
+    [L.cyrillic, SYSTEMS.cyrillic.names, "ru"],
+    [L.jianpu, SYSTEMS.jianpu.names, "zh"],
+    [L.sargam, SYSTEMS.sargam.names, "hi"],
   ];
   return `<div class="table-wrap"><table class="num">
 <thead><tr><th scope="col">${L.letter}</th>${LETTERS.map((x) => `<th scope="col">${x}</th>`).join("")}</tr></thead>
@@ -36,7 +39,7 @@ ${L.acc.map(([h, s, f]) => `<tr><th scope="row">${h}</th><td>${s}</td><td>${f}</
 
 const EN = {
   system: "System", letter: "Letters (English)", solfege: "Do Re Mi (fixed Do)", katakana: "Japanese ドレミ (katakana)",
-  iroha: "Japanese ハニホ", korean: "Korean 도레미", koreanLetters: "Korean 다라마", german: "German",
+  iroha: "Japanese ハニホ", korean: "Korean 도레미", koreanLetters: "Korean 다라마", german: "German", cyrillic: "Russian и др. (Cyrillic)", jianpu: "Chinese numbered (jianpu), in C major", sargam: "Indian sargam, in C major",
   acc: [
     ["English", "F sharp", "B flat"],
     ["Italian", "Fa diesis", "Si bemolle"],
@@ -46,11 +49,13 @@ const EN = {
     ["Japanese ハニホ", "嬰ヘ (ei-he)", "変ロ (hen-ro)"],
     ["Korean", "올림바 (ollim-ba)", "내림나 (naerim-na)"],
     ["German", "Fis", "B (not Hes)"],
+    ["Russian", "Фа-диез (fa-diez)", "Си-бемоль (si-bemol)"],
+    ["Chinese numbered, in C major", "♯4", "♭7"],
   ],
 };
 const JA = {
   system: "書き方", letter: "英語（アルファベット）", solfege: "イタリア語（固定ド）", katakana: "ドレミ（カタカナ）",
-  iroha: "日本語（ハニホ）", korean: "韓国語（도레미）", koreanLetters: "韓国語（다라마）", german: "ドイツ語",
+  iroha: "日本語（ハニホ）", korean: "韓国語（도레미）", koreanLetters: "韓国語（다라마）", german: "ドイツ語", cyrillic: "ロシア語など（キリル文字）", jianpu: "中国の数字譜（ハ長調のとき）", sargam: "インドの音名（ハ長調のとき）",
   acc: [
     ["英語", "F sharp（エフ・シャープ）", "B flat（ビー・フラット）"],
     ["イタリア語", "Fa diesis（ファ・ディエズィス）", "Si bemolle（シ・ベモッレ）"],
@@ -60,6 +65,8 @@ const JA = {
     ["日本語（ハニホ）", "嬰ヘ（えいへ）", "変ロ（へんろ）"],
     ["韓国語", "올림바（オルリムバ）", "내림나（ネリムナ）"],
     ["ドイツ語", "Fis（フィス）", "B（ベー）"],
+    ["ロシア語", "Фа-диез（ファ・ディエス）", "Си-бемоль（シ・ベモリ）"],
+    ["数字譜（ハ長調のとき）", "♯4", "♭7"],
   ],
 };
 
@@ -67,10 +74,10 @@ export default {
   slug: "note-name-chart",
   published: "2026-11-08",
   en: {
-    title: "Note Names in Different Languages: C D E, Do Re Mi, ドレミ, 도레미 (Chart)",
+    title: "Note Names in Different Languages: C D E, Do Re Mi, German H, До Ре Ми, 1 2 3 (Chart)",
     heading: "Note names in different languages",
     nav: "Note name chart",
-    description: "A chart of the note names C D E F G A B in English, Do Re Mi (fixed Do), Japanese ドレミ and ハニホ, Korean 도레미, and German (where B is H), with how sharps and flats are said in each language.",
+    description: "A chart of the note names C D E F G A B in English, Do Re Mi, Japanese ドレミ and ハニホ, Korean 도레미, German (where B is H), Russian До Ре Ми, Chinese numbered notation, and Indian sargam, with sharps and flats in each language, and fixed vs movable Do.",
     body: () => `
 <p class="lead">The same seven notes have different names around the world. English uses the letters C to B; Italy, France, Spain, Latin America, and many other countries sing Do Re Mi; Japan and Korea use both Do Re Mi and their own names. This chart lines them up, so you can read a score written for another country, or follow a teacher who uses another system.</p>
 
@@ -82,6 +89,7 @@ ${chart(EN)}
   <li><b>Japanese ハニホ</b> (ha-ni-ho) comes from the Japanese syllable order いろは. It is used mainly for key names: ハ長調 is C major, ト長調 is G major.</li>
   <li><b>Korean 다라마</b> works the same way for key names: 다장조 is C major.</li>
   <li><b>Sol</b> is sometimes written “So”, and <b>Si</b> is “Ti” in the English-speaking tonic sol-fa tradition.</li>
+  <li><b>Chinese numbered notation</b> (jianpu, 简谱) and the <b>Indian sargam</b> (Sa Re Ga Ma Pa Dha Ni) count from the first note of the key, like movable Do; the row shows them in C major.</li>
 </ul>
 
 <h2 id="accidentals">Sharps and flats</h2>
@@ -95,14 +103,14 @@ ${accidentals(EN)}
   <li><b>Fixed Do</b>: Do is always C, whatever the key. This is how note names are used in Italy, France, Spain, and in many piano lessons in Japan.</li>
   <li><b>Movable Do</b>: Do is the first note of the key (in G major, G is Do). It shows how notes relate in the scale, and is common in singing classes and in Japanese and Korean school music.</li>
 </ul>
-<p>Note Namer writes <b>fixed</b> names: C is always Do (ド, 도), and a sharp or flat is shown as a sign. Letters (C D E) are fixed by nature.</p>
+<p>Note Namer offers both. With a fixed system, C is always Do (ド, 도, До). With movable Do (and with the numbered and sargam names), the first note of the major key of the key signature is Do (1, Sa), so a minor key starts on La (6, Dha), the way it is taught in Kodály-style classes and in Japanese schools; notes outside the key get a sharp or flat. When the key signature changes in the middle of a piece, the names follow it.</p>
 
 <h2 id="app">Choosing the names in Note Namer</h2>
-<p>Above the score, <b>Note names</b> offers four ways: ドレミ (katakana), C D E (letters), Do Re Mi (fixed Do), and 도레미 (Korean). The first choice follows your browser's language, and the app remembers your choice. ハニホ and German names are not offered. See ${link("en", "guide", "the guide")} for the steps.</p>
+<p>Above the score, <b>Note names</b> offers fixed names (ドレミ in katakana, C D E, Do Re Mi, 도레미, German C D E … H, and Cyrillic До Ре Ми) and names in the key (ドレミ or Do Re Mi with movable Do, Chinese numbered 1 2 3, and Indian Sa Re Ga). The first choice follows your browser's language, and the app remembers your choice. ハニホ and 다라마 are not offered. See ${link("en", "guide", "the guide")} for the steps.</p>
 `,
   },
   ja: {
-    title: "音名の対応表：ドレミ・CDE・ハニホ・ドイツ音名・도레미",
+    title: "音名の対応表：ドレミ・CDE・ハニホ・ドイツ音名・도레미・数字譜",
     heading: "音名の対応表（ドレミ・CDE・ハニホ・ドイツ音名）",
     nav: "音名の対応表",
     description: "ドレミと C D E、日本語のハニホ、ドイツ音名（シは H）、韓国語の도레미の対応表。♯・♭ の呼び方（嬰・変、シャープ・フラット、Fis・B）と、固定ドと移動ドの違いもまとめました。",
@@ -117,6 +125,7 @@ ${chart(JA)}
   <li><b>ハニホ</b>は、いろは順を音に当てたものです。主に調の名前に使います（ハ長調 = ドから始まる長調、ト長調 = ソから始まる長調）。</li>
   <li><b>韓国語の다라마</b>も同じように調の名前に使います（다장조 = ハ長調）。</li>
   <li>ソは「Sol」、シは英語圏の階名では「Ti」と書くこともあります。</li>
+  <li><b>中国の数字譜</b>（簡譜）と<b>インドの音名</b>（Sa Re Ga Ma Pa Dha Ni）は、移動ドと同じように調の主音から数えます。表はハ長調のときです。</li>
 </ul>
 
 <h2 id="accidentals">♯・♭ の呼び方</h2>
@@ -130,10 +139,10 @@ ${accidentals(JA)}
   <li><b>固定ド</b>：調に関係なく、C をいつもドと呼びます。イタリア・フランス・スペインの音名や、日本のピアノ教室で多い使い方です。</li>
   <li><b>移動ド</b>：その調の主音をドと呼びます（ト長調ならソの音がド）。音階の中での役割がわかるので、歌の練習や日本・韓国の学校の音楽でよく使われます。</li>
 </ul>
-<p>Note Namer が書くのは<b>固定ド</b>の音名です。C の音はいつも「ド」で、♯・♭ は記号で書きます。C D E の書き方は、もともと固定です。</p>
+<p>Note Namer はどちらも書けます。固定の書き方では C はいつも「ド」です。移動ド（と数字譜・インドの音名）では、調号から決まる長調の主音をド（1・Sa）にします。短調はラ（6・Dha）から始まる形で、日本の学校の音楽やコダーイ式と同じです。調にない音には ♯・♭ を付け、曲の途中で調号が変わると、そこから音名も変わります。</p>
 
 <h2 id="app">Note Namer での書き方の選び方</h2>
-<p>楽譜の上の<b>音名</b>で、ドレミ（カタカナ）・C D E（英語）・Do Re Mi（固定ド）・도레미（韓国語）の 4 つから選べます。最初はブラウザの言語に合わせた書き方になり（日本語のページではカタカナ）、選んだ書き方は次に開いたときも残ります。ハニホとドイツ音名には対応していません。手順は${link("ja", "guide", "使い方ガイド")}をご覧ください。</p>
+<p>楽譜の上の<b>音名</b>で、音名（ドレミ（カタカナ）・C D E・Do Re Mi・도레미・ドイツ式・До Ре Ми）と、調に合わせた書き方（ドレミの移動ド・Do Re Mi の移動ド・数字譜・インドの Sa Re Ga）から選べます。最初はブラウザの言語に合わせた書き方になり（日本語のページではカタカナ）、選んだ書き方は次に開いたときも残ります。ハニホと다라마には対応していません。手順は${link("ja", "guide", "使い方ガイド")}をご覧ください。</p>
 `,
   },
 };

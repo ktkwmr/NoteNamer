@@ -62,7 +62,7 @@ ${shot("en", "app-names", "The score read from the photo, with a letter name und
   <li>A note <b>tied</b> from the one before gets no name (it is the same sound held on). Rests get no name.</li>
   <li>In a piano score, both staves get names.</li>
 </ul>
-<p>Above the score, <b>Note names</b> chooses the system: ドレミ (katakana), C D E (letters), Do Re Mi (fixed Do), or 도레미 (Korean). The app remembers your choice. For what each system means, see the ${link("en", "note-name-chart", "note name chart")}.</p>
+<p>Above the score, <b>Note names</b> chooses the system. Pitch names, where C is always Do: ドレミ (katakana), C D E, Do Re Mi, 도레미, German (C D E … H), or До Ре Ми. Names in the key, where the first note of the key is Do: ドレミ or Do Re Mi with movable Do, Chinese numbered 1 2 3, or Indian Sa Re Ga. The app remembers your choice. For what each system means, see the ${link("en", "note-name-chart", "note name chart")}.</p>
 
 <h2 id="listen">5. Check by ear</h2>
 <p>The reading can contain mistakes, and a wrong note gets a wrong name. Press ▶ to hear the score while a blue cursor moves along the staff: a wrong pitch or rhythm is easier to hear than to see. ❚❚ pauses, ■ stops and goes back to the beginning, and clicking a note moves the cursor there. Change the tempo with −5 / +5, the number, or the slider.</p>
@@ -164,7 +164,7 @@ ${shot("ja", "app-names", "写真から読み取った楽譜。すべての音�
   <li><b>タイ</b>でつながった後ろの音（同じ音をのばしているだけ）と休符には書きません。</li>
   <li>ピアノの楽譜では、上下両方の五線に書きます。</li>
 </ul>
-<p>楽譜の上の<b>音名</b>で、ドレミ（カタカナ）・C D E（英語）・Do Re Mi（固定ド）・도레미（韓国語）から書き方を選べます。選んだ書き方は次に開いたときも残っています。書き方の違いは${link("ja", "note-name-chart", "音名の対応表")}をご覧ください。</p>
+<p>楽譜の上の<b>音名</b>で書き方を選べます。C がいつもドの音名（ドレミ（カタカナ）・C D E・Do Re Mi・도레미・ドイツ式・До Ре Ми）と、調の主音をドにする書き方（ドレミの移動ド・Do Re Mi の移動ド・数字譜・インドの Sa Re Ga）があります。選んだ書き方は次に開いたときも残っています。書き方の違いは${link("ja", "note-name-chart", "音名の対応表")}をご覧ください。</p>
 
 <h2 id="listen">5. 聴いて確かめる</h2>
 <p>読み取りには間違いが含まれることがあり、音符を読み違えると音名も違ってしまいます。▶ を押すと、青いカーソルが五線の上を進みながら音が鳴ります。音の高さやリズムの間違いは、見るより聴くほうが見つけやすいものです。❚❚ で一時停止、■ で止めて最初に戻り、音符をクリックするとカーソルがそこに移ります。テンポは −5／+5、数字、スライダーで変えられます。</p>
