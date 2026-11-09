@@ -1,10 +1,17 @@
-# Sheet Music Player
+# Note Namer
+
+> **Under development (not published yet).** Copied from [ktkwmr/SheetMusicPlayer](https://github.com/ktkwmr/SheetMusicPlayer) at commit `c9bd5ee`; the plan and the steps are in [docs/handoff.md](docs/handoff.md).
+> **開発中（未公開）。** ktkwmr/SheetMusicPlayer のコミット `c9bd5ee` からコピーして作った。仕様と作業手順は [docs/handoff.md](docs/handoff.md)。
+
+Take a photo of sheet music, and Note Namer writes the name under every note — C D E, Do Re Mi, ドレミ, or 도레미 — with the sharps and flats of the key signature and the accidentals. Print it on A4, save it as images, or share it.
+
+楽譜を写真に撮ると、すべての音符の下に音名（ドレミ・C D E・Do Re Mi・도레미）を書きます。調号や臨時記号の ♯・♭ も反映します。A4 に印刷したり、画像で保存・共有したりできます。
 
 Take a photo of sheet music, or open an image or PDF, and hear it. The app reads the notes with optical music recognition ([homr](https://github.com/liebharc/homr)) **inside your browser** and plays them back with a cursor that moves along the staff. The tempo starts at the marking found on the page and can be changed while it plays.
 
 楽譜を写真に撮るか、画像・PDFを開くと、その楽譜を再生できます。音符の読み取り（光学楽譜認識、[homr](https://github.com/liebharc/homr)）は**ブラウザの中で**行い、再生中は五線譜の上をカーソルが進みます。テンポは楽譜に書かれた値で始まり、再生中にも変えられます。
 
-**▶ https://ktkwmr.com/sheetmusicplayer/** (日本語: https://ktkwmr.com/sheetmusicplayer/ja/)
+**▶ https://ktkwmr.com/notenamer/** (日本語: https://ktkwmr.com/notenamer/ja/)
 
 > Tested on the latest Chrome and Edge on a computer, Safari on iPhone (iOS 27.2), and Chrome on Android. Newer Firefox and Safari on a Mac may also work but are untested (see [Requirements](#requirements--動作環境)).
 > 動作を確認しているのは PC の最新の Chrome・Edge、iPhone の Safari（iOS 27.2）、Android の Chrome です。新しい Firefox や Mac の Safari でも動く可能性がありますが、未確認です（[動作環境](#requirements--動作環境)）。
@@ -19,14 +26,16 @@ Take a photo of sheet music, or open an image or PDF, and hear it. The app reads
   1ページ目の上部から、メトロノーム記号（♩ = 100）や速度用語（Allegro など）を Tesseract.js で読み取る。見つからなければ ♩ = 120
 - **Score and playback**: OpenSheetMusicDisplay draws the score; a blue cursor glides along the staff with the sound (Web Audio API). ▶ / ❚❚ plays and pauses, ■ stops and goes back to the beginning. Click a note to move the cursor there (playing starts from it). Change the tempo with −5 / +5, the number, or the slider, even while playing
   OpenSheetMusicDisplay で楽譜を表示し、音（Web Audio API）に合わせて青いカーソルが五線の上を進む。▶／❚❚ で再生・一時停止、■ で止めて最初に戻る。音符をクリックでカーソルを移動（そこから再生）。テンポは −5／+5・数字・スライダーで、再生中でも変更可
-- **Practice mode**: loop the measures you tap on the score, metronome and one-measure count-in, each staff normal / louder (the others soft) / muted, transpose by semitones (±12; key signature and spelling follow)
-  練習モード：楽譜でタップした小節のループ、メトロノームと 1 小節のカウントイン、段ごとに通常・強調（ほかを小さく）・消音、半音ずつの移調（±12。調号と ♯・♭ の付け方も合わせる）
+- **Note names** (`note-names.mjs`): written under every note as lyrics (the score display lays them out); chords stacked with the highest note on top; no name for rests or for a note tied from the one before. Choose the naming above the score: fixed (ドレミ / C D E / Do Re Mi / 도레미 / German C D E … H / До Ре Ми) or in the key (movable Do in ドレミ or Do Re Mi with Ti, Chinese numbered 1 2 3, Indian Sa Re Ga; the first note of the key signature's major key is Do, and key changes are followed); the names follow the transposition and the edits. When nothing is open, the sample Ode to Joy is shown with its names (no engine download; not saved)
+  音名：すべての音符の下に歌詞として書く。和音は高い音を上に、休符とタイの後ろの音には書かない。書き方（固定：ドレミ・C D E・Do Re Mi・도레미・ドイツ式・До Ре Ми／調に合わせる：移動ド・数字譜・Sa Re Ga。調号の長調の主音がド、転調にも追従）を楽譜の上で選べ、移調や編集にも追従。楽譜を開いていないときは見本の歓喜の歌を表示（エンジンのダウンロードなし。保存しない）
+- **Print / image / share** (`export-pages.mjs`): the score with its names on A4 pages (title, page number, and a “Made with Note Namer” line that can be turned off); print (only the pages), save each page as a PNG, or share the images with Web Share; MusicXML with the names as lyrics
+  印刷・画像・共有：音名付きの楽譜を A4 のページにして（タイトル・ページ番号・消せる「Note Namer で作成」）、印刷（ページだけ）、ページごとの PNG 保存、Web Share で画像を共有。音名を歌詞として入れた MusicXML も保存できる
+- **Practice mode**: metronome and one-measure count-in, transpose by semitones (±12; key signature and spelling follow)
+  練習モード：メトロノームと 1 小節のカウントイン、半音ずつの移調（±12。調号と ♯・♭ の付け方も合わせる）
 - **Fix mistakes in a piano-roll editor** (“Edit”): each note is a box — drag to change its pitch and timing, drag its right edge for the length, click to add, right-click or Delete to remove, select several by dragging, add or delete measures, undo / redo. Measures whose beats did not add up when read are marked. Going back to “Score” rebuilds the MusicXML and redraws the staff (lyrics, slurs, and articulations are not kept after an edit)
   ピアノロールの編集画面（「編集」）で間違いを直せる。音符を四角で表し、ドラッグで音の高さとタイミング、右端で長さ、クリックで追加、右クリックか Delete で削除、ドラッグでまとめて選択、小節の追加・削除、元に戻す／やり直し。読み取り時に拍が合わなかった小節には印を付ける。「楽譜」に戻ると MusicXML を作り直して五線譜を描き直す（編集すると歌詞・スラー・アーティキュレーションは消える）
-- **Save / share**: MusicXML (with the title; transposed as shown) to open in MuseScore or other notation apps, MIDI (one track per staff), MP3 of what you hear (rendered on the device, lamejs), and Web Share of the app's link with the MusicXML file
-  保存・共有：MusicXML（タイトル入り。移調したとおり。MuseScore などで開ける）、MIDI（段ごとに 1 トラック）、聞こえているとおりの MP3（端末内で作成、lamejs）、Web Share でアプリのリンクと MusicXML を共有
-- **Recent scores**: the last 10 scores are kept in the browser (IndexedDB) with their title (from the MusicXML, or the date and time; click to rename), tempo, and transposition. Installable PWA. English / Japanese UI (`/sheetmusicplayer/ja/` is always Japanese; `?lang=en` / `?lang=ja` override)
-  最近の楽譜：最近開いた 10 曲を、タイトル（MusicXML から、なければ日時。クリックで変更）・テンポ・移調と一緒にブラウザ（IndexedDB）に保存。ホーム画面に追加可能。英語・日本語の表示（`/sheetmusicplayer/ja/` は常に日本語、`?lang=en` / `?lang=ja` で切り替え）
+- **Recent scores**: the last 10 scores are kept in the browser (IndexedDB) with their title (from the MusicXML, or the date and time; click to rename), tempo, and transposition. Installable PWA. English / Japanese UI (`/notenamer/ja/` is always Japanese; `?lang=en` / `?lang=ja` override)
+  最近の楽譜：最近開いた 10 曲を、タイトル（MusicXML から、なければ日時。クリックで変更）・テンポ・移調と一緒にブラウザ（IndexedDB）に保存。ホーム画面に追加可能。英語・日本語の表示（`/notenamer/ja/` は常に日本語、`?lang=en` / `?lang=ja` で切り替え）
 
 ## Requirements / 動作環境
 
@@ -76,16 +85,16 @@ file / photo ──► page canvas (PDF.js for PDF) ──► RGBA pixels
 - 最近開いた楽譜（最大 10 曲。MusicXML）・タイトル・ファイル名・テンポ・移調の設定と、オフラインで使うためのアプリ本体・読み取りエンジンをブラウザ内に保存します。サイトデータを削除すると消えます。
 - サイトは Cloudflare で配信しており、運用・セキュリティのために標準的なアクセスログ（IP アドレス、日時、アクセスしたページやファイル）が記録されます。閲覧数は Cookie を使わない Cloudflare Web Analytics で集計しています。
 
-The same notice is shown in the app under ⚙ → **Privacy**. The full privacy policy is at `/sheetmusicplayer/privacy/` (Japanese: `/sheetmusicplayer/ja/privacy/`), and the operator information is at `/sheetmusicplayer/about/`.
-アプリ内の ⚙ → **プライバシー** でも同じ内容を表示しています。プライバシーポリシーは `/sheetmusicplayer/ja/privacy/`、運営者情報は `/sheetmusicplayer/ja/about/` にあります。
+The same notice is shown in the app under ⚙ → **Privacy**. The full privacy policy is at `/notenamer/privacy/` (Japanese: `/notenamer/ja/privacy/`), and the operator information is at `/notenamer/about/`.
+アプリ内の ⚙ → **プライバシー** でも同じ内容を表示しています。プライバシーポリシーは `/notenamer/ja/privacy/`、運営者情報は `/notenamer/ja/about/` にあります。
 
 ## Project structure / 構成
 
 ```
 public/
   _headers                      # security headers (CSP, COOP/COEP, Permissions-Policy)
-  404.html                      # page for unknown URLs under /sheetmusicplayer/ (status 404)
-  sheetmusicplayer/
+  404.html                      # page for unknown URLs under /notenamer/ (status 404)
+  notenamer/
     index.html                  # the app (HTML / CSS / JS, English and Japanese text)
     omr-worker.mjs              # Web Worker: downloads and caches the engine, runs homr in Pyodide
     score-model.mjs             # MusicXML <-> editable notes (ticks, measures, staves), and back to MusicXML
@@ -94,7 +103,7 @@ public/
       pyodide/ ort/ models/ tesseract/ homr.zip manifest.json
     vendor/                     # OpenSheetMusicDisplay and PDF.js (copied by scripts/build-engine.py)
     ja/index.html               # Japanese page, generated from index.html (do not edit)
-    guide/ faq/ photo-tips/ fix-errors/ tempo-markings/ musicxml/ what-is-omr/
+    guide/ note-name-chart/ reading-notes/ sharps-and-flats/ faq/ photo-tips/ fix-errors/
                                 # guide articles, generated from scripts/pages/ (do not edit)
     guide/img/                  # screenshots and sample pictures for the articles (scripts/render-guide-images.mjs)
     about/ privacy/ ja/<slug>/  # info pages, generated from scripts/pages/ (do not edit)
@@ -106,19 +115,19 @@ engine/python/                  # the browser glue for homr (packed into engine/
   smp_omr.py                    #   entry point: pixels → MusicXML, progress, no file I/O or title OCR
   onnxruntime/__init__.py       #   the part of the onnxruntime API homr uses, on top of onnxruntime-web
 scripts/
-  build-engine.py               # builds public/sheetmusicplayer/engine/<version>/, vendor/, THIRD_PARTY_LICENSES.md
+  build-engine.py               # builds public/notenamer/engine/<version>/, vendor/, THIRD_PARTY_LICENSES.md
   build-ja.mjs  build-pages.mjs  pages/   # pages/<slug>.mjs: one article or info page each (English and Japanese)
   pages/data/photo-results.json # measured by render-guide-images.mjs, used by pages/photo-tips.mjs
   render-guide-images.mjs       # screenshots + photo-variant measurements for the articles
   update-third-party-licenses.mjs
   og-image.html  render-og-image.mjs  render-icons.mjs
-wrangler.jsonc                  # Cloudflare Workers (static assets, route ktkwmr.com/sheetmusicplayer*)
+wrangler.jsonc                  # Cloudflare Workers (static assets, route ktkwmr.com/notenamer*)
 CLAUDE.md                       # instructions for Claude Code
 docs/baseline-status.md         # status of the shared web app baseline items
 ```
 
-This is the fourth app on `ktkwmr.com`. Its Worker only serves `/sheetmusicplayer/*`; the domain root (`/`, `robots.txt`, the root `sitemap.xml`, and 404 for other paths) belongs to the `ktkwmr-home` Worker ([ktkwmr/ktkwmr.com](https://github.com/ktkwmr/ktkwmr.com)), so this app does not depend on any other app.
-`ktkwmr.com` の 4 つ目のアプリです。この Worker は `/sheetmusicplayer/*` だけを配信し、ドメイン直下は Chord Transposer の Worker が持っています。
+This is the ninth app on `ktkwmr.com`. Its Worker only serves `/notenamer/*`; the domain root (`/`, `robots.txt`, the root `sitemap.xml`, and 404 for other paths) belongs to the `ktkwmr-home` Worker ([ktkwmr/ktkwmr.com](https://github.com/ktkwmr/ktkwmr.com)), so this app does not depend on any other app.
+`ktkwmr.com` の 9 つ目のアプリです。この Worker は `/notenamer/*` だけを配信し、ドメイン直下は `ktkwmr-home` の Worker（ktkwmr/ktkwmr.com）が持っています。
 
 When you load a script or data from a new external host, add it to the `Content-Security-Policy` in `public/_headers`, or the browser will block it. With COEP, a cross-origin script also needs CORS. Also update the privacy text.
 新しい外部サイトからスクリプトやデータを読み込むときは、`public/_headers` の CSP にそのホストを追加してください。COEP のため、別オリジンのスクリプトは CORS も必要です。プライバシーの説明も同時に直します。
@@ -126,7 +135,7 @@ When you load a script or data from a new external host, add it to the `Content-
 ## Development / 開発
 
 ```sh
-npx wrangler dev        # http://localhost:8787/sheetmusicplayer/ (also runs the generators and applies _headers)
+npx wrangler dev        # http://localhost:8787/notenamer/ (also runs the generators and applies _headers)
 ```
 
 Use `wrangler dev` rather than a plain static server: the app needs the headers in `public/_headers` (cross-origin isolation for threads) to run at full speed. `file://` does not work. After editing a file, restart `wrangler dev` (it keeps serving the old ETag). On Windows PowerShell, use `npx.cmd` if `npx` is blocked.
@@ -158,9 +167,9 @@ The app is served with Cloudflare Workers static assets. With Workers Builds con
 
 ## Generated files / 生成ファイル
 
-Edit only `public/sheetmusicplayer/index.html`, `omr-worker.mjs`, `score-model.mjs`, `editor.mjs`, `sw.js`, `engine/python/`, and `scripts/`. These files are generated and must not be edited by hand:
+Edit only `public/notenamer/index.html`, `omr-worker.mjs`, `score-model.mjs`, `editor.mjs`, `sw.js`, `engine/python/`, and `scripts/`. These files are generated and must not be edited by hand:
 
-- `public/sheetmusicplayer/ja/index.html` – from `index.html` (Japanese `<head>` in `scripts/build-ja.mjs`, UI text from `I18N.ja`)
+- `public/notenamer/ja/index.html` – from `index.html` (Japanese `<head>` in `scripts/build-ja.mjs`, UI text from `I18N.ja`)
 - the guide articles, `about/`, `privacy/`, their `ja/` versions, and `sitemap.xml` – from `scripts/pages/`
 - `guide/img/` and `scripts/pages/data/photo-results.json` – from `scripts/render-guide-images.mjs`
 - `engine/<version>/`, `vendor/`, `THIRD_PARTY_LICENSES.md` – from `scripts/build-engine.py`
@@ -193,18 +202,18 @@ node scripts/render-guide-images.mjs  # article screenshots and the photo-tips m
 | Slug | Article |
 |---|---|
 | `guide` | How to use the app, with screenshots / 使い方ガイド |
+| `note-name-chart` | Note names in different languages (from the app's own name tables) / 音名の対応表 |
+| `reading-notes` | Reading notes on the treble and bass staff (pictures made with the app's names) / 五線譜の音の読み方 |
+| `sharps-and-flats` | Sharps, flats, and key signatures (computed key table) / ♯・♭と調号の読み方 |
 | `faq` | FAQ / よくある質問 |
 | `photo-tips` | Photographing sheet music (six photos of one page, measured) / 撮り方のコツ |
 | `fix-errors` | Finding and fixing reading mistakes / 読み取りミスの直し方 |
-| `tempo-markings` | Tempo markings and BPM (the app's own tempo table) / 速度記号と BPM |
-| `musicxml` | What MusicXML is / MusicXML とは |
-| `what-is-omr` | How optical music recognition works / 楽譜を読み取る仕組み |
 
-Values that the app also uses (the tempo table, the default tempo, the number of files read at once) are read from `index.html` by `scripts/pages/parts.mjs`, so the articles follow the app. Article changes go through a pull request and are read on the preview URL before merging (`docs/article-review.md`).
-アプリと共通の値（速度記号の表・既定のテンポ・PDF のページ数の上限）は `index.html` から読み込みます。記事の変更は PR のプレビューで人が読んでからマージします（`docs/article-review.md`）。
+Values that the app also uses (the name tables, the number of files read at once) are read from `index.html` by `scripts/pages/parts.mjs`, so the articles follow the app. Article changes go through a pull request and are read on the preview URL before merging (`docs/article-review.md`).
+アプリと共通の値（音名の表・一度に読み取れるファイル数）はアプリのファイル（`note-names.mjs`・`index.html`）から読み込みます。記事の変更は PR のプレビューで人が読んでからマージします（`docs/article-review.md`）。
 
 ## License / ライセンス
 
-[GNU Affero General Public License v3](LICENSE) © 2026 ktkwmr — the same license as [homr](https://github.com/liebharc/homr), whose code runs in the app. The libraries the app includes and their licenses are listed in [`THIRD_PARTY_LICENSES.md`](public/sheetmusicplayer/THIRD_PARTY_LICENSES.md).
+[GNU Affero General Public License v3](LICENSE) © 2026 ktkwmr — the same license as [homr](https://github.com/liebharc/homr), whose code runs in the app. The libraries the app includes and their licenses are listed in [`THIRD_PARTY_LICENSES.md`](public/notenamer/THIRD_PARTY_LICENSES.md).
 
-アプリの中で動く [homr](https://github.com/liebharc/homr) に合わせ、[GNU AGPL v3](LICENSE) で公開しています。同梱しているライブラリとそのライセンスは [`THIRD_PARTY_LICENSES.md`](public/sheetmusicplayer/THIRD_PARTY_LICENSES.md) にあります。
+アプリの中で動く [homr](https://github.com/liebharc/homr) に合わせ、[GNU AGPL v3](LICENSE) で公開しています。同梱しているライブラリとそのライセンスは [`THIRD_PARTY_LICENSES.md`](public/notenamer/THIRD_PARTY_LICENSES.md) にあります。

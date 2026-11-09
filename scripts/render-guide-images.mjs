@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Makes the pictures and measurements used by the guide articles (scripts/pages/*.mjs):
-//   public/sheetmusicplayer/guide/img/*.webp   screenshots of the app (en / ja), the sample score, photo variants
+//   public/notenamer/guide/img/*.webp   screenshots of the app (en / ja), a printed page, the sample score,
+//                                       the notes of the treble and bass staves with their names, photo variants
 //   scripts/pages/data/photo-results.json      how well each photo variant was read (scripts/pages/photo-tips.mjs)
 //
 // The sample score is "Ode to Joy" (Beethoven, public domain), arranged here for two staves and drawn
@@ -11,6 +12,7 @@
 // Requires Playwright (see scripts/render-og-image.mjs) and the app running with its headers:
 //   npx wrangler dev            (in another terminal)
 //   node scripts/render-guide-images.mjs [--base http://127.0.0.1:8787] [--only sheet|shots|photos]
+// (--only sheet makes the sample score and the staff pictures, which need no reading)
 // Each run uses a new browser profile (no cached engine or Tesseract data). Reading takes about a minute
 // per picture, so the whole run takes 10–20 minutes. Run it again when the app's look changes.
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
@@ -22,66 +24,22 @@ const require = createRequire(import.meta.url);
 const { chromium } = await import("playwright").catch(() => import("playwright-core")).catch(() => require("playwright"));
 
 const arg = (name, def) => { const i = process.argv.indexOf(name); return i > 0 ? process.argv[i + 1] : def; };
-const BASE = arg("--base", "http://127.0.0.1:8787").replace(/\/$/, "") + "/sheetmusicplayer/";
+const BASE = arg("--base", "http://127.0.0.1:8787").replace(/\/$/, "") + "/notenamer/";
 const ONLY = arg("--only", "");
-const IMG = fileURLToPath(new URL("../public/sheetmusicplayer/guide/img/", import.meta.url));
+const IMG = fileURLToPath(new URL("../public/notenamer/guide/img/", import.meta.url));
 const DATA = fileURLToPath(new URL("./pages/data/", import.meta.url));
 mkdirSync(IMG, { recursive: true });
 mkdirSync(DATA, { recursive: true });
 
-// ---------- The sample score: Ode to Joy, 16 measures, melody + simple bass ----------
-const DIV = 24; // divisions per quarter note
-const STEPS = { C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11 };
-// Melody: pitch + octave, duration in quarters
-const MELODY = [
-  "E4 1 E4 1 F4 1 G4 1", "G4 1 F4 1 E4 1 D4 1", "C4 1 C4 1 D4 1 E4 1", "E4 1.5 D4 .5 D4 2",
-  "E4 1 E4 1 F4 1 G4 1", "G4 1 F4 1 E4 1 D4 1", "C4 1 C4 1 D4 1 E4 1", "D4 1.5 C4 .5 C4 2",
-  "D4 1 D4 1 E4 1 C4 1", "D4 1 E4 .5 F4 .5 E4 1 C4 1", "D4 1 E4 .5 F4 .5 E4 1 D4 1", "C4 1 D4 1 G3 2",
-  "E4 1 E4 1 F4 1 G4 1", "G4 1 F4 1 E4 1 D4 1", "C4 1 C4 1 D4 1 E4 1", "D4 1.5 C4 .5 C4 2",
-];
-// Bass: one chord per half measure (C = C3+G3, G = G2+D3)
-const HARMONY = ["CC", "GG", "CC", "GG", "CC", "GG", "CC", "GC", "GC", "GC", "GC", "GG", "CC", "GG", "CC", "GC"];
-const CHORD = { C: ["C3", "G3"], G: ["G2", "D3"] };
-const TYPE = { 0.5: ["eighth", 0], 1: ["quarter", 0], 1.5: ["quarter", 1], 2: ["half", 0] };
-
-function noteXml(p, q, staff, chord) {
-  const [type, dots] = TYPE[q];
-  return `<note>${chord ? "<chord/>" : ""}<pitch><step>${p[0]}</step><octave>${p.slice(1)}</octave></pitch><duration>${q * DIV}</duration><voice>${staff === 1 ? 1 : 5}</voice><type>${type}</type>${"<dot/>".repeat(dots)}<stem>${staff === 1 ? (STEPS[p[0]] + 12 * +p.slice(1) >= 71 ? "down" : "up") : "down"}</stem><staff>${staff}</staff></note>`;
-}
-function sampleXml({ title = "Ode to Joy", drop = null } = {}) {
-  const measures = MELODY.map((line, i) => {
-    const tokens = line.split(" ");
-    let mel = "";
-    for (let k = 0; k < tokens.length; k += 2) {
-      if (drop && drop.measure === i && drop.note === k / 2) continue;
-      mel += noteXml(tokens[k], +tokens[k + 1], 1, false);
-    }
-    let bass = "";
-    for (const h of HARMONY[i]) bass += CHORD[h].map((p, j) => noteXml(p, 2, 2, j > 0)).join("");
-    const attrs = i === 0
-      ? `<attributes><divisions>${DIV}</divisions><key><fifths>0</fifths></key><time><beats>4</beats><beat-type>4</beat-type></time><staves>2</staves><clef number="1"><sign>G</sign><line>2</line></clef><clef number="2"><sign>F</sign><line>4</line></clef></attributes>
-<direction placement="above"><direction-type><words font-weight="bold">Moderato</words></direction-type><direction-type><metronome><beat-unit>quarter</beat-unit><per-minute>108</per-minute></metronome></direction-type><staff>1</staff><sound tempo="108"/></direction>`
-      : "";
-    const end = i === MELODY.length - 1 ? `<barline location="right"><bar-style>light-heavy</bar-style></barline>` : "";
-    return `<measure number="${i + 1}">${attrs}${mel}<backup><duration>${4 * DIV}</duration></backup>${bass}${end}</measure>`;
-  }).join("\n");
-  return `<?xml version="1.0" encoding="UTF-8"?>
-<score-partwise version="4.0">
-<work><work-title>${title}</work-title></work>
-<identification><creator type="composer">L. van Beethoven</creator></identification>
-<part-list><score-part id="P1"><part-name>Piano</part-name></score-part></part-list>
-<part id="P1">
-${measures}
-</part>
-</score-partwise>
-`;
-}
+// ---------- The sample score: Ode to Joy (scripts/sample-score.mjs) ----------
+import { sampleXml } from "./sample-score.mjs";
 
 // ---------- Comparing a reading with the original ----------
 const { window } = new JSDOM("");
 globalThis.DOMParser = window.DOMParser;
 globalThis.XMLSerializer = window.XMLSerializer;
-const SM = await import("../public/sheetmusicplayer/score-model.mjs");
+const SM = await import("../public/notenamer/score-model.mjs");
+const NN = await import("../public/notenamer/note-names.mjs");
 
 // Notes in reading order for each staff: "pitch/length"; chords sorted low to high
 function sequence(model, track) {
@@ -124,7 +82,7 @@ async function webp(page, pngBuffer, file, { width = 0, quality = 0.86 } = {}) {
     return c.toDataURL("image/webp", quality).split(",")[1];
   }, { b64: pngBuffer.toString("base64"), width, quality });
   writeFileSync(IMG + file, Buffer.from(data, "base64"));
-  console.log("Wrote public/sheetmusicplayer/guide/img/" + file);
+  console.log("Wrote public/notenamer/guide/img/" + file);
 }
 
 // The sample score as an A4-shaped page (1240 × 1754 px, about 150 dpi), PNG
@@ -136,6 +94,39 @@ async function renderSheet(page, xml) {
     await o.load(xml); o.zoom = 1.15; o.render();
   }, xml);
   return page.locator("#s").screenshot();
+}
+
+// A strip of music (one or two lines), drawn like the app shows it, PNG
+async function renderStrip(page, xml, width) {
+  await page.route(BASE + "__strip", (r) => r.fulfill({ contentType: "text/html", body: `<!doctype html><meta charset="utf-8"><body style="margin:0;background:#fff"><div id="s" style="width:${width}px;padding:8px 12px;box-sizing:border-box;background:#fff"></div><script src="vendor/opensheetmusicdisplay.min.js"></script></body>` }));
+  await page.goto(BASE + "__strip");
+  await page.evaluate(async (xml) => {
+    const o = new opensheetmusicdisplay.OpenSheetMusicDisplay(document.getElementById("s"), { autoResize: false, backend: "svg", drawTitle: false, drawPartNames: false, drawMeasureNumbers: false, drawingParameters: "compacttight" });
+    await o.load(xml);
+    const R = o.EngravingRules; R.LyricsHeight = 2.3; R.VoiceSpacingMultiplierVexflow = 0.85; R.VoiceSpacingAddendVexflow = 3.5;
+    o.zoom = 1.1; o.render();
+  }, xml);
+  return page.locator("#s").screenshot();
+}
+// The white keys from one note to another on one staff, a name under each (quarter notes, no time signature shown)
+function staffXml(clef, from, to, system) {
+  const steps = "CDEFGAB", notes = [];
+  let i = steps.indexOf(from[0]), oct = +from.slice(1);
+  for (;;) {
+    notes.push(steps[i] + oct);
+    if (steps[i] + oct === to) break;
+    if (++i === 7) { i = 0; oct++; }
+  }
+  const measures = [];
+  for (let k = 0; k < notes.length; k += 4) {
+    const chunk = notes.slice(k, k + 4);
+    while (chunk.length < 4) chunk.push(null);
+    const body = chunk.map((n) => n ? `<note><pitch><step>${n[0]}</step><octave>${n.slice(1)}</octave></pitch><duration>1</duration><voice>1</voice><type>quarter</type></note>` : `<note print-object="no"><rest/><duration>1</duration><voice>1</voice><type>quarter</type></note>`).join("");
+    const attrs = k === 0 ? `<attributes><divisions>1</divisions><key><fifths>0</fifths></key><time print-object="no"><beats>4</beats><beat-type>4</beat-type></time><clef><sign>${clef === "bass" ? "F" : "G"}</sign><line>${clef === "bass" ? 4 : 2}</line></clef></attributes>` : "";
+    measures.push(`<measure number="${k / 4 + 1}">${attrs}${body}</measure>`);
+  }
+  const xml = `<?xml version="1.0" encoding="UTF-8"?><score-partwise version="4.0"><part-list><score-part id="P1"><part-name></part-name></score-part></part-list><part id="P1">${measures.join("")}</part></score-partwise>`;
+  return NN.addNoteNames(xml, system);
 }
 
 // Photo-like variants of the page, made with a canvas. Each returns a JPEG (like a phone photo).
@@ -193,18 +184,23 @@ async function readInApp(page, name, buffer, mimeType, onStatus) {
     await page.waitForTimeout(500);
   }
   return page.evaluate(() => {
-    const st = JSON.parse(localStorage.getItem("sheetmusicplayer-state"));
+    const st = JSON.parse(localStorage.getItem("notenamer-state"));
     return { xml: st.xml, bpm: st.bpm, tempoSource: st.tempoSource, status: document.getElementById("statusText").textContent };
   });
 }
 
-const context = await browser.newContext({ viewport: { width: 1280, height: 800 }, deviceScaleFactor: 1.5 });
+const context = await browser.newContext({ viewport: { width: 1280, height: 800 }, deviceScaleFactor: 1.5, acceptDownloads: true });
 const page = await context.newPage();
 page.on("pageerror", (e) => console.error("pageerror:", e.message));
 
 const xml = sampleXml();
 const sheet = await renderSheet(page, xml);
 await webp(page, sheet, "sample-score.webp", { width: 900 });
+// The notes of the treble staff (middle C to high C) and of the bass staff (low C to middle C), with names
+for (const [lang, system] of [["en", "letter"], ["ja", "katakana"]]) {
+  await webp(page, await renderStrip(page, staffXml("treble", "C4", "C6", system), 1100), `staff-treble-${lang}.webp`, { width: 1100 });
+  await webp(page, await renderStrip(page, staffXml("bass", "C2", "C4", system), 1100), `staff-bass-${lang}.webp`, { width: 1100 });
+}
 if (ONLY === "sheet") { await browser.close(); process.exit(0); }
 
 // ---------- Screenshots of the app (English and Japanese) ----------
@@ -212,9 +208,12 @@ async function shots(lang) {
   const app = await context.newPage();
   await app.goto(BASE + (lang === "ja" ? "ja/" : "?lang=en"));
   // Start empty: no saved score and no recent scores (the English run leaves some)
-  await app.evaluate(() => new Promise((resolve) => { localStorage.clear(); const r = indexedDB.deleteDatabase("sheetmusicplayer-history"); r.onsuccess = r.onerror = r.onblocked = () => resolve(); }));
+  await app.evaluate(() => new Promise((resolve) => { localStorage.clear(); const r = indexedDB.deleteDatabase("notenamer-history"); r.onsuccess = r.onerror = r.onblocked = () => resolve(); }));
   await app.reload();
   await app.waitForSelector("#fileBtn");
+  // With nothing open, the app shows the sample (Ode to Joy) with its names
+  await app.waitForSelector("#namesBar:not([hidden])");
+  await app.waitForTimeout(600);
   await app.mouse.move(0, 0);
   await webp(app, await app.screenshot(), `app-start-${lang}.webp`, { width: 1280 });
 
@@ -236,30 +235,37 @@ async function shots(lang) {
   if (r.error) throw new Error(lang + ": " + r.error);
   console.log(lang, r.status, "tempo", r.bpm, r.tempoSource, compare(xml, r.xml));
 
-  // Playing: the cursor a few notes in
-  await app.click("#playBtn");
-  await app.waitForTimeout(2600);
-  await webp(app, await app.screenshot(), `app-playing-${lang}.webp`, { width: 1280 });
-  await app.click("#playBtn");
-  await app.click("#stopBtn");
+  // The score with its names (the names bar above it), scrolled so the score fills the window
+  await app.evaluate(() => { const el = document.getElementById("playerBar"); window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY - 70); });
+  await app.mouse.move(0, 0);
+  await webp(app, await app.screenshot(), `app-names-${lang}.webp`, { width: 1280 });
 
-  // Practice mode: loop over measures 1–4 with the metronome, playing
+  // The buttons under the score: print / save image / share
+  await app.locator("#actions").scrollIntoViewIfNeeded();
+  const act = await app.locator("#actions").boundingBox();
+  await webp(app, await app.screenshot({ clip: { x: act.x - 16, y: Math.max(0, act.y - 260), width: act.width + 32, height: act.height + 276 } }), `app-actions-${lang}.webp`);
+
+  // A printed page (the same pages as Save image)
+  const [dl] = await Promise.all([app.waitForEvent("download"), app.click("#actPng")]);
+  const pagePng = readFileSync(await dl.path());
+  await webp(page, pagePng, `page-${lang}.webp`, { width: 700 });
+  await app.goto(BASE + (lang === "ja" ? "ja/" : "?lang=en")); await app.waitForSelector("#fileBtn");
+
+  // Practice mode: transposed up 2 semitones, the names follow
+  await app.evaluate(() => window.scrollTo(0, 0));
   await app.click("#practiceBtn");
-  await app.click("#loopBtn");
-  for (const m of ["1", "4"]) {
-    const box = await app.locator(`#score .vf-measure[id="${m}"]`).first().boundingBox();
-    await app.mouse.click(box.x + box.width * 0.6, box.y + box.height / 2);
-  }
-  await app.click("#metroBtn");
-  await app.click("#playBtn");
-  await app.waitForTimeout(2200);
+  await app.click("#trUp"); await app.click("#trUp");
+  await app.waitForTimeout(1200);
+  await app.evaluate(() => { const el = document.getElementById("playerBar"); window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY - 70); });
   await app.mouse.move(0, 0);
   await webp(app, await app.screenshot(), `app-practice-${lang}.webp`, { width: 1280 });
-  await app.click("#stopBtn");
-  await app.click("#metroBtn"); await app.click("#loopBtn"); await app.click("#practiceBtn");
+  await app.click("#trDown"); await app.click("#trDown"); await app.click("#practiceBtn");
+  await app.waitForTimeout(800);
+  await app.evaluate(() => window.scrollTo(0, 0));
 
   // The Save / share menu
   await app.click("#exportBtn");
+  await app.mouse.move(0, 0);
   await app.waitForTimeout(200);
   const menu = await app.locator("#exportMenu").boundingBox(), btn = await app.locator("#exportBtn").boundingBox();
   const x = Math.max(0, Math.min(btn.x, menu.x) - 16), y = Math.max(0, btn.y - 16);

@@ -1,8 +1,8 @@
-// Shared HTML template for the guide and info pages (public/sheetmusicplayer/<slug>/ and ja/<slug>/).
+// Shared HTML template for the guide and info pages (public/notenamer/<slug>/ and ja/<slug>/).
 // Used by scripts/build-pages.mjs.
 
 export const ORIGIN = "https://ktkwmr.com";
-export const APP_PATH = { en: "/sheetmusicplayer/", ja: "/sheetmusicplayer/ja/" };
+export const APP_PATH = { en: "/notenamer/", ja: "/notenamer/ja/" };
 export const PUBLISHED = "2026-10-21";
 
 export const pagePath = (lang, slug) => APP_PATH[lang] + slug + "/";
@@ -25,7 +25,7 @@ const UI = {
     guides: "Guides",
     cta: "Hear your sheet music",
     ctaBody: "Take a photo of a score or open an image or PDF, and play it with a cursor that follows the staff. Free, no sign-up, and your music stays on your device.",
-    footer: "Sheet Music Player · © 2026 ktkwmr",
+    footer: "Note Namer · © 2026 ktkwmr",
     source: "Source code on GitHub",
     feedback: "Feedback",
     home: "More apps by ktkwmr",
@@ -38,7 +38,7 @@ const UI = {
     guides: "ガイド",
     cta: "楽譜を音で確かめる",
     ctaBody: "楽譜の写真や画像・PDFを読み取って、五線譜の上をカーソルが進みながら再生します。無料・登録不要、楽譜は端末の外に出ません。",
-    footer: "Sheet Music Player · © 2026 ktkwmr",
+    footer: "Note Namer · © 2026 ktkwmr",
     source: "GitHub のソースコード",
     feedback: "ご意見・ご質問",
     home: "ktkwmr のほかのアプリ",
@@ -47,7 +47,7 @@ const UI = {
 };
 
 const MARK =
-  '<svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="7" fill="#000"></rect><path d="M5 9.5h18M5 12.5h18M5 15.5h18M5 18.5h18" stroke="#fff" stroke-width="1" stroke-linecap="round"></path><rect x="9.4" y="6.5" width="2.8" height="15" rx="1.4" fill="#fff" fill-opacity=".45"></rect><path d="M18.6 6.8v10.4" stroke="#fff" stroke-width="1.5" stroke-linecap="round"></path><ellipse cx="16.7" cy="17.6" rx="2.3" ry="1.7" transform="rotate(-20 16.7 17.6)" fill="#fff"></ellipse></svg>';
+  '<svg class="mark" viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="7" fill="#000"></rect><path d="M5 6.5h18M5 9.5h18M5 12.5h18" stroke="#fff" stroke-width="1" stroke-linecap="round"></path><path d="M16.3 3.6v8.6" stroke="#fff" stroke-width="1.5" stroke-linecap="round"></path><ellipse cx="14.4" cy="12.6" rx="2.3" ry="1.7" transform="rotate(-20 14.4 12.6)" fill="#fff"></ellipse><path d="M14 16.1l1.7 2h5.5a1.5 1.5 0 0 1 1.5 1.5v2.9a1.5 1.5 0 0 1-1.5 1.5H6.8a1.5 1.5 0 0 1-1.5-1.5v-2.9a1.5 1.5 0 0 1 1.5-1.5h5.5z" fill="#fff"></path><path d="M8.4 21.1h2.6M12.7 21.1h2.6M17 21.1h2.6" stroke="#000" stroke-width="1.4" stroke-linecap="round"></path></svg>';
 
 const CSS = `
     :root {
@@ -180,7 +180,7 @@ export function renderPage({ lang, page, pages, infoPages = [], body, jsonLd }) 
   const url = ORIGIN + pagePath(lang, page.slug);
   const enUrl = ORIGIN + pagePath("en", page.slug);
   const jaUrl = ORIGIN + pagePath("ja", page.slug);
-  const fullTitle = `${t.title} | Sheet Music Player`;
+  const fullTitle = `${t.title} | Note Namer`;
 
   const nav = pages
     .map((p) => {
@@ -196,8 +196,8 @@ export function renderPage({ lang, page, pages, infoPages = [], body, jsonLd }) 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#ffffff" />
-  <link rel="icon" type="image/svg+xml" href="/sheetmusicplayer/icons/icon.svg" />
-  <link rel="apple-touch-icon" href="/sheetmusicplayer/icons/apple-touch-icon.png" />
+  <link rel="icon" type="image/svg+xml" href="/notenamer/icons/icon.svg" />
+  <link rel="apple-touch-icon" href="/notenamer/icons/apple-touch-icon.png" />
   <title>${escapeHtml(fullTitle)}</title>
   <meta name="description" content="${escapeHtml(t.description)}" />
   <link rel="canonical" href="${url}" />
@@ -205,13 +205,13 @@ export function renderPage({ lang, page, pages, infoPages = [], body, jsonLd }) 
   <link rel="alternate" hreflang="ja" href="${jaUrl}" />
   <link rel="alternate" hreflang="x-default" href="${enUrl}" />
   <meta property="og:type" content="${page.info ? "website" : "article"}" />
-  <meta property="og:site_name" content="Sheet Music Player" />
+  <meta property="og:site_name" content="Note Namer" />
   <meta property="og:title" content="${escapeHtml(t.title)}" />
   <meta property="og:description" content="${escapeHtml(t.description)}" />
   <meta property="og:locale" content="${ui.locale}" />
   <meta property="og:locale:alternate" content="${UI[otherLang].locale}" />
   <meta property="og:url" content="${url}" />
-  <meta property="og:image" content="${ORIGIN}/sheetmusicplayer/og-image.png" />
+  <meta property="og:image" content="${ORIGIN}/notenamer/og-image.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -224,7 +224,7 @@ ${JSON.stringify(jsonLd, null, 2).replace(/</g, "\\u003c").replace(/^/gm, "  ")}
 <body>
   <header class="site-head">
     <div class="inner">
-      <a class="brand" href="${APP_PATH[lang]}">${MARK}<span>Sheet Music Player</span></a>
+      <a class="brand" href="${APP_PATH[lang]}">${MARK}<span>Note Namer</span></a>
       <nav class="head-links" aria-label="${lang === "ja" ? "サイト" : "Site"}">
         <a class="lang" href="${pagePath(otherLang, page.slug)}" hreflang="${otherLang}" lang="${otherLang}">${ui.other.label}</a>
         <a class="btn" href="${APP_PATH[lang]}">${ui.openApp}</a>
@@ -253,8 +253,8 @@ ${nav}
 ` : ""}      <p class="meta">
         <span>${ui.footer}</span>
 ${infoPages.map((p) => `        <a href="${pagePath(lang, p.slug)}"${p.slug === page.slug ? ' aria-current="page"' : ""}>${escapeHtml(p[lang].nav)}</a>`).join("\n")}
-        <a href="https://github.com/ktkwmr/SheetMusicPlayer" rel="noopener">${ui.source}</a>
-        <a href="https://github.com/ktkwmr/SheetMusicPlayer/issues" rel="noopener">${ui.feedback}</a>
+        <a href="https://github.com/ktkwmr/NoteNamer" rel="noopener">${ui.source}</a>
+        <a href="https://github.com/ktkwmr/NoteNamer/issues" rel="noopener">${ui.feedback}</a>
         <a href="${ui.homeUrl}">${ui.home}</a>
       </p>
     </div>

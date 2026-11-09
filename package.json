@@ -1,5 +1,5 @@
 {
-  "name": "sheetmusicplayer",
+  "name": "notenamer",
   "private": true,
   "type": "module",
   "description": "Development tools only. The app itself has no build step and no npm dependencies.",

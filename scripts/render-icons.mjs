@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Renders public/sheetmusicplayer/icons/icon.svg to the PNG icons:
+// Renders public/notenamer/icons/icon.svg to the PNG icons:
 //   icon-192.png, icon-512.png, apple-touch-icon.png (180, no transparency),
 //   icon-maskable-512.png (the mark inside the 80% safe zone on black).
 // Requires Playwright, as for scripts/render-og-image.mjs.
@@ -8,7 +8,7 @@ import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 
 const { chromium } = await import("playwright").catch(() => import("playwright-core"));
-const dir = new URL("../public/sheetmusicplayer/icons/", import.meta.url);
+const dir = new URL("../public/notenamer/icons/", import.meta.url);
 const svg = await readFile(new URL("icon.svg", dir), "utf8");
 const dataUrl = "data:image/svg+xml;base64," + Buffer.from(svg).toString("base64");
 

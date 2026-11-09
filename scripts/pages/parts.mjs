@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import { escapeHtml, pagePath } from "./layout.mjs";
 
 // ---------- Values read from the app itself, so the articles never disagree with it ----------
-const APP = readFileSync(new URL("../../public/sheetmusicplayer/index.html", import.meta.url), "utf8");
+const APP = readFileSync(new URL("../../public/notenamer/index.html", import.meta.url), "utf8");
 function appConst(name) {
   const m = APP.match(new RegExp(`const ${name} = (\\d+);`));
   if (!m) throw new Error(`index.html: const ${name} not found`);
@@ -25,7 +25,7 @@ export const BPM_RANGE = (() => {
 })();
 
 // ---------- Pictures (made by scripts/render-guide-images.mjs) ----------
-const IMG = "/sheetmusicplayer/guide/img/";
+const IMG = "/notenamer/guide/img/";
 const SIZES = { app: [1280, 800], menu: [600, 450], sample: [900, 1273], photo: [360, 0] };
 
 // A screenshot of the app; name without the language, e.g. "app-start"

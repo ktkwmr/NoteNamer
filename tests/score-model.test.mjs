@@ -1,4 +1,4 @@
-// Unit tests for public/sheetmusicplayer/score-model.mjs (MusicXML <-> note list).
+// Unit tests for public/notenamer/score-model.mjs (MusicXML <-> note list).
 // Run: npm install && npm test
 // The module uses the browser's DOMParser / XMLSerializer; jsdom provides them here.
 import { test } from "node:test";
@@ -9,7 +9,7 @@ import { JSDOM } from "jsdom";
 const { window } = new JSDOM("");
 globalThis.DOMParser = window.DOMParser;
 globalThis.XMLSerializer = window.XMLSerializer;
-const SM = await import("../public/sheetmusicplayer/score-model.mjs");
+const SM = await import("../public/notenamer/score-model.mjs");
 
 const fixture = (name) => readFileSync(new URL(`./fixtures/${name}`, import.meta.url), "utf8");
 const key = (model) => model.notes.map((n) => [n.track, n.start, n.dur, n.midi].join(",")).sort().join(";");

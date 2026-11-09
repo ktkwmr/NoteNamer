@@ -1,11 +1,11 @@
 #!/usr/bin/env node
-// Generates public/sheetmusicplayer/ja/index.html (the Japanese page) from
-// public/sheetmusicplayer/index.html, so only index.html is edited by hand.
+// Generates public/notenamer/ja/index.html (the Japanese page) from
+// public/notenamer/index.html, so only index.html is edited by hand.
 //
 // - <head>: lang, title, description, canonical, Open Graph, and JSON-LD are
-//   replaced with the Japanese versions below. <base href="/sheetmusicplayer/">
+//   replaced with the Japanese versions below. <base href="/notenamer/">
 //   is added so relative URLs (icons, manifest, sw.js, THIRD_PARTY_LICENSES.md)
-//   still point to the files in public/sheetmusicplayer/.
+//   still point to the files in public/notenamer/.
 // - <body>: the text of data-i18n / data-i18n-html / data-i18n-attr elements
 //   is replaced with the Japanese strings from the I18N object in index.html,
 //   so search engines see Japanese text without running JavaScript.
@@ -24,19 +24,19 @@ import { dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import vm from "node:vm";
 
-const SRC = fileURLToPath(new URL("../public/sheetmusicplayer/index.html", import.meta.url));
-const OUT = fileURLToPath(new URL("../public/sheetmusicplayer/ja/index.html", import.meta.url));
+const SRC = fileURLToPath(new URL("../public/notenamer/index.html", import.meta.url));
+const OUT = fileURLToPath(new URL("../public/notenamer/ja/index.html", import.meta.url));
 const CHECK = process.argv.includes("--check");
 
-const BASE_URL = "https://ktkwmr.com/sheetmusicplayer/";
+const BASE_URL = "https://ktkwmr.com/notenamer/";
 const JA_URL = BASE_URL + "ja/";
 
 // Japanese text for search results and social media shares
-const TITLE = "Sheet Music Player – 楽譜の写真・PDFを読み取って再生する無料アプリ";
-const DESCRIPTION = "楽譜を写真に撮るか画像・PDFを開くと、音符を読み取って再生する無料のWebアプリ。再生中は五線譜の上をカーソルが進み、テンポも途中で変えられます。読み取り（楽譜認識）はブラウザの中で行うので、楽譜はアップロードされません。登録不要。";
-const OG_DESCRIPTION = "楽譜の写真や画像・PDFを読み取って、五線譜の上をカーソルが進みながら再生。テンポも自由に変えられます。無料・登録不要、楽譜は端末の外に出ません。";
-const OG_IMAGE_ALT = "Sheet Music Player：楽譜の写真を読み取り、五線譜の上のカーソルとともに再生";
-const LD_DESCRIPTION = "楽譜の写真・画像・PDFを光学楽譜認識で読み取り、五線譜上のカーソルとともに再生するWebアプリ。";
+const TITLE = "Note Namer – 楽譜にドレミを振る無料アプリ（写真・PDFから音名付きの楽譜）";
+const DESCRIPTION = "楽譜を写真に撮ると、すべての音符の下にドレミ（音名）を書いた楽譜を作る無料のWebアプリ。調号や臨時記号の♯・♭も反映し、C D E・Do Re Mi・도레미などの書き方も選べます。印刷・保存・共有ができます。読み取り（楽譜認識）はブラウザの中で行うので、楽譜はアップロードされません。登録不要。";
+const OG_DESCRIPTION = "楽譜を撮るだけで、すべての音符にドレミを振った楽譜に。♯・♭も正しく反映し、印刷・保存・共有できます。無料・登録不要、楽譜は端末の外に出ません。";
+const OG_IMAGE_ALT = "Note Namer：すべての音符の下に音名を書いた楽譜";
+const LD_DESCRIPTION = "楽譜の写真・画像・PDFを光学楽譜認識で読み取り、すべての音符の下に音名（ドレミ・C D E・도레미など）を書いて印刷・共有できるWebアプリ。";
 
 const escapeAttr = (s) => s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
 const escapeText = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;");
@@ -57,7 +57,7 @@ function replaceOnce(pattern, replacement, label) {
 
 // ---------- <head> ----------
 replaceOnce(/<html lang="en">/, '<html lang="ja" data-page-lang="ja">', "html lang");
-replaceOnce(/(<meta charset="UTF-8" \/>\n)/, '$1  <base href="/sheetmusicplayer/" />\n', "base");
+replaceOnce(/(<meta charset="UTF-8" \/>\n)/, '$1  <base href="/notenamer/" />\n', "base");
 replaceOnce(/<title>[^<]*<\/title>/, `<title>${escapeText(TITLE)}</title>`, "title");
 replaceOnce(/(<meta name="description" content=")[^"]*(")/, `$1${escapeAttr(DESCRIPTION)}$2`, "description");
 replaceOnce(/(<link rel="canonical" href=")[^"]*(")/, `$1${JA_URL}$2`, "canonical");
@@ -67,7 +67,7 @@ replaceOnce(/(<meta property="og:locale" content=")[^"]*(")/, "$1ja_JP$2", "og:l
 replaceOnce(/(<meta property="og:locale:alternate" content=")[^"]*(")/, "$1en_US$2", "og:locale:alternate");
 replaceOnce(/(<meta property="og:url" content=")[^"]*(")/, `$1${JA_URL}$2`, "og:url");
 replaceOnce(/(<meta property="og:image:alt" content=")[^"]*(")/, `$1${escapeAttr(OG_IMAGE_ALT)}$2`, "og:image:alt");
-replaceOnce(/("url": ")https:\/\/ktkwmr\.com\/sheetmusicplayer\/(")/, `$1${JA_URL}$2`, "JSON-LD url");
+replaceOnce(/("url": ")https:\/\/ktkwmr\.com\/notenamer\/(")/, `$1${JA_URL}$2`, "JSON-LD url");
 replaceOnce(/("description": ")[^"]*(")/, `$1${LD_DESCRIPTION}$2`, "JSON-LD description");
 replaceOnce(/"inLanguage": "en"/, '"inLanguage": "ja"', "JSON-LD inLanguage");
 

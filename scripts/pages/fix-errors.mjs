@@ -17,6 +17,7 @@ export default {
   <li><a href="#flag">Start with the measures marked “!”</a></li>
   <li><a href="#editor">How the editor works</a></li>
   <li><a href="#common">Common mistakes and how to fix them</a></li>
+  <li><a href="#names">When the names are wrong</a></li>
   <li><a href="#limits">What the editor cannot change</a></li>
   <li><a href="#save">Save your corrections</a></li>
 </ol></nav>
@@ -72,11 +73,19 @@ ${shot("en", "app-edit", "The editor with measure 4 highlighted and marked with 
 </table>
 </div>
 
+<h2 id="names">When the names are wrong</h2>
+<p>A name is wrong when the note under it was read wrong, so fix the note and the name follows. Two patterns are worth knowing:</p>
+<ul>
+  <li><b>One note has the wrong name</b>: a missed or extra sharp, flat, or natural in front of it, or the note is a step too high or low. Drag the note to the right pitch in the editor.</li>
+  <li><b>Many names are a sharp or flat off</b>, all on the same note name (for example every F named F instead of F♯): the <b>key signature</b> was read wrong. Compare the sharps or flats after the clef with the paper. The editor cannot change the key signature (see below); fix the notes one by one, or fix the key in a notation program.</li>
+</ul>
+<p>See ${link("en", "sharps-and-flats", "sharps, flats, and key signatures")} for how the signs work.</p>
+
 <h2 id="limits">What the editor cannot change</h2>
-<p>The editor changes notes and measures. It does not change the key signature, the time signature, clefs, bar lines, repeat signs, or text. If those are wrong, save the score as MusicXML and fix them in a notation program such as MuseScore (see ${link("en", "musicxml", "what MusicXML is")}). Lyrics and chord symbols are not read in the first place.</p>
+<p>The editor changes notes and measures. It does not change the key signature, the time signature, clefs, bar lines, repeat signs, or text. If those are wrong, save the score as MusicXML, fix them in a notation program such as MuseScore, and open the corrected file in this app again. Lyrics and chord symbols are not read in the first place.</p>
 
 <h2 id="save">Save your corrections</h2>
-<p>When you switch back to Score (or save), the corrections are kept in the browser along with the score. To keep a copy as a file, choose <b>Save / share → MusicXML (score)</b>. When the notes are edited, the score is rebuilt from the notes, so slurs, articulations, and similar markings are not kept in the saved file.</p>
+<p>When you switch back to Score (or save), the corrections are kept in the browser along with the score. To keep a copy as a file, choose <b>Save / share → MusicXML (with note names)</b>. When the notes are edited, the score is rebuilt from the notes, so slurs, articulations, and similar markings are not kept in the saved file.</p>
 `,
   },
   ja: {
@@ -92,6 +101,7 @@ ${shot("en", "app-edit", "The editor with measure 4 highlighted and marked with 
   <li><a href="#flag">「!」の付いた小節から確かめる</a></li>
   <li><a href="#editor">編集画面の使い方</a></li>
   <li><a href="#common">よくある間違いと直し方</a></li>
+  <li><a href="#names">音名が違うとき</a></li>
   <li><a href="#limits">編集画面で直せないもの</a></li>
   <li><a href="#save">直した楽譜を保存する</a></li>
 </ol></nav>
@@ -147,11 +157,19 @@ ${shot("ja", "app-edit", "4 小節目の音符が 1 つ抜けているため、4
 </table>
 </div>
 
+<h2 id="names">音名が違うとき</h2>
+<p>音名が違うのは、その音符を読み違えたときです。音符を直せば、音名も直ります。知っておくと早いパターンが 2 つあります。</p>
+<ul>
+  <li><b>1 つだけ音名が違う</b>：その音符の前の ♯・♭・♮ の見落としや読み過ぎ、または音符が 1 つ高い・低い。編集画面で音符を正しい高さにドラッグしてください。</li>
+  <li><b>同じ音名がどれも ♯・♭ の分だけ違う</b>（たとえばファがすべて「ファ♯」ではなく「ファ」）：<b>調号</b>を読み違えています。音部記号のすぐ右の ♯・♭ を元の楽譜と見比べてください。調号は編集画面では直せないので（下の項目）、音符を 1 つずつ直すか、楽譜ソフトで調号を直してください。</li>
+</ul>
+<p>記号の意味は${link("ja", "sharps-and-flats", "♯・♭と調号の読み方")}をご覧ください。</p>
+
 <h2 id="limits">編集画面で直せないもの</h2>
-<p>編集画面で直せるのは音符と小節です。調号・拍子記号・音部記号・小節線・繰り返し記号・文字は直せません。これらが違うときは、MusicXML で保存して MuseScore などの楽譜ソフトで直してください（${link("ja", "musicxml", "MusicXML とは")}）。歌詞とコードネームは、もともと読み取りません。</p>
+<p>編集画面で直せるのは音符と小節です。調号・拍子記号・音部記号・小節線・繰り返し記号・文字は直せません。これらが違うときは、MusicXML で保存して MuseScore などの楽譜ソフトで直し、直したファイルをこのアプリでもう一度開いてください。歌詞とコードネームは、もともと読み取りません。</p>
 
 <h2 id="save">直した楽譜を保存する</h2>
-<p>「楽譜」に戻ったとき（または保存したとき）に、直した内容が楽譜と一緒にブラウザに保存されます。ファイルとして残すときは <b>保存・共有 → MusicXML（楽譜）</b>を選んでください。音符を編集すると、音符から楽譜を作り直すので、スラーやアーティキュレーションなどの記号は保存したファイルに残りません。</p>
+<p>「楽譜」に戻ったとき（または保存したとき）に、直した内容が楽譜と一緒にブラウザに保存されます。ファイルとして残すときは <b>保存・共有 → MusicXML（音名入り）</b>を選んでください。音符を編集すると、音符から楽譜を作り直すので、スラーやアーティキュレーションなどの記号は保存したファイルに残りません。</p>
 `,
   },
 };

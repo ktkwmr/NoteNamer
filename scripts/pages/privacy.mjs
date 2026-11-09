@@ -1,7 +1,7 @@
 // Privacy policy (site information page, linked from the footer and from the app's Privacy dialog).
 // Includes the external-transmission notice required in Japan (電気通信事業法の外部送信規律).
 // Update `modified` and the dates at the end when the content changes (for example when a service is added).
-const ISSUES = "https://github.com/ktkwmr/SheetMusicPlayer/issues";
+const ISSUES = "https://github.com/ktkwmr/NoteNamer/issues";
 const CLOUDFLARE = "https://www.cloudflare.com/privacypolicy/";
 
 export default {
@@ -13,9 +13,9 @@ export default {
     heading: "Privacy policy",
     nav: "Privacy policy",
     description:
-      "How Sheet Music Player handles information: your sheet music is read on your device and never uploaded, data saved in your browser, external services (Cloudflare), analytics without cookies, and no ads.",
+      "How Note Namer handles information: your sheet music is read on your device and never uploaded, data saved in your browser, external services (Cloudflare), analytics without cookies, and no ads.",
     body: () => `
-<p class="lead">This policy explains how Sheet Music Player (https://ktkwmr.com/sheetmusicplayer/, "this site") handles information. In short: the photos, images, and PDFs you open are read entirely on your device, and they are never sent anywhere.</p>
+<p class="lead">This policy explains how Note Namer (https://ktkwmr.com/notenamer/, "this site") handles information. In short: the photos, images, and PDFs you open are read entirely on your device, and they are never sent anywhere.</p>
 
 <nav class="toc" aria-label="Contents"><b>Contents</b><ol>
   <li><a href="#app">What you do in the app</a></li>
@@ -78,9 +78,9 @@ export default {
     heading: "プライバシーポリシー",
     nav: "プライバシーポリシー",
     description:
-      "Sheet Music Player のプライバシーポリシー。楽譜を端末の中だけで読み取りアップロードしないこと、ブラウザに保存するデータ、外部への送信（Cloudflare）、Cookie を使わないアクセス解析、広告がないことについて。",
+      "Note Namer のプライバシーポリシー。楽譜を端末の中だけで読み取りアップロードしないこと、ブラウザに保存するデータ、外部への送信（Cloudflare）、Cookie を使わないアクセス解析、広告がないことについて。",
     body: () => `
-<p class="lead">Sheet Music Player（https://ktkwmr.com/sheetmusicplayer/、以下「本サイト」）での情報の取り扱いについて説明します。要点は、開いた写真・画像・PDFをすべて端末の中で読み取り、どこにも送らないことです。</p>
+<p class="lead">Note Namer（https://ktkwmr.com/notenamer/、以下「本サイト」）での情報の取り扱いについて説明します。要点は、開いた写真・画像・PDFをすべて端末の中で読み取り、どこにも送らないことです。</p>
 
 <nav class="toc" aria-label="目次"><b>目次</b><ol>
   <li><a href="#app">アプリで行うこと</a></li>
