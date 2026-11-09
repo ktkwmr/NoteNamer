@@ -211,6 +211,9 @@ async function shots(lang) {
   await app.evaluate(() => new Promise((resolve) => { localStorage.clear(); const r = indexedDB.deleteDatabase("notenamer-history"); r.onsuccess = r.onerror = r.onblocked = () => resolve(); }));
   await app.reload();
   await app.waitForSelector("#fileBtn");
+  // With nothing open, the app shows the sample (Ode to Joy) with its names
+  await app.waitForSelector("#namesBar:not([hidden])");
+  await app.waitForTimeout(600);
   await app.mouse.move(0, 0);
   await webp(app, await app.screenshot(), `app-start-${lang}.webp`, { width: 1280 });
 

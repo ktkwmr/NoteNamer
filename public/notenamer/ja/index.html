@@ -223,7 +223,7 @@
     .names-bar select { height: var(--ctl-h); max-width: 100%; border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--paper); color: var(--ink); font: inherit; font-size: 15px; font-weight: 700; padding: 0 8px; }
     .names-bar select:focus { outline: none; border-color: var(--ink); }
     /* Print / save as image / share, under the score */
-    .actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; padding: 14px 16px 4px; border-top: 1px solid var(--line); }
+    .actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; padding: 16px; border-top: 1px solid var(--line); }
     .actions .big { height: 52px; font-size: 15px; padding: 0 8px; }
     .actions .big span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .act-msg { grid-column: 1 / -1; margin: 2px 0 0; font-size: 13px; color: var(--muted); }
@@ -366,7 +366,6 @@
             <div class="stack">
               <button type="button" class="big" id="fileBtn"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 2.8h7.5L16 7.3v9.9H4z"></path><path d="M11.3 2.8v4.6H16"></path></svg><span id="pickLabel" data-i18n="pick">ファイルを選ぶ</span></button>
               <button type="button" class="big secondary" id="camBtn"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.5h3l1.6-2.2h5.8l1.6 2.2h3v9.7h-15z"></path><circle cx="10" cy="11" r="3.1"></circle></svg><span data-i18n="camera">写真を撮る</span></button>
-              <button type="button" class="big secondary" id="sampleBtn"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5.5h14M3 9h14M3 12.5h14"></path><circle cx="7" cy="15.6" r="1.6" fill="currentColor"></circle><path d="M8.6 15.6V7"></path></svg><span data-i18n="sample">見本で試す</span></button>
             </div>
             <p data-i18n="drop">またはここにファイルをドロップ・画像（JPEG・PNGなど）・PDF・MusicXMLに対応</p>
             <input type="file" id="fileInput" multiple hidden>
@@ -397,7 +396,7 @@
             <ul class="hist-list" id="histList"></ul>
           </div>
 
-          <p class="note" id="firstNote" data-i18n-html="first">初めて写真を読み取るときだけ、読み取りエンジン（約130MB）をダウンロードします。次からはすぐに始まり、オフラインでも使えます。「見本で試す」はダウンロードなしで見られます。</p>
+          <p class="note" id="firstNote" data-i18n-html="first">初めて写真を読み取るときだけ、読み取りエンジン（約130MB）をダウンロードします。次からはすぐに始まり、オフラインでも使えます。</p>
           <ul class="steps" data-i18n-html="tips"><li>楽譜は正面から、明るい場所で、ページ全体が入るように撮ってください。</li>
             <li>印刷された楽譜に対応しています。手書きの楽譜は読み取れません。</li>
             <li>読み取り結果には間違いが含まれることがあります。聴きながら確かめてください。</li></ul>
@@ -469,7 +468,7 @@
           <div id="playhead" hidden></div>
           <div class="empty" id="empty">
             <svg viewBox="0 0 120 64" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 14h112M4 24h112M4 34h112M4 44h112M4 54h112"></path><path d="M44 44V10M76 34V4" stroke-width="2.4"></path><ellipse cx="38" cy="45" rx="7" ry="5" transform="rotate(-20 38 45)" fill="currentColor"></ellipse><ellipse cx="70" cy="35" rx="7" ry="5" transform="rotate(-20 70 35)" fill="currentColor"></ellipse></svg>
-            <p data-i18n="empty">読み込んだ楽譜が、すべての音符に音名を付けてここに表示されます。手元に楽譜がなければ「見本で試す」を押してください。</p>
+            <p data-i18n="empty">読み込んだ楽譜が、すべての音符に音名を付けてここに表示されます。</p>
           </div>
         </div>
         <div class="edit-wrap" id="editWrap" hidden></div>
@@ -526,7 +525,7 @@
   <dialog class="msg help" id="helpDlg" tabindex="-1" aria-labelledby="helpTitle">
     <h2 id="helpTitle" data-i18n="menu.help">使い方</h2>
     <div class="help-body">
-      <ol class="help-list" data-i18n-html="help.body"><li><b>楽譜を開く</b> – 写真を撮るか、画像やPDFを選んで（左のパネルにドロップしても可）「楽譜を読み取る」を押します。ファイルは12個まで追加でき、並んだ順に1つの楽譜として読み取ります（ハンドルをドラッグすると順番を変えられます）。MusicXML はすぐに開きます。「見本で試す」を押すと、音名付きの楽譜をすぐに見られます。</li>
+      <ol class="help-list" data-i18n-html="help.body"><li><b>楽譜を開く</b> – 写真を撮るか、画像やPDFを選んで（左のパネルにドロップしても可）「楽譜を読み取る」を押します。ファイルは12個まで追加でき、並んだ順に1つの楽譜として読み取ります（ハンドルをドラッグすると順番を変えられます）。MusicXML はすぐに開きます。楽譜を開いていないときは、見本（歓喜の歌）を表示します。</li>
         <li><b>読み取りを待つ</b> – 初回は読み取りエンジン（約130MB）をダウンロードします。読み取りには、端末の性能によって1ページ10秒〜1分ほどかかります。</li>
         <li><b>音名</b> – すべての音符の下に音名を書きます。調号や臨時記号の ♯・♭ も反映します。楽譜の上で、書き方（ドレミ・C D E・Do Re Mi・도레미・ドイツ式・До Ре Ми、または移動ド・数字譜・Sa Re Ga）を選べます。和音は上の音から順に縦に並べ、タイでつながった後ろの音には書きません。</li>
         <li><b>聞いて確かめる</b> – ▶ を押すと、青いカーソルが五線の上を進みながら音が鳴ります。❚❚ で一時停止、■ で止めて最初に戻ります。音符をクリックするとカーソルがそこに移ります。テンポは −5／+5、数字、スライダーで変えられます。</li>
@@ -591,7 +590,6 @@
           "score": "Score",
           "pick": "Choose a file",
           "camera": "Take a photo",
-          "sample": "Try a sample",
           "names": "Note names",
           "sys.katakana": "ドレミ (katakana)",
           "sys.letter": "C D E (letters)",
@@ -607,10 +605,9 @@
           "sys.movable": "In the key (the key's first note is Do)",
           "png.again": "The images are ready. Press “Save image” again.",
           "png.share": "Choose “Save Image” to keep the {n} pages in your photos.",
-          "sample.file": "Ode to Joy (sample).musicxml",
           "drop": "or drop files here · images (JPEG, PNG, …), PDF, and MusicXML",
           "cancel": "Cancel",
-          "first": "The first time you read a photo, the app downloads its reading engine (about 130 MB). After that it starts right away, even offline. “Try a sample” needs no download.",
+          "first": "The first time you read a photo, the app downloads its reading engine (about 130 MB). After that it starts right away, even offline.",
           "tips": "<li>Photograph the page straight on, in good light, with the whole page in the frame.</li>\n            <li>Printed music works best. Handwriting is not supported.</li>\n            <li>The result may contain mistakes. Check it while you listen.</li>",
           "play": "Play",
           "pause": "Pause",
@@ -679,7 +676,7 @@
           "track.upper": "upper",
           "track.lower": "lower",
           "track.only": "Notes",
-          "empty": "The score appears here, with a name under every note. No score at hand? Press “Try a sample”.",
+          "empty": "The score appears here, with a name under every note.",
           "keys": "<kbd>Space</kbd> play / pause　<kbd>Home</kbd> stop (back to the beginning)　<kbd>↑</kbd><kbd>↓</kbd> tempo ±1 (<kbd>Shift</kbd> ±5)　click a note to move the cursor there",
           "foot": "Your score is read on this device and is never uploaded. Recent scores are kept in this browser.",
           "foot.fail": "This browser cannot keep your score (check private browsing or blocked site data).",
@@ -740,7 +737,7 @@
           "foot.meta": "<span>Note Namer · © 2026 ktkwmr</span>\n<a href=\"/notenamer/privacy/\" target=\"_blank\" rel=\"noopener\">Privacy policy</a>\n<a href=\"/notenamer/about/\" target=\"_blank\" rel=\"noopener\">About this site</a>\n<a href=\"https://github.com/ktkwmr/NoteNamer\" target=\"_blank\" rel=\"noopener\">Source code on GitHub</a>\n<a href=\"https://github.com/ktkwmr/NoteNamer/issues\" target=\"_blank\" rel=\"noopener\">Feedback</a>\n<a href=\"https://ktkwmr.com/\" target=\"_blank\" rel=\"noopener\">More apps by ktkwmr</a>",
           "foot.guidesTitle": "Guides",
           "foot.guides": "<li><a href=\"/notenamer/guide/\" target=\"_blank\" rel=\"noopener\">How to use Note Namer</a></li>\n<li><a href=\"/notenamer/note-name-chart/\" target=\"_blank\" rel=\"noopener\">Note name chart</a></li>\n<li><a href=\"/notenamer/reading-notes/\" target=\"_blank\" rel=\"noopener\">Reading notes on the staff</a></li>\n<li><a href=\"/notenamer/sharps-and-flats/\" target=\"_blank\" rel=\"noopener\">Sharps, flats, and key signatures</a></li>\n<li><a href=\"/notenamer/faq/\" target=\"_blank\" rel=\"noopener\">FAQ</a></li>\n<li><a href=\"/notenamer/photo-tips/\" target=\"_blank\" rel=\"noopener\">Photo tips for sheet music</a></li>\n<li><a href=\"/notenamer/fix-errors/\" target=\"_blank\" rel=\"noopener\">Fixing reading mistakes</a></li>",
-          "help.body": "<li><b>Open a score</b> – Take a photo, or choose images or PDFs (or drop them on the left panel), then press “Read the score”. Up to 12 files can be added; they are read in the listed order as one score (drag the handle to change the order). A MusicXML file opens right away. “Try a sample” shows a score with names at once.</li>\n        <li><b>Wait for the reading</b> – The first time, the reading engine is downloaded (about 130 MB). Reading takes from about ten seconds to a minute per page, depending on your device.</li>\n        <li><b>Note names</b> – Every note gets its name below it, with the sharps and flats of the key signature and of the accidentals. Above the score, choose how the names are written: pitch names (ドレミ, C D E, Do Re Mi, 도레미, German, До Ре Ми) or names in the key (movable Do, 1 2 3, Sa Re Ga). Chords are named from the top note down; a note tied from the one before gets no name.</li>\n        <li><b>Listen</b> – Press ▶ to check the names by ear: a blue cursor moves along the staff. ❚❚ pauses, and ■ stops and goes back to the beginning. Click a note to move the cursor there. Change the tempo with −5 / +5, the number, or the slider.</li>\n        <li><b>Fix mistakes</b> – Switch to “Edit”. Each note is a box: drag it up or down to change the pitch, sideways to move it, drag its right edge to change the length, click an empty spot to add a note, and right-click to delete. Back in “Score”, the staff and the names are redrawn with your changes.</li>\n        <li><b>Practice mode</b> – A metronome, a count-in, and transposition by semitones. The names follow the transposition.</li>\n        <li><b>Save / share</b> – Save the score as MusicXML, or share the app's link with the MusicXML file. The last 10 scores are kept under “Recent scores”.</li>",
+          "help.body": "<li><b>Open a score</b> – Take a photo, or choose images or PDFs (or drop them on the left panel), then press “Read the score”. Up to 12 files can be added; they are read in the listed order as one score (drag the handle to change the order). A MusicXML file opens right away. When nothing is open, a sample (Ode to Joy) is shown.</li>\n        <li><b>Wait for the reading</b> – The first time, the reading engine is downloaded (about 130 MB). Reading takes from about ten seconds to a minute per page, depending on your device.</li>\n        <li><b>Note names</b> – Every note gets its name below it, with the sharps and flats of the key signature and of the accidentals. Above the score, choose how the names are written: pitch names (ドレミ, C D E, Do Re Mi, 도레미, German, До Ре Ми) or names in the key (movable Do, 1 2 3, Sa Re Ga). Chords are named from the top note down; a note tied from the one before gets no name.</li>\n        <li><b>Listen</b> – Press ▶ to check the names by ear: a blue cursor moves along the staff. ❚❚ pauses, and ■ stops and goes back to the beginning. Click a note to move the cursor there. Change the tempo with −5 / +5, the number, or the slider.</li>\n        <li><b>Fix mistakes</b> – Switch to “Edit”. Each note is a box: drag it up or down to change the pitch, sideways to move it, drag its right edge to change the length, click an empty spot to add a note, and right-click to delete. Back in “Score”, the staff and the names are redrawn with your changes.</li>\n        <li><b>Practice mode</b> – A metronome, a count-in, and transposition by semitones. The names follow the transposition.</li>\n        <li><b>Save / share</b> – Save the score as MusicXML, or share the app's link with the MusicXML file. The last 10 scores are kept under “Recent scores”.</li>",
           "help.more": "More: <a href=\"/notenamer/guide/\" target=\"_blank\" rel=\"noopener\">guide with screenshots</a> · <a href=\"/notenamer/photo-tips/\" target=\"_blank\" rel=\"noopener\">photo tips</a> · <a href=\"/notenamer/fix-errors/\" target=\"_blank\" rel=\"noopener\">fixing mistakes</a> · <a href=\"/notenamer/faq/\" target=\"_blank\" rel=\"noopener\">FAQ</a>",
           "privacy.body": "<li><b>Your music stays on your device</b> – The photo, image, or PDF you open is read only in your browser and is never sent to a server. The photo you take with the camera is not saved. This app has no accounts, cookies, or ads.</li>\n        <li><b>Data saved in your browser</b> – Up to the last 10 scores you opened (the notes the app read, as MusicXML), with their titles, file names, tempo, and transposition, are saved in your browser's storage so you can open them again. “Clear history” removes them. The app and its reading engine are saved there too, so they work offline. You can delete them by clearing this site's data in your browser settings.</li>\n        <li><b>Server logs and page views</b> – This site is hosted on Cloudflare. Standard access logs (such as IP address, time, and the requested page or file) are kept for operation and security. Cloudflare Web Analytics counts page views without cookies (the page URL, referrer, browser information, and page load time).</li>\n        <li><b>Contact</b> – Questions and feedback: <a href=\"https://github.com/ktkwmr/NoteNamer/issues\" target=\"_blank\" rel=\"noopener\">GitHub Issues</a>.</li>\n        <li><b>Full policy</b> – See the <a href=\"/notenamer/privacy/\" target=\"_blank\" rel=\"noopener\">privacy policy</a> and <a href=\"/notenamer/about/\" target=\"_blank\" rel=\"noopener\">about this site</a>.</li>",
           "about.license": "© 2026 ktkwmr · Licensed under the <a href=\"https://github.com/ktkwmr/NoteNamer/blob/main/LICENSE\" target=\"_blank\" rel=\"noopener\">GNU AGPL v3</a> (the same as homr, the music recognition it uses) · <a href=\"/notenamer/about/\" target=\"_blank\" rel=\"noopener\">About this site</a>",
@@ -754,7 +751,6 @@
           "score": "楽譜",
           "pick": "ファイルを選ぶ",
           "camera": "写真を撮る",
-          "sample": "見本で試す",
           "names": "音名",
           "sys.katakana": "ドレミ（カタカナ）",
           "sys.letter": "C D E（英語）",
@@ -770,10 +766,9 @@
           "sys.movable": "調に合わせる（主音がド）",
           "png.again": "画像の準備ができました。もう一度「画像を保存」を押してください。",
           "png.share": "「画像を保存」を選ぶと、{n} ページを写真に保存できます。",
-          "sample.file": "歓喜の歌（見本）.musicxml",
           "drop": "またはここにファイルをドロップ・画像（JPEG・PNGなど）・PDF・MusicXMLに対応",
           "cancel": "キャンセル",
-          "first": "初めて写真を読み取るときだけ、読み取りエンジン（約130MB）をダウンロードします。次からはすぐに始まり、オフラインでも使えます。「見本で試す」はダウンロードなしで見られます。",
+          "first": "初めて写真を読み取るときだけ、読み取りエンジン（約130MB）をダウンロードします。次からはすぐに始まり、オフラインでも使えます。",
           "tips": "<li>楽譜は正面から、明るい場所で、ページ全体が入るように撮ってください。</li>\n            <li>印刷された楽譜に対応しています。手書きの楽譜は読み取れません。</li>\n            <li>読み取り結果には間違いが含まれることがあります。聴きながら確かめてください。</li>",
           "play": "再生",
           "pause": "一時停止",
@@ -842,7 +837,7 @@
           "track.upper": "上段",
           "track.lower": "下段",
           "track.only": "音符",
-          "empty": "読み込んだ楽譜が、すべての音符に音名を付けてここに表示されます。手元に楽譜がなければ「見本で試す」を押してください。",
+          "empty": "読み込んだ楽譜が、すべての音符に音名を付けてここに表示されます。",
           "keys": "<kbd>Space</kbd> 再生/一時停止　<kbd>Home</kbd> 停止（最初に戻る）　<kbd>↑</kbd><kbd>↓</kbd> テンポ ±1（<kbd>Shift</kbd>で±5）　音符をクリックでカーソルを移動",
           "foot": "楽譜はこの端末の中で読み取り、アップロードはしません。最近開いた楽譜はこのブラウザに保存されます。",
           "foot.fail": "このブラウザでは楽譜を保存できません（プライベートモードやサイトデータのブロックを確認してください）。",
@@ -903,7 +898,7 @@
           "foot.meta": "<span>Note Namer · © 2026 ktkwmr</span>\n<a href=\"/notenamer/ja/privacy/\" target=\"_blank\" rel=\"noopener\">プライバシーポリシー</a>\n<a href=\"/notenamer/ja/about/\" target=\"_blank\" rel=\"noopener\">運営者情報</a>\n<a href=\"https://github.com/ktkwmr/NoteNamer\" target=\"_blank\" rel=\"noopener\">GitHub のソースコード</a>\n<a href=\"https://github.com/ktkwmr/NoteNamer/issues\" target=\"_blank\" rel=\"noopener\">ご意見・ご質問</a>\n<a href=\"https://ktkwmr.com/ja/\" target=\"_blank\" rel=\"noopener\">ktkwmr のほかのアプリ</a>",
           "foot.guidesTitle": "ガイド",
           "foot.guides": "<li><a href=\"/notenamer/ja/guide/\" target=\"_blank\" rel=\"noopener\">使い方ガイド</a></li>\n<li><a href=\"/notenamer/ja/note-name-chart/\" target=\"_blank\" rel=\"noopener\">音名の対応表</a></li>\n<li><a href=\"/notenamer/ja/reading-notes/\" target=\"_blank\" rel=\"noopener\">五線譜の音の読み方</a></li>\n<li><a href=\"/notenamer/ja/sharps-and-flats/\" target=\"_blank\" rel=\"noopener\">♯・♭と調号の読み方</a></li>\n<li><a href=\"/notenamer/ja/faq/\" target=\"_blank\" rel=\"noopener\">よくある質問</a></li>\n<li><a href=\"/notenamer/ja/photo-tips/\" target=\"_blank\" rel=\"noopener\">楽譜の撮り方のコツ</a></li>\n<li><a href=\"/notenamer/ja/fix-errors/\" target=\"_blank\" rel=\"noopener\">読み取りミスの直し方</a></li>",
-          "help.body": "<li><b>楽譜を開く</b> – 写真を撮るか、画像やPDFを選んで（左のパネルにドロップしても可）「楽譜を読み取る」を押します。ファイルは12個まで追加でき、並んだ順に1つの楽譜として読み取ります（ハンドルをドラッグすると順番を変えられます）。MusicXML はすぐに開きます。「見本で試す」を押すと、音名付きの楽譜をすぐに見られます。</li>\n        <li><b>読み取りを待つ</b> – 初回は読み取りエンジン（約130MB）をダウンロードします。読み取りには、端末の性能によって1ページ10秒〜1分ほどかかります。</li>\n        <li><b>音名</b> – すべての音符の下に音名を書きます。調号や臨時記号の ♯・♭ も反映します。楽譜の上で、書き方（ドレミ・C D E・Do Re Mi・도레미・ドイツ式・До Ре Ми、または移動ド・数字譜・Sa Re Ga）を選べます。和音は上の音から順に縦に並べ、タイでつながった後ろの音には書きません。</li>\n        <li><b>聞いて確かめる</b> – ▶ を押すと、青いカーソルが五線の上を進みながら音が鳴ります。❚❚ で一時停止、■ で止めて最初に戻ります。音符をクリックするとカーソルがそこに移ります。テンポは −5／+5、数字、スライダーで変えられます。</li>\n        <li><b>間違いを直す</b> – 「編集」に切り替えると、音符が四角で表示されます。上下にドラッグで音の高さ、左右で位置、右端をドラッグで長さを変え、空いている所をクリックで追加、右クリックで削除できます。「楽譜」に戻ると、直した内容で五線譜と音名が描き直されます。</li>\n        <li><b>練習モード</b> – メトロノームとカウントイン、半音ずつの移調ができます。音名も移調した高さで書きます。</li>\n        <li><b>保存・共有</b> – MusicXML で保存したり、アプリのリンクと MusicXML を共有したりできます。最近開いた 10 曲は「最近の楽譜」に残ります。</li>",
+          "help.body": "<li><b>楽譜を開く</b> – 写真を撮るか、画像やPDFを選んで（左のパネルにドロップしても可）「楽譜を読み取る」を押します。ファイルは12個まで追加でき、並んだ順に1つの楽譜として読み取ります（ハンドルをドラッグすると順番を変えられます）。MusicXML はすぐに開きます。楽譜を開いていないときは、見本（歓喜の歌）を表示します。</li>\n        <li><b>読み取りを待つ</b> – 初回は読み取りエンジン（約130MB）をダウンロードします。読み取りには、端末の性能によって1ページ10秒〜1分ほどかかります。</li>\n        <li><b>音名</b> – すべての音符の下に音名を書きます。調号や臨時記号の ♯・♭ も反映します。楽譜の上で、書き方（ドレミ・C D E・Do Re Mi・도레미・ドイツ式・До Ре Ми、または移動ド・数字譜・Sa Re Ga）を選べます。和音は上の音から順に縦に並べ、タイでつながった後ろの音には書きません。</li>\n        <li><b>聞いて確かめる</b> – ▶ を押すと、青いカーソルが五線の上を進みながら音が鳴ります。❚❚ で一時停止、■ で止めて最初に戻ります。音符をクリックするとカーソルがそこに移ります。テンポは −5／+5、数字、スライダーで変えられます。</li>\n        <li><b>間違いを直す</b> – 「編集」に切り替えると、音符が四角で表示されます。上下にドラッグで音の高さ、左右で位置、右端をドラッグで長さを変え、空いている所をクリックで追加、右クリックで削除できます。「楽譜」に戻ると、直した内容で五線譜と音名が描き直されます。</li>\n        <li><b>練習モード</b> – メトロノームとカウントイン、半音ずつの移調ができます。音名も移調した高さで書きます。</li>\n        <li><b>保存・共有</b> – MusicXML で保存したり、アプリのリンクと MusicXML を共有したりできます。最近開いた 10 曲は「最近の楽譜」に残ります。</li>",
           "help.more": "詳しくは：<a href=\"/notenamer/ja/guide/\" target=\"_blank\" rel=\"noopener\">画面つきの使い方ガイド</a>・<a href=\"/notenamer/ja/photo-tips/\" target=\"_blank\" rel=\"noopener\">撮り方のコツ</a>・<a href=\"/notenamer/ja/fix-errors/\" target=\"_blank\" rel=\"noopener\">読み取りミスの直し方</a>・<a href=\"/notenamer/ja/faq/\" target=\"_blank\" rel=\"noopener\">よくある質問</a>",
           "privacy.body": "<li><b>楽譜は端末の外に出ません</b> – 開いた写真・画像・PDFは、ブラウザの中だけで読み取り、サーバーに送ることはありません。カメラで撮った写真も保存しません。アカウント登録・Cookie・広告はありません。</li>\n        <li><b>ブラウザに保存するデータ</b> – もう一度開けるよう、最近開いた楽譜（読み取った音符のMusicXML）を最大10曲まで、タイトル・ファイル名・テンポ・移調の設定と一緒にブラウザ内に保存します。「履歴を消去」で消せます。オフラインで使えるよう、アプリ本体と読み取りエンジンも保存します。ブラウザの設定でこのサイトのデータを削除すると消えます。</li>\n        <li><b>サーバーのログと閲覧数</b> – 本サイトは Cloudflare で配信しています。運用とセキュリティのため、一般的なアクセスログ（IP アドレス・日時・アクセスしたページやファイルなど）が記録されます。Cloudflare Web Analytics で、Cookie を使わずにページの閲覧数（ページの URL・参照元・ブラウザの情報・表示速度）を集計しています。</li>\n        <li><b>お問い合わせ</b> – ご質問・ご意見は <a href=\"https://github.com/ktkwmr/NoteNamer/issues\" target=\"_blank\" rel=\"noopener\">GitHub の Issues</a> へ。</li>\n        <li><b>詳しくは</b> – <a href=\"/notenamer/ja/privacy/\" target=\"_blank\" rel=\"noopener\">プライバシーポリシー</a>と<a href=\"/notenamer/ja/about/\" target=\"_blank\" rel=\"noopener\">運営者情報</a>をご覧ください。</li>",
           "about.license": "© 2026 ktkwmr · <a href=\"https://github.com/ktkwmr/NoteNamer/blob/main/LICENSE\" target=\"_blank\" rel=\"noopener\">GNU AGPL v3</a>（使用している楽譜認識 homr と同じライセンス）· <a href=\"/notenamer/ja/about/\" target=\"_blank\" rel=\"noopener\">運営者情報</a>",
@@ -984,6 +979,7 @@
       let state = Object.assign({}, EMPTY);
       try { state = validScore(JSON.parse(localStorage.getItem(STATE_KEY) || "null")) || state; } catch (e) {}
       function saveState() {
+        if (state.sample) return; // the sample shown when nothing is open is not kept
         try { localStorage.setItem(STATE_KEY, JSON.stringify(state)); $("saveState").textContent = t("foot"); }
         catch (e) {
           // Too large or blocked: keep at least the tempo
@@ -1006,10 +1002,10 @@
       } catch (e) {}
       function savePrefs() { try { localStorage.setItem(PREFS_KEY, JSON.stringify(prefs)); } catch (e) {} }
       let NN = null;
-      // The system in use: the chosen one, or the default for the language (the Japanese page: katakana)
+      // The system in use: the chosen one, or the default for the page's language (Japanese: ドレミ, otherwise C D E)
       function nameSystem() {
         if (prefs.system) return prefs.system;
-        return lang === "ja" ? "katakana" : NN ? NN.defaultSystem(navigator.language || "en") : "letter";
+        return NN ? NN.defaultSystem(lang) : lang === "ja" ? "katakana" : "letter";
       }
       // The names are lyrics: their height, and room between them so short notes do not run their names together.
       // Used for the score on screen and for the A4 pages (export-pages.mjs)
@@ -1658,8 +1654,31 @@
         state = Object.assign({}, EMPTY);
         saveState(); renderTitle();
         renderPlayer();
+        showSample();
       }
       $("clearBtn").onclick = clearScore;
+
+      // ---------- The sample shown when nothing is open ----------
+      // Ode to Joy (public domain; arranged by scripts/sample-score.mjs), shown with its names at once, without
+      // the engine. It is not saved or added to the recent scores; opening a file replaces it.
+      async function showSample() {
+        if (busy || state.xml) return;
+        try {
+          const name = lang === "ja" ? "sample/ode-to-joy-ja.musicxml" : "sample/ode-to-joy.musicxml";
+          const res = await fetch(new URL(name, document.baseURI));
+          if (!res.ok) throw new Error("HTTP " + res.status);
+          const r = await readMusicXml(new File([await res.text()], "sample.musicxml", { type: "application/xml" }), "xml");
+          if (busy || state.xml) return; // a file was opened meanwhile
+          SM = SM || await importApp("score-model.mjs");
+          state = Object.assign({}, EMPTY, {
+            sample: true, created: Date.now(), title: SM.scoreTitle(r.xml), xml: r.xml,
+            scoreBpm: r.bpm || DEFAULT_BPM, bpm: r.bpm || DEFAULT_BPM, tempoSource: r.bpm ? "ocr" : "none",
+          });
+          await showScore(r.xml);
+          state.notes = timeline.notes;
+          renderTitle(); renderTranspose(); renderPlayer();
+        } catch (e) { console.error(e); }
+      }
 
       // The last line of the error, and where it happened (the last Python frame, or the first JavaScript one),
       // so a report from a browser we cannot test says where to look
@@ -1803,18 +1822,6 @@
       };
 
       $("fileBtn").onclick = () => $("fileInput").click();
-      // Try a sample: Ode to Joy (public domain), opened like a MusicXML file. No engine download
-      $("sampleBtn").onclick = async function () {
-        if (busy) return;
-        showError("");
-        let file;
-        try {
-          const res = await fetch(new URL(lang === "ja" ? "sample/ode-to-joy-ja.musicxml" : "sample/ode-to-joy.musicxml", document.baseURI));
-          if (!res.ok) throw new Error("HTTP " + res.status);
-          file = new File([await res.text()], t("sample.file"), { type: "application/xml" });
-        } catch (e) { console.error(e); showError(t("err.xml")); return; }
-        await openMusicXml(file, "xml");
-      };
       $("fileInput").onchange = function (e) { const f = Array.from(e.target.files); e.target.value = ""; addFiles(f); };
       $("camInput").onchange = function (e) { const f = Array.from(e.target.files); e.target.value = ""; addFiles(f, t("file.photo")); };
       const drop = $("drop");
@@ -2296,7 +2303,7 @@
       function renderPlayer() {
         const ready = mode === "edit" ? !!(model && model.notes.length) : timeline.events.length > 0;
         $("playBtn").disabled = !ready || busy; $("stopBtn").disabled = !ready || busy;
-        $("clearBtn").disabled = !state.xml || busy;
+        $("clearBtn").disabled = !state.xml || !!state.sample || busy;
         $("exportBtn").disabled = !state.xml || busy;
         ["actPrint", "actPng", "actShare"].forEach((id) => { $(id).disabled = !state.xml || busy; });
         $("practiceBtn").disabled = !state.xml;
@@ -2644,7 +2651,7 @@
         showFileCard();
         showCurrent().catch(function () { state = Object.assign({}, EMPTY); saveState(); renderTitle(); $("fileCard").hidden = true; $("empty").hidden = false; renderPlayer(); });
         saveState(); // a score saved before the recent scores existed is added to them
-      } else renderHistory();
+      } else { renderHistory(); showSample(); }
       $("thumb").addEventListener("load", function () { this.hidden = false; });
     })();
   </script>

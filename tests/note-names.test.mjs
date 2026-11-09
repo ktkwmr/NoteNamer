@@ -54,13 +54,10 @@ test("noteName: every system, natural and with accidentals", () => {
   assert.equal(NN.noteName("D", 0, "unknown"), "D", "an unknown system falls back to letters");
 });
 
-test("defaultSystem follows the language", () => {
+test("defaultSystem: Japanese → ドレミ (fixed Do), everything else → C D E", () => {
   assert.equal(NN.defaultSystem("ja"), "katakana");
   assert.equal(NN.defaultSystem("ja-JP"), "katakana");
-  assert.equal(NN.defaultSystem("ko-KR"), "korean");
-  assert.equal(NN.defaultSystem("es-AR"), "solfege");
-  assert.equal(NN.defaultSystem("en-US"), "letter");
-  assert.equal(NN.defaultSystem(""), "letter");
+  for (const l of ["en-US", "ko-KR", "es-AR", "de", "ru", "zh-CN", "hi", ""]) assert.equal(NN.defaultSystem(l), "letter", l);
 });
 
 test("key signatures: G major F♯ and F major B♭ come from <alter>", () => {
@@ -204,13 +201,4 @@ test("movable names follow a key change in the middle of the piece", () => {
   assert.equal(flat(NN.addNoteNames(x, "jianpu")), "1 5   1 7  ");
   // Fixed names do not change
   assert.equal(flat(NN.addNoteNames(x, "katakana")), "ド ソ   ソ ファ♯  ");
-});
-
-test("defaultSystem: new languages", () => {
-  assert.equal(NN.defaultSystem("de-AT"), "german");
-  assert.equal(NN.defaultSystem("pl"), "german");
-  assert.equal(NN.defaultSystem("ru-RU"), "cyrillic");
-  assert.equal(NN.defaultSystem("zh-TW"), "jianpu");
-  assert.equal(NN.defaultSystem("hi-IN"), "sargam");
-  assert.equal(NN.defaultSystem("tr"), "solfege");
 });

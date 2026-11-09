@@ -14,7 +14,7 @@ export default {
 
 <nav class="toc" aria-label="Contents"><b>Contents</b><ol>
   <li><a href="#need">What you need</a></li>
-  <li><a href="#sample">Try the sample</a></li>
+  <li><a href="#sample">The first screen</a></li>
   <li><a href="#open">Open your score</a></li>
   <li><a href="#read">Wait for the reading</a></li>
   <li><a href="#names">Note names: choose how they are written</a></li>
@@ -34,9 +34,9 @@ export default {
 </ul>
 <p>The app is free and needs no account. The notes are read inside your browser, so your sheet music is never uploaded.</p>
 
-<h2 id="sample">1. Try the sample</h2>
-${shot("en", "app-start", "The app before a score is opened: the Open a score panel with Choose a file, Take a photo, and Try a sample", "The start screen.")}
-<p>To see what the app does before using your own music, press <b>Try a sample</b>. “Ode to Joy” opens at once with a name under every note. It needs no download.</p>
+<h2 id="sample">1. The first screen</h2>
+${shot("en", "app-start", "The app when it opens: the Open a score panel with Choose a file and Take a photo, and the sample Ode to Joy with a letter name under every note", "The first screen, with the sample.")}
+<p>When no score is open, the app shows a sample, “Ode to Joy”, with a name under every note, so you can see what it does before using your own music. It needs no download. Opening your own score replaces it; the sample is not kept in Recent scores.</p>
 
 <h2 id="open">2. Open your score</h2>
 <p>There are three ways to open sheet music:</p>
@@ -116,7 +116,7 @@ ${shot("en", "app-export", "The Save / share menu: Print, Save as image (PNG), S
 
 <nav class="toc" aria-label="目次"><b>目次</b><ol>
   <li><a href="#need">必要なもの</a></li>
-  <li><a href="#sample">見本で試す</a></li>
+  <li><a href="#sample">最初の画面</a></li>
   <li><a href="#open">自分の楽譜を開く</a></li>
   <li><a href="#read">読み取りを待つ</a></li>
   <li><a href="#names">音名の書き方を選ぶ</a></li>
@@ -136,9 +136,9 @@ ${shot("en", "app-export", "The Save / share menu: Print, Save as image (PNG), S
 </ul>
 <p>無料で、登録も要りません。読み取りはブラウザの中で行うので、楽譜がアップロードされることはありません。</p>
 
-<h2 id="sample">1. 見本で試す</h2>
-${shot("ja", "app-start", "楽譜を開く前の画面。「ファイルを選ぶ」「写真を撮る」「見本で試す」のある「楽譜を開く」パネル", "最初の画面。")}
-<p>自分の楽譜で試す前に、<b>見本で試す</b>を押してみてください。「歓喜の歌」が、すべての音符にドレミが付いた状態ですぐに開きます。ダウンロードは要りません。</p>
+<h2 id="sample">1. 最初の画面</h2>
+${shot("ja", "app-start", "開いたときの画面。「ファイルを選ぶ」「写真を撮る」のある「楽譜を開く」パネルと、すべての音符にドレミが付いた見本の「歓喜の歌」", "最初の画面。見本の楽譜が表示されています。")}
+<p>楽譜を開いていないときは、見本の「歓喜の歌」を、すべての音符にドレミが付いた状態で表示します。自分の楽譜で試す前に、どんなふうになるかを見られます。ダウンロードは要りません。自分の楽譜を開くと入れ替わり、見本は「最近の楽譜」には残りません。</p>
 
 <h2 id="open">2. 自分の楽譜を開く</h2>
 <p>楽譜の開き方は 3 つあります。</p>

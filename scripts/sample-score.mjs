@@ -1,6 +1,6 @@
 // The sample score: "Ode to Joy" (Beethoven, public domain), 16 measures, melody + simple bass on two staves.
 // Used by render-guide-images.mjs (the pictures in the articles) and by build-pages.mjs, which writes
-// public/notenamer/sample/ode-to-joy*.musicxml for the app's "Try a sample" button.
+// public/notenamer/sample/ode-to-joy*.musicxml which the app shows when no score is open.
 export const DIV = 24; // divisions per quarter note
 export const STEPS = { C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11 };
 // Melody: pitch + octave, duration in quarters

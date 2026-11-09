@@ -36,24 +36,9 @@ export const isMovable = (system) => !!(SYSTEMS[system] && SYSTEMS[system].movab
 const STEPS = "CDEFGAB";
 const ACCIDENTAL = { "-2": "𝄫", "-1": "♭", "0": "", "1": "♯", "2": "𝄪" };
 
-// The default system for a language: Japanese → katakana, Korean → 도레미, Chinese → jianpu,
-// Hindi → sargam, Russian, Ukrainian, Bulgarian … → До Ре Ми,
-// German, the Nordic languages, Czech, Polish, Hungarian … (H for B) → German,
-// languages that sing fixed Do (Italian, French, Spanish, Portuguese, Romanian, Turkish …) → Do Re Mi,
-// everything else → letters
-const CYRILLIC_LANGS = ["ru", "uk", "bg", "be", "mk"];
-const GERMAN_LANGS = ["de", "sv", "no", "nb", "nn", "da", "fi", "is", "et", "cs", "sk", "pl", "hu", "hr", "sl"];
-const SOLFEGE_LANGS = ["it", "fr", "es", "pt", "ro", "tr", "el", "ca", "gl", "sr", "lv", "lt", "he", "ar", "fa"];
+// The default system for the page's language: Japanese → ドレミ (katakana, fixed Do), otherwise C D E
 export function defaultSystem(lang) {
-  const l = String(lang || "").toLowerCase().split(/[-_]/)[0];
-  if (l === "ja") return "katakana";
-  if (l === "ko") return "korean";
-  if (l === "zh") return "jianpu";
-  if (l === "hi") return "sargam";
-  if (CYRILLIC_LANGS.includes(l)) return "cyrillic";
-  if (GERMAN_LANGS.includes(l)) return "german";
-  if (SOLFEGE_LANGS.includes(l)) return "solfege";
-  return "letter";
+  return String(lang || "").toLowerCase().split(/[-_]/)[0] === "ja" ? "katakana" : "letter";
 }
 
 // German names: the sharp or flat is part of the name (Cis, Es), and B is H; B flat is B
