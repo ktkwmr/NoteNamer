@@ -14,7 +14,6 @@ function chart(L) {
   const rows = [
     [L.solfege, SYSTEMS.solfege.names, "it"],
     [L.katakana, SYSTEMS.katakana.names, "ja"],
-    [L.hiragana, SYSTEMS.hiragana.names, "ja"],
     [L.iroha, IROHA, "ja"],
     [L.korean, SYSTEMS.korean.names, "ko"],
     [L.koreanLetters, KOREAN_LETTERS, "ko"],
@@ -36,7 +35,7 @@ ${L.acc.map(([h, s, f]) => `<tr><th scope="row">${h}</th><td>${s}</td><td>${f}</
 }
 
 const EN = {
-  system: "System", letter: "Letters (English)", solfege: "Do Re Mi (fixed Do)", katakana: "Japanese ドレミ (katakana)", hiragana: "Japanese どれみ (hiragana)",
+  system: "System", letter: "Letters (English)", solfege: "Do Re Mi (fixed Do)", katakana: "Japanese ドレミ (katakana)",
   iroha: "Japanese ハニホ", korean: "Korean 도레미", koreanLetters: "Korean 다라마", german: "German",
   acc: [
     ["English", "F sharp", "B flat"],
@@ -50,7 +49,7 @@ const EN = {
   ],
 };
 const JA = {
-  system: "書き方", letter: "英語（アルファベット）", solfege: "イタリア語（固定ド）", katakana: "ドレミ（カタカナ）", hiragana: "どれみ（ひらがな）",
+  system: "書き方", letter: "英語（アルファベット）", solfege: "イタリア語（固定ド）", katakana: "ドレミ（カタカナ）",
   iroha: "日本語（ハニホ）", korean: "韓国語（도레미）", koreanLetters: "韓国語（다라마）", german: "ドイツ語",
   acc: [
     ["英語", "F sharp（エフ・シャープ）", "B flat（ビー・フラット）"],
@@ -99,7 +98,7 @@ ${accidentals(EN)}
 <p>Note Namer writes <b>fixed</b> names: C is always Do (ド, 도), and a sharp or flat is shown as a sign. Letters (C D E) are fixed by nature.</p>
 
 <h2 id="app">Choosing the names in Note Namer</h2>
-<p>Above the score, <b>Note names</b> offers five ways: ドレミ (katakana), どれみ (hiragana), C D E (letters), Do Re Mi (fixed Do), and 도레미 (Korean). The first choice follows your browser's language, and the app remembers your choice. ハニホ and German names are not offered. See ${link("en", "guide", "the guide")} for the steps.</p>
+<p>Above the score, <b>Note names</b> offers four ways: ドレミ (katakana), C D E (letters), Do Re Mi (fixed Do), and 도레미 (Korean). The first choice follows your browser's language, and the app remembers your choice. ハニホ and German names are not offered. See ${link("en", "guide", "the guide")} for the steps.</p>
 `,
   },
   ja: {
@@ -134,7 +133,7 @@ ${accidentals(JA)}
 <p>Note Namer が書くのは<b>固定ド</b>の音名です。C の音はいつも「ド」で、♯・♭ は記号で書きます。C D E の書き方は、もともと固定です。</p>
 
 <h2 id="app">Note Namer での書き方の選び方</h2>
-<p>楽譜の上の<b>音名</b>で、ドレミ（カタカナ）・どれみ（ひらがな）・C D E（英語）・Do Re Mi（固定ド）・도레미（韓国語）の 5 つから選べます。最初はブラウザの言語に合わせた書き方になり（日本語のページではカタカナ）、選んだ書き方は次に開いたときも残ります。ハニホとドイツ音名には対応していません。手順は${link("ja", "guide", "使い方ガイド")}をご覧ください。</p>
+<p>楽譜の上の<b>音名</b>で、ドレミ（カタカナ）・C D E（英語）・Do Re Mi（固定ド）・도레미（韓国語）の 4 つから選べます。最初はブラウザの言語に合わせた書き方になり（日本語のページではカタカナ）、選んだ書き方は次に開いたときも残ります。ハニホとドイツ音名には対応していません。手順は${link("ja", "guide", "使い方ガイド")}をご覧ください。</p>
 `,
   },
 };

@@ -13,7 +13,6 @@
 // The naming systems, in the order they are offered. names: C D E F G A B
 export const SYSTEMS = {
   katakana: { names: ["ド", "レ", "ミ", "ファ", "ソ", "ラ", "シ"] },
-  hiragana: { names: ["ど", "れ", "み", "ふぁ", "そ", "ら", "し"] },
   letter: { names: ["C", "D", "E", "F", "G", "A", "B"] },
   solfege: { names: ["Do", "Re", "Mi", "Fa", "Sol", "La", "Si"] },
   korean: { names: ["도", "레", "미", "파", "솔", "라", "시"] },

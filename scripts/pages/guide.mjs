@@ -54,7 +54,7 @@ ${shot("en", "app-reading", "The app while reading: a progress bar says Reading 
 <p>The app finds the staves and notes, then reads the staves one by one. This takes roughly 10 to 60 seconds per page, depending on the device and the number of staves. The first time, the download of the engine comes before this. You can cancel at any time.</p>
 
 <h2 id="names">4. Note names: choose how they are written</h2>
-${shot("en", "app-names", "The score read from the photo, with a letter name under every note, and the Note names and Size controls above it", "The score with its names. Above it: how the names are written, and their size.")}
+${shot("en", "app-names", "The score read from the photo, with a letter name under every note, and the Note names choice above it", "The score with its names. Above it: how the names are written.")}
 <p>When the reading is done, the score is drawn again with a name under every note:</p>
 <ul>
   <li>The sharps and flats of the <b>key signature</b> and of the <b>accidentals</b> are included: in G major every F is named F♯. See ${link("en", "sharps-and-flats", "sharps, flats, and key signatures")}.</li>
@@ -62,7 +62,7 @@ ${shot("en", "app-names", "The score read from the photo, with a letter name und
   <li>A note <b>tied</b> from the one before gets no name (it is the same sound held on). Rests get no name.</li>
   <li>In a piano score, both staves get names.</li>
 </ul>
-<p>Above the score, <b>Note names</b> chooses the system: ドレミ (katakana), どれみ (hiragana), C D E (letters), Do Re Mi (fixed Do), or 도레미 (Korean). <b>Size</b> makes the names small, medium, or large. The app remembers both. For what each system means, see the ${link("en", "note-name-chart", "note name chart")}.</p>
+<p>Above the score, <b>Note names</b> chooses the system: ドレミ (katakana), C D E (letters), Do Re Mi (fixed Do), or 도레미 (Korean). The app remembers your choice. For what each system means, see the ${link("en", "note-name-chart", "note name chart")}.</p>
 
 <h2 id="listen">5. Check by ear</h2>
 <p>The reading can contain mistakes, and a wrong note gets a wrong name. Press ▶ to hear the score while a blue cursor moves along the staff: a wrong pitch or rhythm is easier to hear than to see. ❚❚ pauses, ■ stops and goes back to the beginning, and clicking a note moves the cursor there. Change the tempo with −5 / +5, the number, or the slider.</p>
@@ -112,7 +112,7 @@ ${shot("en", "app-export", "The Save / share menu: Print, Save as image (PNG), S
     nav: "使い方ガイド",
     description: "Note Namer の使い方を画面つきで解説。楽譜を写真に撮ると、すべての音符の下にドレミ（音名）を書きます。♯・♭ も反映。書き方の選び方、聴いて確かめる、間違いの直し方、印刷・画像保存・共有まで。",
     body: () => `
-<p class="lead">Note Namer は、印刷された楽譜の写真・画像・PDF を読み取って、すべての音符の下に音名（ドレミ・どれみ・C D E・Do Re Mi・도레미）を書くアプリです。調号や臨時記号の ♯・♭ も反映します。練習用に印刷したり、楽譜を読むのが苦手な人に送ったりできます。このガイドでは、画面を見ながら順に使い方を説明します。</p>
+<p class="lead">Note Namer は、印刷された楽譜の写真・画像・PDF を読み取って、すべての音符の下に音名（ドレミ・C D E・Do Re Mi・도레미）を書くアプリです。調号や臨時記号の ♯・♭ も反映します。練習用に印刷したり、楽譜を読むのが苦手な人に送ったりできます。このガイドでは、画面を見ながら順に使い方を説明します。</p>
 
 <nav class="toc" aria-label="目次"><b>目次</b><ol>
   <li><a href="#need">必要なもの</a></li>
@@ -156,7 +156,7 @@ ${shot("ja", "app-reading", "読み取り中の画面。「段ごとに読み取
 <p>アプリは五線と音符の位置を見つけ、段ごとに音符を読み取ります。端末の性能と段の数によって、1 ページ 10〜60 秒ほどかかります。初回は、その前にエンジンのダウンロードが入ります。途中で「キャンセル」もできます。</p>
 
 <h2 id="names">4. 音名の書き方を選ぶ</h2>
-${shot("ja", "app-names", "写真から読み取った楽譜。すべての音符の下にドレミが書かれ、上に「音名」と「大きさ」の選択がある", "音名付きの楽譜。上で書き方と文字の大きさを選べます。")}
+${shot("ja", "app-names", "写真から読み取った楽譜。すべての音符の下にドレミが書かれ、上に「音名」の選択がある", "音名付きの楽譜。上で書き方を選べます。")}
 <p>読み取りが終わると、すべての音符の下に音名を書いた楽譜が表示されます。</p>
 <ul>
   <li><b>調号</b>と<b>臨時記号</b>の ♯・♭ を反映します。ト長調の楽譜なら、ファはすべて「ファ♯」です。${link("ja", "sharps-and-flats", "♯・♭と調号の読み方")}もご覧ください。</li>
@@ -164,7 +164,7 @@ ${shot("ja", "app-names", "写真から読み取った楽譜。すべての音�
   <li><b>タイ</b>でつながった後ろの音（同じ音をのばしているだけ）と休符には書きません。</li>
   <li>ピアノの楽譜では、上下両方の五線に書きます。</li>
 </ul>
-<p>楽譜の上の<b>音名</b>で、ドレミ（カタカナ）・どれみ（ひらがな）・C D E（英語）・Do Re Mi（固定ド）・도레미（韓国語）から書き方を選べます。<b>大きさ</b>で文字を小・中・大に変えられます。どちらも次に開いたときに残っています。書き方の違いは${link("ja", "note-name-chart", "音名の対応表")}をご覧ください。</p>
+<p>楽譜の上の<b>音名</b>で、ドレミ（カタカナ）・C D E（英語）・Do Re Mi（固定ド）・도레미（韓国語）から書き方を選べます。選んだ書き方は次に開いたときも残っています。書き方の違いは${link("ja", "note-name-chart", "音名の対応表")}をご覧ください。</p>
 
 <h2 id="listen">5. 聴いて確かめる</h2>
 <p>読み取りには間違いが含まれることがあり、音符を読み違えると音名も違ってしまいます。▶ を押すと、青いカーソルが五線の上を進みながら音が鳴ります。音の高さやリズムの間違いは、見るより聴くほうが見つけやすいものです。❚❚ で一時停止、■ で止めて最初に戻り、音符をクリックするとカーソルがそこに移ります。テンポは −5／+5、数字、スライダーで変えられます。</p>

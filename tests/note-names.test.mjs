@@ -38,7 +38,6 @@ const flat = (xml) => names(xml).map((x) => x.join("/")).join(" ");
 test("noteName: every system, natural and with accidentals", () => {
   const expect = {
     katakana: ["ド", "レ", "ミ", "ファ", "ソ", "ラ", "シ"],
-    hiragana: ["ど", "れ", "み", "ふぁ", "そ", "ら", "し"],
     letter: ["C", "D", "E", "F", "G", "A", "B"],
     solfege: ["Do", "Re", "Mi", "Fa", "Sol", "La", "Si"],
     korean: ["도", "레", "미", "파", "솔", "라", "시"],
@@ -70,7 +69,7 @@ test("key signatures: G major F♯ and F major B♭ come from <alter>", () => {
   assert.equal(flat(NN.addNoteNames(g, "katakana")), "ソ ファ♯ ミ レ");
   assert.equal(flat(NN.addNoteNames(g, "letter")), "G F♯ E D");
   const f = score([[n("F", 0), n("B", -1), n("A", 0), n("C", 0, 5)]], { fifths: -1 });
-  assert.equal(flat(NN.addNoteNames(f, "hiragana")), "ふぁ し♭ ら ど");
+  assert.equal(flat(NN.addNoteNames(f, "katakana")), "ファ シ♭ ラ ド");
 });
 
 test("accidentals inside a measure, double sharps and flats", () => {

@@ -3,9 +3,9 @@
 > **Under development (not published yet).** Copied from [ktkwmr/SheetMusicPlayer](https://github.com/ktkwmr/SheetMusicPlayer) at commit `c9bd5ee`; the plan and the steps are in [docs/handoff.md](docs/handoff.md).
 > **開発中（未公開）。** ktkwmr/SheetMusicPlayer のコミット `c9bd5ee` からコピーして作った。仕様と作業手順は [docs/handoff.md](docs/handoff.md)。
 
-Take a photo of sheet music, and Note Namer writes the name under every note — C D E, Do Re Mi, ドレミ, どれみ, or 도레미 — with the sharps and flats of the key signature and the accidentals. Print it on A4, save it as images, or share it.
+Take a photo of sheet music, and Note Namer writes the name under every note — C D E, Do Re Mi, ドレミ, or 도레미 — with the sharps and flats of the key signature and the accidentals. Print it on A4, save it as images, or share it.
 
-楽譜を写真に撮ると、すべての音符の下に音名（ドレミ・どれみ・C D E・Do Re Mi・도레미）を書きます。調号や臨時記号の ♯・♭ も反映します。A4 に印刷したり、画像で保存・共有したりできます。
+楽譜を写真に撮ると、すべての音符の下に音名（ドレミ・C D E・Do Re Mi・도레미）を書きます。調号や臨時記号の ♯・♭ も反映します。A4 に印刷したり、画像で保存・共有したりできます。
 
 Take a photo of sheet music, or open an image or PDF, and hear it. The app reads the notes with optical music recognition ([homr](https://github.com/liebharc/homr)) **inside your browser** and plays them back with a cursor that moves along the staff. The tempo starts at the marking found on the page and can be changed while it plays.
 
@@ -26,8 +26,8 @@ Take a photo of sheet music, or open an image or PDF, and hear it. The app reads
   1ページ目の上部から、メトロノーム記号（♩ = 100）や速度用語（Allegro など）を Tesseract.js で読み取る。見つからなければ ♩ = 120
 - **Score and playback**: OpenSheetMusicDisplay draws the score; a blue cursor glides along the staff with the sound (Web Audio API). ▶ / ❚❚ plays and pauses, ■ stops and goes back to the beginning. Click a note to move the cursor there (playing starts from it). Change the tempo with −5 / +5, the number, or the slider, even while playing
   OpenSheetMusicDisplay で楽譜を表示し、音（Web Audio API）に合わせて青いカーソルが五線の上を進む。▶／❚❚ で再生・一時停止、■ で止めて最初に戻る。音符をクリックでカーソルを移動（そこから再生）。テンポは −5／+5・数字・スライダーで、再生中でも変更可
-- **Note names** (`note-names.mjs`): written under every note as lyrics (the score display lays them out); chords stacked with the highest note on top; no name for rests or for a note tied from the one before. Choose the naming (ドレミ / どれみ / C D E / Do Re Mi / 도레미) and the size (S / M / L) above the score; the names follow the transposition and the edits. **Try a sample** opens Ode to Joy at once, without the engine download
-  音名：すべての音符の下に歌詞として書く。和音は高い音を上に、休符とタイの後ろの音には書かない。書き方（ドレミ・どれみ・C D E・Do Re Mi・도레미）と大きさ（小・中・大）を楽譜の上で選べ、移調や編集にも追従。「見本で試す」で歓喜の歌をすぐに表示（エンジンのダウンロードなし）
+- **Note names** (`note-names.mjs`): written under every note as lyrics (the score display lays them out); chords stacked with the highest note on top; no name for rests or for a note tied from the one before. Choose the naming (ドレミ / C D E / Do Re Mi / 도레미) above the score; the names follow the transposition and the edits. **Try a sample** opens Ode to Joy at once, without the engine download
+  音名：すべての音符の下に歌詞として書く。和音は高い音を上に、休符とタイの後ろの音には書かない。書き方（ドレミ・C D E・Do Re Mi・도레미）を楽譜の上で選べ、移調や編集にも追従。「見本で試す」で歓喜の歌をすぐに表示（エンジンのダウンロードなし）
 - **Print / image / share** (`export-pages.mjs`): the score with its names on A4 pages (title, page number, and a “Made with Note Namer” line that can be turned off); print (only the pages), save each page as a PNG, or share the images with Web Share; MusicXML with the names as lyrics
   印刷・画像・共有：音名付きの楽譜を A4 のページにして（タイトル・ページ番号・消せる「Note Namer で作成」）、印刷（ページだけ）、ページごとの PNG 保存、Web Share で画像を共有。音名を歌詞として入れた MusicXML も保存できる
 - **Practice mode**: metronome and one-measure count-in, transpose by semitones (±12; key signature and spelling follow)
