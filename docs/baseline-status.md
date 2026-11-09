@@ -40,7 +40,7 @@ ktkwmr/SheetMusicPlayer（コミット `c9bd5ee`）からコピーして作っ�
 | 2-8 | LICENSE | ✅ | AGPL-3.0（homr のライセンス本文） |
 | 2-9 | CLAUDE.md | ✅ | |
 | 2-10 | バージョン番号なし・キャッシュ名固定 | ✅ | 画面にバージョンは出さない。エンジンだけはフォルダ名でバージョン管理（`engine/v3/`、中身を変えたら上げる） |
-| 2-11 | Cloudflare に接続・ルート設定 | 👤 待ち | |
+| 2-11 | Cloudflare に接続・ルート設定 | ⚠️ | 2026-11-09 にリポジトリを接続（Worker `notenamer`）。最初の `main` のビルドは、`main` がまだ流用元の設定（Worker 名 `sheetmusicplayer`、Route `ktkwmr.com/sheetmusicplayer*`）だったため、Route が本物の Sheet Music Player の Worker と重なって失敗した（本物は無事。`notenamer` には Route が付いていない）。PR #1 をマージすると `main` の設定が `notenamer` になる。プレビュー URL での確認は 👤 待ち |
 | 2-13 | 自動デプロイの確認 | 👤 待ち | |
 | 2-14 | 2 つ目以降のアプリの設定 | ⚠️ | sitemap は `public/notenamer/sitemap.xml`。`ktkwmr/ktkwmr.com` の `robots.txt` の `Sitemap:` 行は公開時の PR で足す |
 | 2-15 | トップページ | — | `ktkwmr/ktkwmr.com` |
@@ -147,6 +147,8 @@ ktkwmr/SheetMusicPlayer（コミット `c9bd5ee`）からコピーして作っ�
 | 15 | 広告 | — | |
 
 ## このアプリで見つかった、ベースラインに足す候補
+
+- 既存アプリのリポジトリをコピーして新しいアプリを作るときは、Cloudflare に接続する前に `main` の `wrangler.jsonc`（Worker 名・Route）を新しいアプリの値にしておく。古い値のままだと、Workers Builds は Worker 名を接続先に置き換えてアップロードし、Route だけが元のアプリと重なって失敗する（Route が空いていれば、元のアプリの URL を奪うおそれがある）。また、空のリポジトリは最初の PR の前に `main` を push しておく必要がある。
 
 - 大きなファイル（WebAssembly・モデル）を配信するアプリ: Cloudflare Workers の 1 ファイル 25MiB 制限、キャッシュ優先の専用キャッシュ、バージョン付きフォルダ。
 - `SharedArrayBuffer`（スレッド）が要るアプリ: `_headers` に COOP/COEP。COEP は `credentialless` にすると Web Analytics の beacon をそのまま使える。
