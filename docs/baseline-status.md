@@ -42,9 +42,9 @@ ktkwmr/SheetMusicPlayer（コミット `c9bd5ee`）からコピーして作っ�
 | 2-10 | バージョン番号なし・キャッシュ名固定 | ✅ | 画面にバージョンは出さない。エンジンだけはフォルダ名でバージョン管理（`engine/v3/`、中身を変えたら上げる） |
 | 2-11 | Cloudflare に接続・ルート設定 | ✅ | 2026-11-09 にリポジトリを接続（Worker `notenamer`）。最初の `main` のビルドは、`main` がまだ流用元の設定（Worker 名 `sheetmusicplayer`、Route `ktkwmr.com/sheetmusicplayer*`）だったため、Route が本物の Sheet Music Player の Worker と重なって失敗した（本物は無事）。PR #1 のマージ後、2026-11-10 に Route `ktkwmr.com/notenamer*` が `notenamer` に付いていることを確認。workers.dev の本番 URL は OFF、プレビュー URL は ON。**確認する場所**: Cloudflare の Workers & Pages → `notenamer` → 上のタブの **Domains** →「Custom Domains and Routes」（Settings の中ではない） |
 | 2-13 | 自動デプロイの確認 | ✅ | 2026-11-10 確認。`main` の PR #2 のコミットが Workers Builds で Ready になり Active（Deployments タブ）。本番 https://ktkwmr.com/notenamer/ と /ja/ が表示され、Sheet Music Player も無事 |
-| 2-14 | 2 つ目以降のアプリの設定 | ⚠️ | sitemap は `public/notenamer/sitemap.xml`。`ktkwmr/ktkwmr.com` の `robots.txt` の `Sitemap:` 行は公開時の PR で足す |
+| 2-14 | 2 つ目以降のアプリの設定 | ✅ | sitemap は `public/notenamer/sitemap.xml`。`ktkwmr/ktkwmr.com` の `robots.txt` に `Sitemap:` 行あり（ktkwmr.com #13） |
 | 2-15 | トップページ | — | `ktkwmr/ktkwmr.com` |
-| 2-16 | トップページへのアプリの追加 | ❌ | 公開時に `ktkwmr/ktkwmr.com` の `home.mjs`（`APPS`・`ICON`・`PREVIEW`）を直す PR を出す |
+| 2-16 | トップページへのアプリの追加 | ✅ | `ktkwmr/ktkwmr.com` #13 で `home.mjs` の `APPS`・`ICON`・`PREVIEW` に追加済み。2026-11-10 に内容が今のアプリ（書き方 10 種類・記事 7 本）と合っていることを確認。記事・名前・説明・アイコン・画面を変えたら直す |
 
 ## 3. PWA
 
@@ -148,12 +148,4 @@ ktkwmr/SheetMusicPlayer（コミット `c9bd5ee`）からコピーして作っ�
 
 ## このアプリで見つかった、ベースラインに足す候補
 
-- 既存アプリのリポジトリをコピーして新しいアプリを作るときは、Cloudflare に接続する前に `main` の `wrangler.jsonc`（Worker 名・Route）を新しいアプリの値にしておく。古い値のままだと、Workers Builds は Worker 名を接続先に置き換えてアップロードし、Route だけが元のアプリと重なって失敗する（Route が空いていれば、元のアプリの URL を奪うおそれがある）。また、空のリポジトリは最初の PR の前に `main` を push しておく必要がある。
-
-- 大きなファイル（WebAssembly・モデル）を配信するアプリ: Cloudflare Workers の 1 ファイル 25MiB 制限、キャッシュ優先の専用キャッシュ、バージョン付きフォルダ。
-- `SharedArrayBuffer`（スレッド）が要るアプリ: `_headers` に COOP/COEP。COEP は `credentialless` にすると Web Analytics の beacon をそのまま使える。
-- Playwright で検証するときは、毎回新しいプロファイルを使う（Cache Storage・IndexedDB の古いデータで結果が変わる）。
-- `<base href>` を使う生成ページ（`ja/index.html` など）では、JS で URL を組み立てるときに `location.href` ではなく `document.baseURI` を基準にする。このアプリでは日本語ページで PDF.js のワーカーと Tesseract.js が 404 になり、PDF が開けずテンポも読めていなかった。
-- COEP のページで、Service Worker がキャッシュから作り直したレスポンスでワーカーのスクリプトを返すと、COEP ヘッダーがないためワーカーが起動しない。キャッシュに入れるときに元のヘッダーを残すか、返すときに付ける。
-- 記事の画面写真や比較表は、同じ見本から Playwright で作り直せるスクリプトにしておく（`render-guide-images.mjs`）。実測値を本文で言葉にするときは、値が変わったらビルドが止まるようにする。
-- 実際に E2E で 2 回目以降の訪問（Service Worker が制御している状態）と日本語ページも通す。初回・英語だけの確認では上の 2 つは見つからなかった。
+2026-11-10 に整理した。2-19（コピーで作るアプリ）・3-9・4-7・10-8・12-9 はベースラインに入っていた。残りは webapp-baseline #21 で 2-20（大きなファイル）・6-6（COEP `credentialless`）・9-6（iOS の印刷）・2-11・2-13・11-4・12-11・§16 に足した。新しい候補はここに書く。
