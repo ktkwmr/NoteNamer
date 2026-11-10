@@ -240,9 +240,11 @@
       html.printing body > *:not(#printArea), html.printing body::before { display: none !important; }
       html.printing body { background: #fff; margin: 0; }
       html.printing #printArea { display: block; }
-      .print-page { width: 210mm; height: 297mm; overflow: hidden; break-after: page; page-break-after: always; }
+      /* Each page fits the printable area: iOS Safari ignores the margin above and keeps the printer's,
+         and a full 210 × 297 mm box then spilled its footer line onto an extra page */
+      .print-page { overflow: hidden; break-inside: avoid; break-after: page; page-break-after: always; }
       .print-page:last-child { break-after: auto; page-break-after: auto; }
-      .print-page svg { display: block; width: 100%; height: 100%; }
+      .print-page svg { display: block; margin: 0 auto; width: min(100%, calc((100vh - 2px) * 210 / 297)); height: auto; aspect-ratio: 210 / 297; }
       html:not(.printing) .topbar, html:not(.printing) .intro, html:not(.printing) .layout > aside, html:not(.printing) .player-bar,
       html:not(.printing) .practice, html:not(.printing) .names-bar, html:not(.printing) .actions, html:not(.printing) .keys,
       html:not(.printing) .foot, html:not(.printing) .site-foot, html:not(.printing) #playhead { display: none !important; }
@@ -600,6 +602,7 @@
           "sys.fixed": "Pitch names (C is always Do)",
           "sys.movable": "In the key (the key's first note is Do)",
           "png.again": "The images are ready. Press “Save image” again.",
+          "print.again": "The pages are ready. Press “Print” again.",
           "png.share": "Choose “Save Image” to keep the {n} pages in your photos.",
           "drop": "or drop files here · images (JPEG, PNG, …), PDF, and MusicXML",
           "cancel": "Cancel",
@@ -757,6 +760,7 @@
           "sys.fixed": "音名（C がいつもド）",
           "sys.movable": "調に合わせる（主音がド）",
           "png.again": "画像の準備ができました。もう一度「画像を保存」を押してください。",
+          "print.again": "ページの準備ができました。もう一度「印刷」を押してください。",
           "png.share": "「画像を保存」を選ぶと、{n} ページを写真に保存できます。",
           "drop": "またはここにファイルをドロップ・画像（JPEG・PNGなど）・PDF・MusicXMLに対応",
           "cancel": "キャンセル",
@@ -2439,8 +2443,12 @@
         } finally { pagesBusy = false; }
       }
       const pngName = (i, n) => fileBase() + (n > 1 ? "-" + (i + 1) : "") + ".png";
+      // Safari asks "allow this website to print automatically?" when print() comes after the tap has
+      // expired (making the pages took a while). Then the pages are kept and the second press prints at once.
       async function printPages() {
+        const ready = !!(pagesCache && pagesCache.key === pagesKey());
         await withPages(false, async function (c) {
+          if (!ready && navigator.userActivation && !navigator.userActivation.isActive) { actMsg(t("print.again")); return; }
           $("printArea").innerHTML = c.pages.map((pg) => '<div class="print-page">' + pg.svg + "</div>").join("");
           document.documentElement.classList.add("printing");
           window.print();

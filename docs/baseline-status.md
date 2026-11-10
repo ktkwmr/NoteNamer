@@ -24,7 +24,7 @@ ktkwmr/SheetMusicPlayer（コミット `c9bd5ee`）からコピーして作っ�
 |---|---|---|---|
 | 1-1〜1-3, 1-5, 1-6 | アカウント類・開発環境 | ✅ | 既存アプリで実施済み |
 | 1-4 | Claude の GitHub App にリポジトリを許可 | ✅ | |
-| 1-8 | Cloudflare の GitHub App にリポジトリを許可 | 👤 待ち | |
+| 1-8 | Cloudflare の GitHub App にリポジトリを許可 | ✅ | 2026-11-10 確認（PR #2 に「Workers Builds: notenamer」のチェックが付いた） |
 
 ## 2. 土台とホスティング
 
@@ -40,8 +40,8 @@ ktkwmr/SheetMusicPlayer（コミット `c9bd5ee`）からコピーして作っ�
 | 2-8 | LICENSE | ✅ | AGPL-3.0（homr のライセンス本文） |
 | 2-9 | CLAUDE.md | ✅ | |
 | 2-10 | バージョン番号なし・キャッシュ名固定 | ✅ | 画面にバージョンは出さない。エンジンだけはフォルダ名でバージョン管理（`engine/v3/`、中身を変えたら上げる） |
-| 2-11 | Cloudflare に接続・ルート設定 | ⚠️ | 2026-11-09 にリポジトリを接続（Worker `notenamer`）。最初の `main` のビルドは、`main` がまだ流用元の設定（Worker 名 `sheetmusicplayer`、Route `ktkwmr.com/sheetmusicplayer*`）だったため、Route が本物の Sheet Music Player の Worker と重なって失敗した（本物は無事。`notenamer` には Route が付いていない）。PR #1 をマージすると `main` の設定が `notenamer` になる。プレビュー URL での確認は 👤 待ち |
-| 2-13 | 自動デプロイの確認 | 👤 待ち | |
+| 2-11 | Cloudflare に接続・ルート設定 | ✅ | 2026-11-09 にリポジトリを接続（Worker `notenamer`）。最初の `main` のビルドは、`main` がまだ流用元の設定（Worker 名 `sheetmusicplayer`、Route `ktkwmr.com/sheetmusicplayer*`）だったため、Route が本物の Sheet Music Player の Worker と重なって失敗した（本物は無事）。PR #1 のマージ後、2026-11-10 に Route `ktkwmr.com/notenamer*` が `notenamer` に付いていることを確認。workers.dev の本番 URL は OFF、プレビュー URL は ON。**確認する場所**: Cloudflare の Workers & Pages → `notenamer` → 上のタブの **Domains** →「Custom Domains and Routes」（Settings の中ではない） |
+| 2-13 | 自動デプロイの確認 | ✅ | 2026-11-10 確認。`main` の PR #2 のコミットが Workers Builds で Ready になり Active（Deployments タブ）。本番 https://ktkwmr.com/notenamer/ と /ja/ が表示され、Sheet Music Player も無事 |
 | 2-14 | 2 つ目以降のアプリの設定 | ⚠️ | sitemap は `public/notenamer/sitemap.xml`。`ktkwmr/ktkwmr.com` の `robots.txt` の `Sitemap:` 行は公開時の PR で足す |
 | 2-15 | トップページ | — | `ktkwmr/ktkwmr.com` |
 | 2-16 | トップページへのアプリの追加 | ❌ | 公開時に `ktkwmr/ktkwmr.com` の `home.mjs`（`APPS`・`ICON`・`PREVIEW`）を直す PR を出す |
