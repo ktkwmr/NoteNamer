@@ -72,8 +72,8 @@ ${shot("en", "app-edit", "The editor: a piano roll with the notes of the upper s
 <p>Switch to <b>Edit</b> to see the notes as boxes on a piano roll: up and down is the pitch, left to right is time. Drag a box to move it, drag its right edge to change its length, click an empty spot to add a note, and right-click (or press <kbd>Delete</kbd>) to remove one. Measures marked <b>!</b> had too many or too few beats when they were read, so start with those. Switch back to <b>Score</b>: the staff and the names are drawn again with your changes. See ${link("en", "fix-errors", "how to fix reading mistakes")}.</p>
 
 <h2 id="transpose">7. Transpose</h2>
-${shot("en", "app-practice", "Practice mode with Transpose +2: the key signature has two sharps and the names include F♯ and C♯", "Transposed up 2 semitones: the names follow the new key.")}
-<p>Press <b>Practice mode</b>, then − and + next to <b>Transpose</b> to move the music down or up a semitone at a time (up to an octave). The key signature changes, and the names are written for the new pitches. Practice mode also has a metronome and a count-in.</p>
+${shot("en", "app-practice", "Transpose +2: the key signature has two sharps and the names include F♯ and C♯", "Transposed up 2 semitones: the names follow the new key.")}
+<p>Press − and + next to <b>Transpose</b>, under the tempo, to move the music down or up a semitone at a time (up to an octave). The key signature changes, and the names are written for the new pitches. Next to it are <b>Metronome</b> and <b>Count-in</b>.</p>
 
 <h2 id="print">8. Print, save as images, share</h2>
 ${shot("en", "app-actions", "The three large buttons under the score: Print, Save image, and Share, and under them Save as MusicXML and the Made with Note Namer checkbox", "Under the score: Print, Save image, Share.")}
@@ -173,8 +173,8 @@ ${shot("ja", "app-edit", "編集画面。上段の音符が黒い四角でピア
 <p><b>編集</b>に切り替えると、音符がピアノロールの上の四角で表示されます。上下が音の高さ、左右が時間です。四角をドラッグで移動、右端をドラッグで長さを変更、空いている所をクリックで追加、右クリック（または <kbd>Delete</kbd>）で削除できます。<b>!</b> の付いた小節は、読み取ったときに拍の数が合わなかった小節なので、そこから確かめてください。<b>楽譜</b>に戻ると、直した内容で五線譜と音名を描き直します。${link("ja", "fix-errors", "読み取りミスの見つけ方と直し方")}もご覧ください。</p>
 
 <h2 id="transpose">7. 移調する</h2>
-${shot("ja", "app-practice", "練習モードで移調 +2 にした画面。調号が ♯ 2 つになり、音名にファ♯ やド♯ がある", "半音 2 つ上に移調したところ。音名も新しい調に合わせて変わります。")}
-<p><b>練習モード</b>を押し、<b>移調</b>の −／+ で半音ずつ（上下 1 オクターブまで）移調できます。調号も変わり、音名は移調した高さで書き直します。練習モードにはメトロノームとカウントインもあります。</p>
+${shot("ja", "app-practice", "移調 +2 にした画面。調号が ♯ 2 つになり、音名にファ♯ やド♯ がある", "半音 2 つ上に移調したところ。音名も新しい調に合わせて変わります。")}
+<p>テンポの下の<b>移調</b>の −／+ で、半音ずつ（上下 1 オクターブまで）移調できます。調号も変わり、音名は移調した高さで書き直します。隣には<b>メトロノーム</b>と<b>カウントイン</b>もあります。</p>
 
 <h2 id="print">8. 印刷・画像で保存・共有</h2>
 ${shot("ja", "app-actions", "楽譜の下の大きな 3 つのボタン（印刷、画像を保存、共有）と、その下の「MusicXML（音名入り）で保存」と「Note Namer で作成」のチェック", "楽譜の下の「印刷」「画像を保存」「共有」。")}
