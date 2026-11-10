@@ -2451,15 +2451,23 @@
         } finally { pagesBusy = false; }
       }
       const pngName = (i, n) => fileBase() + (n > 1 ? "-" + (i + 1) : "") + ".png";
-      // Safari asks "allow this website to print automatically?" when print() comes after the tap has
-      // expired (making the pages took a while). Then the pages are kept and the second press prints at once.
-      async function printPages() {
-        const ready = !!(pagesCache && pagesCache.key === pagesKey());
-        await withPages(false, async function (c) {
-          if (!ready && navigator.userActivation && !navigator.userActivation.isActive) { actMsg(t("print.again")); return; }
-          $("printArea").innerHTML = c.pages.map((pg) => '<div class="print-page">' + pg.svg + "</div>").join("");
-          document.documentElement.classList.add("printing");
-          window.print();
+      // Safari asks "allow this website to print automatically?" unless print() runs right in the tap,
+      // with no await before it (a second press still asked when the pages were kept but awaited). So the
+      // kept pages are printed synchronously; on Safari (every iOS browser is WebKit) the first press only
+      // makes the pages and asks for a second press, and elsewhere also when the tap has expired.
+      const webkitPrint = isIOS() || (/AppleWebKit/.test(navigator.userAgent) && !/Chrome|Chromium|Edg|Android/.test(navigator.userAgent));
+      function printNow(c) {
+        $("printArea").innerHTML = c.pages.map((pg) => '<div class="print-page">' + pg.svg + "</div>").join("");
+        document.documentElement.classList.add("printing");
+        window.print();
+      }
+      function printPages() {
+        if (state.xml && !busy && !pagesBusy && !dirty && pagesCache && pagesCache.key === pagesKey()) {
+          showError(""); actMsg(""); printNow(pagesCache); return;
+        }
+        withPages(false, async function (c) {
+          if (webkitPrint || (navigator.userActivation && !navigator.userActivation.isActive)) { actMsg(t("print.again")); return; }
+          printNow(c);
         });
       }
       window.addEventListener("afterprint", function () { document.documentElement.classList.remove("printing"); });
