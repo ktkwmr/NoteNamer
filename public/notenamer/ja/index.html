@@ -602,7 +602,6 @@
           "sys.fixed": "Pitch names (C is always Do)",
           "sys.movable": "In the key (the key's first note is Do)",
           "png.again": "The images are ready. Press “Save image” again.",
-          "print.again": "The pages are ready. Press “Print” again.",
           "png.share": "Choose “Save Image” to keep the {n} pages in your photos.",
           "drop": "or drop files here · images (JPEG, PNG, …), PDF, and MusicXML",
           "cancel": "Cancel",
@@ -760,7 +759,6 @@
           "sys.fixed": "音名（C がいつもド）",
           "sys.movable": "調に合わせる（主音がド）",
           "png.again": "画像の準備ができました。もう一度「画像を保存」を押してください。",
-          "print.again": "ページの準備ができました。もう一度「印刷」を押してください。",
           "png.share": "「画像を保存」を選ぶと、{n} ページを写真に保存できます。",
           "drop": "またはここにファイルをドロップ・画像（JPEG・PNGなど）・PDF・MusicXMLに対応",
           "cancel": "キャンセル",
@@ -2443,11 +2441,9 @@
         } finally { pagesBusy = false; }
       }
       const pngName = (i, n) => fileBase() + (n > 1 ? "-" + (i + 1) : "") + ".png";
-      // Safari asks "allow this website to print automatically?" unless print() runs right in the tap,
-      // with no await before it (a second press still asked when the pages were kept but awaited). So the
-      // kept pages are printed synchronously; on Safari (every iOS browser is WebKit) the first press only
-      // makes the pages and asks for a second press, and elsewhere also when the tap has expired.
-      const webkitPrint = isIOS() || (/AppleWebKit/.test(navigator.userAgent) && !/Chrome|Chromium|Edg|Android/.test(navigator.userAgent));
+      // Safari may still ask "allow this website to print automatically?" when making the pages took a
+      // while; pressing Allow prints. (Asking for a second press did not help on the iPhone.)
+      // Pages already made for the score as it is are printed at once.
       function printNow(c) {
         $("printArea").innerHTML = c.pages.map((pg) => '<div class="print-page">' + pg.svg + "</div>").join("");
         document.documentElement.classList.add("printing");
@@ -2457,10 +2453,7 @@
         if (state.xml && !busy && !pagesBusy && !dirty && pagesCache && pagesCache.key === pagesKey()) {
           showError(""); actMsg(""); printNow(pagesCache); return;
         }
-        withPages(false, async function (c) {
-          if (webkitPrint || (navigator.userActivation && !navigator.userActivation.isActive)) { actMsg(t("print.again")); return; }
-          printNow(c);
-        });
+        withPages(false, async function (c) { printNow(c); });
       }
       window.addEventListener("afterprint", function () { document.documentElement.classList.remove("printing"); });
       // Several pages: a phone keeps only the last of several downloads started at once, so there the
