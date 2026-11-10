@@ -251,15 +251,14 @@ async function shots(lang) {
   await webp(page, pagePng, `page-${lang}.webp`, { width: 700 });
   await app.goto(BASE + (lang === "ja" ? "ja/" : "?lang=en")); await app.waitForSelector("#fileBtn");
 
-  // Practice mode: transposed up 2 semitones, the names follow
+  // Transposed up 2 semitones (the buttons under the tempo): the names follow
   await app.evaluate(() => window.scrollTo(0, 0));
-  await app.click("#practiceBtn");
   await app.click("#trUp"); await app.click("#trUp");
   await app.waitForTimeout(1200);
   await app.evaluate(() => { const el = document.getElementById("playerBar"); window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY - 70); });
   await app.mouse.move(0, 0);
   await webp(app, await app.screenshot(), `app-practice-${lang}.webp`, { width: 1280 });
-  await app.click("#trDown"); await app.click("#trDown"); await app.click("#practiceBtn");
+  await app.click("#trDown"); await app.click("#trDown");
   await app.waitForTimeout(800);
   await app.evaluate(() => window.scrollTo(0, 0));
 
