@@ -66,7 +66,7 @@ ktkwmr/SheetMusicPlayer（コミット `c9bd5ee`）からコピーして作っ�
 | 4-1 | I18N と data-i18n | ✅ | |
 | 4-2 | 言語の決め方 | ✅ | |
 | 4-3 | 日本語ページの自動生成 | ✅ | |
-| 4-4 | 日本語の検索用タイトル・説明 | 👤 確認待ち | `scripts/build-ja.mjs` の冒頭。「Note Namer – 楽譜にドレミを振る無料アプリ（写真・PDFから音名付きの楽譜）」 |
+| 4-4 | 日本語の検索用タイトル・説明 | ✅ | `scripts/build-ja.mjs` の冒頭。「Note Namer – 楽譜にドレミを振る無料アプリ（写真・PDFから音名付きの楽譜）」（2026-11-10 運営者が了承） |
 | 4-5 | 和文の lang 固定 | — | 和文を表示する部分はない |
 
 ## 5. SEO と SNS 表示
@@ -75,7 +75,7 @@ ktkwmr/SheetMusicPlayer（コミット `c9bd5ee`）からコピーして作っ�
 |---|---|---|---|
 | 5-1〜5-3 | title・description・canonical・hreflang・OGP | ✅ | 音名のアプリとして書き直した（PR 3） |
 | 5-4 | og-image.png | ✅ | `scripts/og-image.html` から生成（音符の下に C D E とドレミ） |
-| 5-5 | JSON-LD | ✅ | `browserRequirements` に JSPI が必要なこと（動作確認は PC の Chrome・Edge、Firefox 153・Safari 27 は未確認） |
+| 5-5 | JSON-LD | ✅ | `browserRequirements` に JSPI が必要なこと（動作確認は PC の Chrome・Edge、iPhone の Safari、Android の Chrome。Firefox 153・Mac／iPad の Safari 27 は未確認） |
 | 5-6 | robots.txt・sitemap | ✅ | sitemap は生成済み。robots.txt は `ktkwmr/ktkwmr.com` に記載 |
 | 5-7 | h1 | ✅ | |
 | 5-8 | 見えるテキスト | ✅ | 冒頭の説明と、撮影のコツ |
@@ -100,7 +100,7 @@ ktkwmr/SheetMusicPlayer（コミット `c9bd5ee`）からコピーして作っ�
 | 7-4 | 問い合わせ窓口 | ⚠️ | GitHub Issues のみ |
 | 7-5 | 文言のそろえ | ✅ | |
 | 7-6 | 例のコンテンツ | ✅ | 楽譜を開いていないときに見本（歓喜の歌の MusicXML、`scripts/sample-score.mjs`）を表示。エンジンのダウンロードなし、保存しない |
-| 7-7 | 外部リンクの確認 | 👤 待ち | |
+| 7-7 | 外部リンクの確認 | ✅ | 2026-11-10。サイト内のリンクはファイルの有無をスクリプトで、外部リンク（GitHub・ktkwmr.com・Cloudflare のプライバシーポリシー・homr）は運営者がブラウザで確認 |
 
 ## 8. ライセンス
 
@@ -118,7 +118,7 @@ ktkwmr/SheetMusicPlayer（コミット `c9bd5ee`）からコピーして作っ�
 | 9-1 | 設定メニュー | ✅ | 使い方・ガイド・記事（`/guide/` へのリンク）・プライバシー・このアプリについて |
 | 9-2 | 使い方 | ✅ | |
 | 9-3 | 状態の保存 | ✅ | 開いている楽譜（localStorage）と最近の楽譜 10 曲（IndexedDB）。MusicXML・タイトル・ファイル名・テンポ・移調。新しいファイルではテンポを楽譜の値に戻す |
-| 9-4 | スマホ対応 | ⚠️ | 390px で横スクロールなし。ただし読み取りエンジンの動作確認は PC の Chrome・Edge のみ（JSPI が必要。JSPI のないブラウザでは案内を表示）。Android の Chrome などは JSPI があり動き出すが未確認（メモリ不足の可能性） |
+| 9-4 | スマホ対応 | ✅ | 390px で横スクロールなし。読み取りエンジンは PC の Chrome・Edge、iPhone の Safari（iOS 27.2）、Android の Chrome で動作確認。JSPI のないブラウザでは案内を表示 |
 | 9-5 | `accept` | ✅ | 「ファイルを選ぶ」は `accept` なし（どのファイルも選べ、中身で画像・PDF を判定）。「写真を撮る」はスマホではカメラ、PC では Web カメラ |
 | 9-6, 9-7 | 印刷・保存 | ✅ | 楽譜の下の「印刷」「画像を保存」「共有」と「MusicXML（音名入り）で保存」。A4 のページ（`export-pages.mjs`）を印刷・PNG（`a[download]`）・Web Share。2026-11-10 に iPhone の Safari で印刷を確認: 各ページを印刷できる範囲に収め、フッターだけのページは出なくなった（#3）。Safari はページを作り終えてから印刷を呼ぶと何もせず（#5 で確認）、作っておいたページをタップの中ですぐ印刷しても「このウェブサイトから自動的に印刷することは禁止されています」と聞く（「許可」で印刷できる）。そのため iPhone では 1 回目にページを作って「もう一度「印刷」を押して」と出し、2 回目で印刷する |
 | 9-8 | アクセシビリティ | ✅ | |
@@ -135,14 +135,14 @@ ktkwmr/SheetMusicPlayer（コミット `c9bd5ee`）からコピーして作っ�
 | 10-1 | 生成の仕組み | ✅ | `scripts/pages/<slug>.mjs`（英日を別々に書く）、共通部品は `parts.mjs` |
 | 10-2 | 最初の記事 | ✅ | 使い方ガイド・音名の対応表・五線譜の音の読み方・♯♭と調号・FAQ・撮り方のコツ・読み取りミスの直し方（7 本）。流用元の速度記号・MusicXML・OMR の記事は削除 |
 | 10-3 | 表は計算で | ✅ | 速度記号の表はアプリの `TEMPO_TERMS` から（範囲外ならビルドが止まる）。撮り方の比較表は実測（`photo-results.json`） |
-| 10-4 | 画面写真 | ⚠️ | `scripts/render-guide-images.mjs`（PC・日英）。スマホはアプリの動作が未確認のため撮らない |
+| 10-4 | 画面写真 | ⚠️ | `scripts/render-guide-images.mjs`（PC・日英）。スマホでも動作を確認できたが、スマホの画面写真はまだ撮っていない（任意） |
 | 10-5 | 導線 | ✅ | 記事末尾の「アプリを開く」、フッターに全記事、日英切り替え。アプリ側は設定メニューと「使い方」の 2 か所 |
 | 10-6 | 公開前の UX レビュー | ⚠️ | 390px で横スクロールが出ないことを Playwright で確認（sharps-and-flats・guide）。全記事の目視は人間の確認で |
-| 10-7 | 人間の内容確認 | 👤 待ち | PR のプレビューで確認（`docs/article-review.md`） |
+| 10-7 | 人間の内容確認 | ✅ | 2026-11-10 に運営者が本番で確認（`docs/article-review.md`） |
 | 11-1〜11-3 | Web Analytics | ✅ | 同じ token |
-| 11-4 | 本番での beacon 確認 | 👤 待ち | COEP（credentialless）の下で beacon が読み込めるかも確認する |
+| 11-4 | 本番での beacon 確認 | ✅ | 2026-11-10 に運営者が確認（COEP `credentialless` の下でも読み込める）。Web Analytics の集計への反映は翌日以降に見る |
 | 12-1, 12-2 | Actions | ✅ | |
-| 13 | 公開直前の確認 | 👤 待ち | |
+| 13 | 公開直前の確認 | ✅ | 2026-11-10 に運営者が本番で確認（読み取り → 表示 → 再生、印刷・画像、404、sitemap、記事）。iPhone の印刷は 9-6 |
 | 14 | Search Console など | 👤 待ち | |
 | 15 | 広告 | — | |
 
