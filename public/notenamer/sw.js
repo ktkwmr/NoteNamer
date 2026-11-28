@@ -5,7 +5,7 @@
 const PREFIX = "notenamer-";
 const CACHE = PREFIX + "cache";
 const CORE = ["./", "index.html", "ja/", "omr-worker.mjs", "score-model.mjs", "note-names.mjs", "export-pages.mjs", "editor.mjs", "manifest.json", "THIRD_PARTY_LICENSES.md", "sample/ode-to-joy.musicxml", "sample/ode-to-joy-ja.musicxml",
-  "vendor/opensheetmusicdisplay.min.js", "vendor/pdf.min.mjs", "vendor/pdf.worker.min.mjs"];
+  "vendor/opensheetmusicdisplay.min.js", "vendor/pdf.min.mjs", "vendor/pdf.worker.min.mjs", "usage-events.js"];
 
 self.addEventListener("install", (event) => {
   self.skipWaiting();
@@ -47,6 +47,9 @@ function withWorkerHeaders(req, res) {
 self.addEventListener("fetch", (event) => {
   const req = event.request;
   if (req.method !== "GET" || new URL(req.url).origin !== self.location.origin) return;
+  // Cloudflare Zaraz (/cdn-cgi/zaraz/…, analytics): always from the network, never cached. Its script is made
+  // for each request, and it is not needed offline
+  if (new URL(req.url).pathname.startsWith("/cdn-cgi/")) return;
   // Engine files never change for a version: cache first, and never copied into the page cache
   if (new URL(req.url).pathname.includes("/notenamer/engine/")) {
     event.respondWith(caches.match(req, { ignoreSearch: true }).then((r) => (r ? withWorkerHeaders(req, r) : fetch(req))));
