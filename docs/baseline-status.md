@@ -142,6 +142,7 @@ ktkwmr/SheetMusicPlayer（コミット `c9bd5ee`）からコピーして作っ�
 | 10-7 | 人間の内容確認 | ✅ | 2026-11-10 に運営者が本番で確認（`docs/article-review.md`） |
 | 11-1〜11-3 | Web Analytics | ✅ | 同じ token |
 | 11-4 | 本番での beacon 確認 | ✅ | 2026-11-10 に運営者が確認（COEP `credentialless` の下でも読み込める）。Web Analytics の集計への反映は翌日以降に見る |
+| 17 | Zaraz + GA4（同意したときだけ） | ⚠️ | 2026-11-28 に実装（`docs/analytics.md`）。本番での確認・Configuration Rule の削除（17-13）・GA4 のカスタム定義の登録は 👤 待ち |
 | 12-1, 12-2 | Actions | ✅ | |
 | 13 | 公開直前の確認 | ✅ | 2026-11-10 に運営者が本番で確認（読み取り → 表示 → 再生、印刷・画像、404、sitemap、記事）。iPhone の印刷は 9-6 |
 | 14 | Search Console など | 👤 待ち | |
